@@ -9,8 +9,9 @@ var hbs = exphbs.create({
   partialsDir: [ 'views/partials/' ]
 });
 
-app.use(express.static('css'));
-app.use(express.static('js'));
+app.use('/css', express.static('css'));
+app.use('/fonts', express.static('fonts'));
+app.use('/js', express.static('js'));
 app.use(express.static('public'));
 
 app.set('view engine', 'handlebars');
@@ -21,7 +22,7 @@ app.locals.layout = false;
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', function(req, res) {
-  res.render('home', {title:'Home', param:'f'});
+  res.render('main', {title:'Home', param:'f'});
 });
 
 app.listen(8080);
