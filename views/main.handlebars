@@ -1,8 +1,7 @@
 {{> header}}
 
-
-Test {{param}}
-
+{{#if user}}
 {{> sidetabs}}
-
-{{> footer}}
+{{else}}
+{{> landing}}
+{{/if}}
