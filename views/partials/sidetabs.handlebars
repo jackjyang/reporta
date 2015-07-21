@@ -2,12 +2,13 @@
   <div class="row">
 
     <div class="tabbable">
-      <ul class="nav nav-pills nav-stacked col-md-3 h5">
+      <ul class="nav nav-pills nav-stacked col-md-2 h5">
         <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
         <li><a href="#datasources" data-toggle="tab">Data Sources</a></li>
         <li><a href="#datasets" data-toggle="tab">Data Sets</a></li>
         <li><a href="#templates" data-toggle="tab">Templates</a></li>
         <li><a href="#configs" data-toggle="tab">Configurations</a></li>
+        <li><a href="#generate" data-toggle="tab">Generate Report</a></li>
       </ul>
       <div class="tab-content col-md-9" style="left:5px width:100%">
         <div class="tab-pane active" id="home">{{> home}}</div>
@@ -15,6 +16,7 @@
         <div class="tab-pane" id="datasets">{{> datasets}}</div>
         <div class="tab-pane" id="templates">{{> templates}}</div>
         <div class="tab-pane" id="configs">{{> configs}}</div>
+        <div class="tab-pane" id="generate">{{> generate}}</div>
       </div>
     </div>
   </div>

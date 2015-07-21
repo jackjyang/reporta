@@ -1,9 +1,25 @@
 {{> header}}
 
+<style>
+div.padding {
+  padding-top: 25px;
+  padding-right: 50px;
+  padding-bottom: 25px;
+  padding-left: 50px;
+}
+</style>
+
 <script src="//cdn.ckeditor.com/4.5.1/full/ckeditor.js"></script>
-<textarea name="templateEditor" id="templateEditor" style="padding-left:15px width:95%">INSERT EXISTING
+<div class="padding">
+<textarea name="templateEditor" id="templateEditor" style="width:90%">INSERT EXISTING
 TEMPLATE HERE
 </textarea>
+</div>
 <script>
-// CKEDITOR.replace('templateEditor');
+  CKEDITOR.replace('templateEditor');
 </script>
+
+<div align="right" style="padding-right:5%">
+  <button type="button" class="btn btn-default">Save</button>
+  <button type="button" class="btn btn-default">Cancel</button>
+</div>
