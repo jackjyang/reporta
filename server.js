@@ -69,4 +69,8 @@ app.get('/logout', function(req, res) {
   // res.render('main', {title:'Home', user:userObj});
 });
 
+app.get('/templateEditor', function(req, res) {
+  res.render('templateEditor');
+});
+
 app.listen(8080);
