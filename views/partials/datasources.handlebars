@@ -2,18 +2,92 @@
 <div class="row" style="width=300px">
   <div class="col-md-6">
   	<div class="list-group">
-	  <a href="#1" class="list-group-item" onclick="$('#a').show()">Data Source 1</a>
-	  <a href="#2" class="list-group-item" onclick="$('#a').show()">Data Source 2</a>
+	  <a href="#1" class="list-group-item" onclick="$('#a1').show()">Data Source 1</a>
+	  <a href="#2" class="list-group-item" onclick="$('#a1').show()">Data Source 2</a>
 	</div>
-	<button type="button" class="btn btn-default">Create New</button>
+	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#createSource">Create New</button>
   </div>
-  <div class="col-md-6" id="a" style="display: none;">
-  	<textarea class="span6" rows="3"></textarea>
+  <div class="col-md-6" id="a1" style="display: none;">
+  	<div><textarea class="span6" rows="3"></textarea></div>
   	<div class="btn-group" role="group" aria-label="...">
-	  <button type="button" class="btn btn-default">Edit</button>
-	  <button type="button" class="btn btn-default">Clone</button>
-	  <button type="button" class="btn btn-default">Delete</button>
+	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editSource">Edit</button>
+	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneSource">Clone</button>
+	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteSource">Delete</button>
 	</div>
   </div>
 </div>
 
+<div class="modal fade" id="createSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	<div>Name: <input type="text"></div>
+        <div>Source: <input type="text"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	<div>Name: <input type="text" value="Source 1"></div>
+        <div>Source: <input type="text" value="www.yoursource.com"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="cloneSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	<div>Name: <input type="text" value=""></div>
+        <div>Source: <input type="text" value="www.yoursource.com"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	Are you sure you wish to delete Source 1?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

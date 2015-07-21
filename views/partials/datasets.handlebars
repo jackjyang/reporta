@@ -1,0 +1,93 @@
+<h2>Data Sets</h2>
+<div class="row" style="width=300px">
+  <div class="col-md-6">
+  	<div class="list-group">
+	  <a href="#1" class="list-group-item" onclick="$('#a').show()">Data Set 1</a>
+	  <a href="#2" class="list-group-item" onclick="$('#a').show()">Data Set 2</a>
+	</div>
+	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#createSet">Create New</button>
+  </div>
+  <div class="col-md-6" id="a" style="display: none;">
+  	<div><textarea class="span6" rows="10"></textarea></div>
+  	<div class="btn-group" role="group" aria-label="...">
+	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editSet">Edit</button>
+	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneSet">Clone</button>
+	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteSet">Delete</button>
+	</div>
+  </div>
+</div>
+
+<div class="modal fade" id="createSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	<div>Name: <input type="text"></div>
+        <div>Set: <textarea class="span6" rows="10"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	<div>Name: <input type="text" value="Set 1"></div>
+        <div>Set: <textarea class="span6" rows="10" value="Some Data"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="cloneSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	<div>Name: <input type="text" value=""></div>
+        <div>Set: <textarea class="span6" rows="10" value="Data"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      	Are you sure you wish to delete DataSet 1?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
