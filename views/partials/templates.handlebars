@@ -1,22 +1,35 @@
 <h2>Templates</h2>
-<div class="row" style="width=300px">
-  <div class="col-md-6">
-    <div class="list-group">
-    <a href="#1" class="list-group-item" onclick="$('#templateActions').show()">Template 1</a>
-    <a href="#2" class="list-group-item" onclick="$('#templateActions').show()">Template 2</a>
+<div class="col-lg-6">
+
+  <div class="panel panel-default">
+    <a class="btn btn-success btn-xs pull-right" href="/templateEditor" id="dashboard-new-template">New Template</a>
+    <div class="panel-body">
+      <table class="table table-hover fixed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Last Modified</th>
+            <th>Created On</th>
+          </tr>
+        </thead>
+        <tbody onclick="$('#templateActions').show()">
+          <td>a</td>
+          <td>b</td>
+          <td>c</td>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <button type="button" class="btn btn-default" onclick="location.href='/templateEditor'">Create New</button>
-  </div>
-  <div class="col-md-6" id="templateActions" style="display: none;">
-    <div><textarea class="span6" rows="10"></textarea></div>
-    <div class="btn-group" role="group" aria-label="...">
+</div>
+
+<div class="col-lg-6" id="templateActions" style="display: none;">
+  <div><textarea class="span6" rows="10"></textarea></div>
+  <div class="btn-group" role="group" aria-label="...">
     <button type="button" class="btn btn-default" onclick="location.href='/templateEditor'">Edit</button>
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneTemplate">Clone</button>
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteTemplate">Delete</button>
   </div>
-  </div>
 </div>
-
 <div class="modal fade" id="cloneTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
