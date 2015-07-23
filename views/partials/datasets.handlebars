@@ -1,19 +1,38 @@
 <h2>Data Sets</h2>
-<div class="row" style="width=300px">
-  <div class="col-md-6">
-  	<div class="list-group">
-	  <a href="#1" class="list-group-item" onclick="$('#a').show()">Data Set 1</a>
-	  <a href="#2" class="list-group-item" onclick="$('#a').show()">Data Set 2</a>
-	</div>
-	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#createSet">Create New</button>
+<div class="col-lg-6">
+  <div class="panel panel-default">
+    <a class="btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#createSet"" id="createDataSet">New Data Set</a>
+    <div class="panel-body">
+      <table class="table table-hover fixed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Last Modified</th>
+            <th>Created On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onclick="$('#dataSetInfo').show()">
+            <td>Data Set 1</td>
+            <td>July 19, 2015</td>
+            <td>July 18, 2015</td>
+          </tr>
+          <tr onclick="$('#dataSetInfo').show()">
+            <td>Data Set 2</td>
+            <td>July 19, 2015</td>
+            <td>July 18, 2015</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="col-md-6" id="a" style="display: none;">
-  	<div><textarea class="span6" rows="10"></textarea></div>
-  	<div class="btn-group" role="group" aria-label="...">
-	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editSet">Edit</button>
-	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneSet">Clone</button>
-	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteSet">Delete</button>
-	</div>
+</div>
+<div class="col-md-6" id="dataSetInfo" style="display: none;">
+  <div><textarea class="span6" rows="10"></textarea></div>
+  <div class="btn-group" role="group" aria-label="...">
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editSet">Edit</button>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneSet">Clone</button>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteSet">Delete</button>
   </div>
 </div>
 
@@ -26,11 +45,11 @@
       </div>
       <div class="modal-body">
         <div style="margin-bottom: 10px;">
-          <div style="width: 10%; float: left; text-align: right;">Name:</div>
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
           <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
         </div>
         <div>
-          <div style="width: 10%; float: left; text-align: right;">Source:</div>
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Data Set:</div>
           <div width: 85%; float: left; margin-left 10px;><textarea class="span6" rows="10"></textarea></div>
         </div>
       </div>
@@ -51,11 +70,11 @@
       </div>
     	<div class="modal-body">
         <div style="margin-bottom: 10px;">
-          <div style="width: 10%; float: left; text-align: right;">Name:</div>
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
           <div width: 85%; float: left; margin-left 10px;><input type="text" value="Data Set 1"></div>
         </div>
         <div>
-          <div style="width: 10%; float: left; text-align: right;">Source:</div>
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Data Set:</div>
           <div width: 85%; float: left; margin-left 10px;><textarea class="span6" rows="10" value="Some Data"></textarea></div>
         </div>
       </div>
@@ -75,12 +94,12 @@
         <h4 class="modal-title" id="myModalLabel">Clone Data Set</h4>
       </div>
       <div class="modal-body">
-        <div style="margin-bottom: 10px;">
-          <div style="width: 10%; float: left; text-align: right;">Name:</div>
+        <div style="margin-bottom: 10px;"> 
+          <div style="width: 10%; float: left; text-align: right; margin-right: 5px;">Name:</div>
           <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
         </div>
         <div>
-          <div style="width: 10%; float: left; text-align: right;">Source:</div>
+          <div style="width: 10%; float: left; text-align: right; margin-right: 5px;">Data Set:</div>
           <div width: 85%; float: left; margin-left 10px;><textarea class="span6" rows="10" value="Some Data"></textarea></div>
         </div>
       </div>
