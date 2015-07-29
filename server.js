@@ -50,6 +50,7 @@ app.get('/auth/google/callback',
 app.use('/css', express.static('css'));
 app.use('/fonts', express.static('fonts'));
 app.use('/js', express.static('js'));
+app.use('/ckeditor', express.static('ckeditor'))
 app.use(express.static('public'));
 
 app.set('view engine', 'handlebars');
