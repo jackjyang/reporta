@@ -1,4 +1,4 @@
-var mongoose = require( 'mongoose' );
+var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
 var templateSchema = new Schema({
@@ -9,4 +9,4 @@ var templateSchema = new Schema({
 });
 
 mongoose.model('template', templateSchema);
-mongoose.connect('mongodb://localhost/reporta-db')
+mongoose.connect('localhost', 'reporta')
