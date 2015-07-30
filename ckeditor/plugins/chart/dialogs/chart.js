@@ -38,13 +38,11 @@ CKEDITOR.dialog.add( 'chartDialog', function( editor ) {
             var dialog = this;
 
             var chart = editor.document.createElement( 'img' );
+
             chart.setAttribute('src', 'http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg');
             chart.setAttribute('alt', '');
             chart.setAttribute('style', 'width: 50px; height: 33px;');
-
-            // var id = dialog.getValueOf( 'tab-adv', 'id' );
-            // if ( id )
-            //     chart.setAttribute( 'id', id );
+            chart.setAttribute('type', 'chart');
 
             editor.insertElement( chart );
         }
