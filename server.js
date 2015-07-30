@@ -35,7 +35,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Set routes
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
-app.get('/api/:action/:data', api.handler);
+app.get('/api/:request', api.handler);
 
 
 // TODO: remove this.

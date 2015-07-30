@@ -1,6 +1,7 @@
 // Express routing for REST API.
 exports.handler = function(req, res) {
-  res.json(APIHandler(req.params.action, JSON.parse(req.params.data)));
+  var param = JSON.parse(req.params.data);
+  res.json(APIHandler(param.action, param.data));
 };
 
 // Handler for specific API actions.
