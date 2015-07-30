@@ -10,15 +10,17 @@ CKEDITOR.dialog.add( 'chartDialog', function( editor ) {
                 elements: [
                     {
                         type: 'text',
-                        id: 'chart',
-                        label: 'Chart',
-                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart field cannot be empty." )
+                        id: 'name',
+                        label: 'Chart Name',
+                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart name cannot be empty." )
                     },
                     {
-                        type: 'text',
-                        id: 'title',
-                        label: 'Explanation',
-                        validate: CKEDITOR.dialog.validate.notEmpty( "Explanation field cannot be empty." )
+                        type: 'select',
+                        id: 'type',
+                        label: 'Type of Chart',
+                        items: [ [ '' ], [ 'Bar' ], [ 'Graph' ], [ 'Pie' ] ],
+                        'default': '',
+                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart type cannot be empty." )
                     }
                 ]
             },
@@ -43,6 +45,8 @@ CKEDITOR.dialog.add( 'chartDialog', function( editor ) {
             chart.setAttribute('alt', '');
             chart.setAttribute('style', 'width: 50px; height: 33px;');
             chart.setAttribute('type', 'chart');
+            chart.setAttribute('name', dialog.getValueOf( 'tab-basic', 'name'));
+            chart.setAttribute('type', dialog.getValueOf( 'tab-basic', 'type'));
 
             editor.insertElement( chart );
         }
