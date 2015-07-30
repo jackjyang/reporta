@@ -1,3 +1,5 @@
+require('./db_init');
+
 var express = require('express');
 var exphbs  = require('express-handlebars');
 var path = require('path');
@@ -9,12 +11,12 @@ var hbs = exphbs.create({
   partialsDir: [ 'views/partials/' ]
 });
 
-var userObj = null;
-module.exports = function(user) {
-  // Allow upper level web app to pass user information.
-  userObj.name = user.name;
-  userObj.id = user.id;
-}
+var routes = require('./routes/index');
+var api = require('./routes/api');
+
+// TODO: Allow upper level web app to pass user information.
+var userInfo = { name: 'demo', id: 'abc123' };
+app.set('userInfo', userInfo);
 
 app.use('/css', express.static('css'));
 app.use('/fonts', express.static('fonts'));
@@ -29,10 +31,14 @@ app.locals.layout = false;
 
 app.set('views', path.join(__dirname, 'views'));
 
-app.get('/', function(req, res) {
-  res.render('main', {title:'Home'});
-});
 
+// Set routes
+app.get('/', routes.index);
+app.get('/partials/:name', routes.partials);
+app.get('/api/:action/:data', api.handler);
+
+
+// TODO: remove this.
 app.get('/templateEditor', function(req, res) {
   res.render('templateEditor');
 });
