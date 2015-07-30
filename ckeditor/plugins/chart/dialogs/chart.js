@@ -12,41 +12,53 @@ CKEDITOR.dialog.add( 'chartDialog', function( editor ) {
                         type: 'text',
                         id: 'name',
                         label: 'Chart Name',
-                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart name cannot be empty." )
+                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart name cannot be empty." ),
+                        setup: function( element ) {
+                            this.setValue( element.getAttribute( "name" ) );
+                        }
                     },
                     {
                         type: 'select',
-                        id: 'type',
+                        id: 'chartType',
                         label: 'Type of Chart',
                         items: [ [ '' ], [ 'Bar' ], [ 'Graph' ], [ 'Pie' ] ],
                         'default': '',
-                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart type cannot be empty." )
-                    }
-                ]
-            },
-            {
-                id: 'tab-adv',
-                label: 'Advanced Settings',
-                elements: [
-                    {
-                        type: 'text',
-                        id: 'id',
-                        label: 'Id'
+                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart type cannot be empty." ),
+                        setup: function( element ) {
+                            this.setValue( element.getAttribute( "chartType" ) );
+                        }
                     }
                 ]
             }
         ],
+
+        onShow: function() {
+            var selection = editor.getSelection();
+            var element = selection.getStartElement();
+            if ( element )
+                element = element.getAscendant( 'img', true );
+            if ( !element || element.getName() != 'img' ) {
+                element = editor.document.createElement( 'abbr' );
+                this.insertMode = true;
+            }
+            else
+                this.insertMode = false;
+            this.element = element;
+            if ( !this.insertMode )
+                this.setupContent( this.element );
+        },
+
         onOk: function() {
             var dialog = this;
 
             var chart = editor.document.createElement( 'img' );
 
-            chart.setAttribute('src', 'http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg');
+            chart.setAttribute('src', '/ckeditor/plugins/chart/icons/placeholder.jpg');
             chart.setAttribute('alt', '');
             chart.setAttribute('style', 'width: 50px; height: 33px;');
             chart.setAttribute('type', 'chart');
             chart.setAttribute('name', dialog.getValueOf( 'tab-basic', 'name'));
-            chart.setAttribute('type', dialog.getValueOf( 'tab-basic', 'type'));
+            chart.setAttribute('chartType', dialog.getValueOf( 'tab-basic', 'chartType'));
 
             editor.insertElement( chart );
         }
