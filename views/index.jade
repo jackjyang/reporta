@@ -17,25 +17,26 @@ html(ng-app="reporta")
       .navbar-nav.navbar-right.navbar-text
         div(ng-init='user = #{JSON.stringify(user)}') #{user.displayName}
 
-  .container
-    .row
-      .tabbable
-        ul.nav.nav-pills.nav-stacked.col-md-2.h5
-          li
-            a(href="dashboard", data-toggle="tab") Dashboard
-          li
-            a(href="data_sources", data-toggle="tab") Data Sources
-          li
-            a(href="data_sets", data-toggle="tab") Data Sets
-          li
-            a(href="templates", data-toggle="tab") Templates
-          li
-            a(href="recipes", data-toggle="tab") Recipes
-          li
-            a(href="generate_report", data-toggle="tab") Generate Report
+  div(ng-controller='navController')
+    .container
+      .row
+        .tabbable
+          ul.nav.nav-pills.nav-stacked.col-md-2.h5
+            li#dashboard
+              a(href="dashboard", data-toggle="tab") Dashboard
+            li#data_sources
+              a(href="data_sources", data-toggle="tab") Data Sources
+            li#data_sets
+              a(href="data_sets", data-toggle="tab") Data Sets
+            li#templates
+              a(href="templates", data-toggle="tab") Templates
+            li#recipes
+              a(href="recipes", data-toggle="tab") Recipes
+            li#generate_report
+              a(href="generate_report", data-toggle="tab") Generate Report
 
-      .col-md-9(style='left:5px width:100%')
-        div(ng-view)
+        .col-md-9(style='left:5px width:100%')
+          div(ng-view)
 
 
 script(src="js/angular.js")

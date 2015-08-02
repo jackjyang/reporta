@@ -33,8 +33,11 @@ reportaApp.config(function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-reportaApp.controller('navController', function($scope) {
-  console.log(user);
+reportaApp.controller('navController', function($scope, $location) {
+  // Highlight the appropriate side-tab when navigating directly that page.
+  var path = $location.path().substring(1); // Path of current page, removing the leading '/'.
+  var elem = document.getElementById(path);
+  elem.className = 'active';
 });
 
 reportaApp.controller('dashboardController', function($scope) {
