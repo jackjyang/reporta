@@ -36,8 +36,11 @@ reportaApp.config(function($routeProvider, $locationProvider) {
 reportaApp.controller('navController', function($scope, $location) {
   // Highlight the appropriate side-tab when navigating directly that page.
   var path = $location.path().substring(1); // Path of current page, removing the leading '/'.
+  if (path == '') // Set default when on root page.
+    path = 'dashboard';
   var elem = document.getElementById(path);
-  elem.className = 'active';
+  if (elem)
+    elem.className = 'active';
 });
 
 reportaApp.controller('dashboardController', function($scope) {
