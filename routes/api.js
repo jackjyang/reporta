@@ -4,10 +4,10 @@ exports.handler = function(req, res) {
   res.json(APIHandler(param.action, param.data));
 };
 
-// Handler for specific API actions.
 var mongoose = require('mongoose');
 var template = mongoose.model('template');
 
+// Handler for specific API actions.
 function APIHandler(action, data) {
   addTemplate = function(data) {
   };

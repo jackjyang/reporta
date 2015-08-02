@@ -1,0 +1,137 @@
+<h2>Data Sources</h2>
+<div class="col-lg-6">
+  <div class="panel panel-default">
+    <a class="btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#createSource" id="createDataSource" id="newDataSource">New Data Source</a>
+    <div class="panel-body">
+      <table class="table table-hover fixed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Last Modified</th>
+            <th>Created On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onclick="$('#dataSourceInfo').show()">
+            <td>Data Source 1</td>
+            <td>July 19, 2015</td>
+            <td>July 18, 2015</td>
+          </tr>
+          <tr onclick="$('#dataSourceInfo').show()">
+            <td>Data Source 2</td>
+            <td>July 19, 2015</td>
+            <td>July 18, 2015</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  <div class="col-md-6" id="dataSourceInfo" style="display: none;">
+  	<div style="margin-bottom: 10px;">
+      <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
+        <div width: 85%; float: left; margin-left 15px;>Data Source 1</div>
+      </div>
+      <div>
+        <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Source:</div>
+        <div width: 85%; float: left; margin-left 10px;>Example Data Source</div>
+      </div>
+  	<div class="btn-group" role="group" aria-label="...">
+  	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editSource">Edit</button>
+  	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneSource">Clone</button>
+  	  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteSource">Delete</button>
+  	</div>
+  </div>
+
+<div class="modal fade" id="createSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create Data Source</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 10px;">
+      	  <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
+          <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
+        </div>
+        <div>
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Source:</div>
+          <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Data Source</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 10px;">
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
+          <div width: 85%; float: left; margin-left 10px;><input type="text" value="Source 1"></div>
+        </div>
+        <div>
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Source:</div>
+          <div width: 85%; float: left; margin-left 10px;><input type="text" value="examplesource"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="cloneSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Clone Data Source</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 10px;">
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
+          <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
+        </div>
+        <div>
+          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Source:</div>
+          <div width: 85%; float: left; margin-left 10px;><input type="text" value="examplesource"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete Data Source</h4>
+      </div>
+      <div class="modal-body">
+      	Are you sure you wish to delete Source 1?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

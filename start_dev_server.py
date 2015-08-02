@@ -1,1 +1,1 @@
-nodemon -e js,handlebars,css server.js
+nodemon -e js,jade,css server.js
