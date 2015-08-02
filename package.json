@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/jackjyang/reporta#readme",
   "dependencies": {
-    "express": "^4.13.1",
-    "jade": "^1.11.0",
-    "mongoose": "^4.1.0"
+    "body-parser": "1.13.3",
+    "express": "4.13.1",
+    "jade": "1.11.0",
+    "mongoose": "4.1.0",
+    "mongoose-auto-increment": "4.0.0",
   }
 }
