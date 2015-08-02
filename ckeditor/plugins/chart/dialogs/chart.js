@@ -19,13 +19,13 @@ CKEDITOR.dialog.add( 'chartDialog', function( editor ) {
                     },
                     {
                         type: 'select',
-                        id: 'chartType',
+                        id: 'charttype',
                         label: 'Type of Chart',
                         items: [ [ '' ], [ 'Bar' ], [ 'Graph' ], [ 'Pie' ] ],
                         'default': '',
                         validate: CKEDITOR.dialog.validate.notEmpty( "Chart type cannot be empty." ),
                         setup: function( element ) {
-                            this.setValue( element.getAttribute( "chartType" ) );
+                            this.setValue( element.getAttribute( "charttype" ) );
                         }
                     }
                 ]
@@ -54,11 +54,9 @@ CKEDITOR.dialog.add( 'chartDialog', function( editor ) {
             var chart = editor.document.createElement( 'img' );
 
             chart.setAttribute('src', '/ckeditor/plugins/chart/icons/placeholder.jpg');
-            chart.setAttribute('alt', '');
             chart.setAttribute('style', 'width: 50px; height: 33px;');
-            chart.setAttribute('type', 'chart');
             chart.setAttribute('name', dialog.getValueOf( 'tab-basic', 'name'));
-            chart.setAttribute('chartType', dialog.getValueOf( 'tab-basic', 'chartType'));
+            chart.setAttribute('charttype', dialog.getValueOf( 'tab-basic', 'charttype'));
 
             editor.insertElement( chart );
         }
