@@ -44,11 +44,22 @@ reportaApp.controller('navController', function($scope, $location) {
 });
 
 reportaApp.controller('dashboardController', function($scope) {
-  $scope.message = 'aa';
 });
 
-reportaApp.controller('dataSourcesController', function($scope) {
+reportaApp.controller('dataSourcesController', function($scope, $http) {
   $scope.message = 'ab';
+  $http({
+    method: 'GET',
+    url: '/api/getDataSources',
+    params: { userId: $scope.user.id }
+  })
+  .success(function (data, status, headers, config) {
+    console.log(data);
+    $scope.name = data.name;
+  })
+  .error(function (data, status, headers, config) {
+    $scope.name = 'Error!';
+  })
 });
 
 reportaApp.controller('dataSetsController', function($scope) {
@@ -67,13 +78,3 @@ reportaApp.controller('generateController', function($scope) {
   $scope.message = 'af';
 });
 
-    // $http({
-    //   method: 'GET',
-    //   url: '/api/name'
-    // })
-    // .success(function (data, status, headers, config) {
-    //   $scope.name = data.name;
-    // })
-    // .error(function (data, status, headers, config) {
-    //   $scope.name = 'Error!';
-    // })
