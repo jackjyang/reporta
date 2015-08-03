@@ -1,32 +1,25 @@
 var reportaApp = angular.module('reporta', ['ngRoute', 'ui.bootstrap']);
 
 reportaApp.config(function($routeProvider, $locationProvider) {
-  $routeProvider
-  .when('/', {
+  $routeProvider.when('/', {
     templateUrl: 'partials/dashboard',
     controller: 'dashboardController'
-  })
-  .when('/dashboard', {
+  }).when('/dashboard', {
     templateUrl: 'partials/dashboard',
     controller: 'dashboardController'
-  })
-  .when('/data_sources', {
+  }).when('/data_sources', {
     templateUrl: 'partials/data_sources',
     controller: 'dataSourcesController'
-  })
-  .when('/data_sets', {
+  }).when('/data_sets', {
     templateUrl: 'partials/data_sets',
     controller: 'dataSetsController'
-  })
-  .when('/templates', {
+  }).when('/templates', {
     templateUrl: 'partials/templates',
     controller: 'templatesController'
-  })
-  .when('/recipes', {
+  }).when('/recipes', {
     templateUrl: 'partials/recipes',
     controller: 'recipesController'
-  })
-  .when('/generate_report', {
+  }).when('/generate_report', {
     templateUrl: 'partials/generate_report',
     controller: 'generateController'
   });
@@ -47,59 +40,87 @@ reportaApp.controller('dashboardController', function($scope) {
 });
 
 reportaApp.controller('dataSourcesController', function($scope, $http) {
-  if (!$scope.dataSources) {
-    $http({ method: 'GET',
-            url: '/api/getDataSources',
-            params: { userId: $scope.user.id }
-          }
-    )
-    .success(function (data, status, headers, config) {
+  $scope.refreshContents = function() {
+    $http({
+      method: 'GET',
+      url: '/api/getDataSources',
+      params: { userId: $scope.user.id }
+    }).success(function (data, status, headers, config) {
       data.message.forEach(function(elem) {
         elem.updated_on = new Date(elem.updated_on);
         elem.created_on = new Date(elem.created_on);
       });
       $scope.dataSources = data.message;
-    })
-    .error(function (data, status, headers, config) {
     });
   }
+  if (!$scope.dataSources)
+    $scope.refreshContents();
 });
 
-reportaApp.controller('dataSourceButtonController', function($scope, $modal, $http) {
-  var dirtySource = Object.create($scope.$parent.source); // Deep copy of source.
+reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
+  $scope.openNewModal = function() {
+    var modalInstance = $modal.open({
+      templateUrl: 'modals/data_source_new',
+      controller: 'dataSourceNewModalController'
+    });
+    modalInstance.result.then(function(source) {
+      $scope.$parent.refreshContents();
+    });
+  };
+
   $scope.openEditModal = function() {
     var modalInstance = $modal.open({
       templateUrl: 'modals/data_source_edit',
       controller: 'dataSourceEditModalController',
       resolve: {
         source: function () {
-          return dirtySource;
+          return Object.create($scope.$parent.source); // Deep copy of source.
         }
       }
     });
     modalInstance.result.then(function(source) {
-      var oldSourceName = $scope.$parent.source.name;
-
-      // Save button was clicked. Update parent's source.
-      source.updated_on = new Date();
       $scope.$parent.source = source;
-
-      // Call API to update entry in database.
-      $http({ method: 'POST',
-              url: '/api/updateDataSource',
-              data: { userId: $scope.user.id,
-                      oldSource: { name: oldSourceName },
-                      source: source
-                    }
-            });
     });
   };
 });
 
-reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, source) {
-  $scope.source = source;
+reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http) {
   $scope.save = function() {
-    $modalInstance.close($scope.source);
+    var source = $scope.source;
+    $scope.source.userId = $scope.user.id;
+    $http({
+      method: 'POST',
+      url: '/api/addDataSource',
+      data: $scope.source
+    }).success(function (data, status, headers, config) {
+      // TODO: Display any errors to the user before closing modal.
+      $modalInstance.close();
+    });
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
+});
+
+reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, $http, source) {
+  $scope.source = source;
+  $scope.oldSourceName = source.name;
+  $scope.save = function() {
+    source.updated_on = new Date();
+
+    // Call API to update entry in database.
+    $http({
+      method: 'POST',
+      url: '/api/updateDataSource',
+      data: {
+        userId: $scope.user.id,
+        oldSource: { name: $scope.oldSourceName },
+        source: source
+      }
+    }).success(function (data, status, headers, config) {
+      // TODO: Display any errors to the user before closing modal.
+      $modalInstance.close();
+    });
   };
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
@@ -107,18 +128,14 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
 });
 
 reportaApp.controller('dataSetsController', function($scope) {
-  $scope.message = 'ac';
 });
 
 reportaApp.controller('templatesController', function($scope) {
-  $scope.message = 'ad';
 });
 
 reportaApp.controller('recipesController', function($scope) {
-  $scope.message = 'ae';
 });
 
 reportaApp.controller('generateController', function($scope) {
-  $scope.message = 'af';
 });
 
