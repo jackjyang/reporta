@@ -19,14 +19,15 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use('/css', express.static('css'));
 app.use('/fonts', express.static('fonts'));
 app.use('/js', express.static('js'));
-app.use('/ckeditor', express.static('ckeditor'))
-app.use('/angular', express.static('angular'))
+app.use('/ckeditor', express.static('ckeditor'));
+app.use('/angular', express.static('angular'));
 
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', serverRoute.index);
 app.get('/partials/:name', serverRoute.partials);
+app.get('/modals/:name', serverRoute.modals);
 app.get('/api/:request', api.handler);
 app.post('/api/:request', api.handler);
 

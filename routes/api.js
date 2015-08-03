@@ -52,3 +52,16 @@ APIHandler.prototype.getDataSources = function(res, data) {
     res.json(response);
   });
 };
+
+APIHandler.prototype.updateDataSource = function(res, data) {
+  var userId = data.userId;
+  dataSource.findOneAndUpdate({ owner_id: userId, name: data.oldSource.name },
+      data.source, function(err, source) {
+    var response;
+    if (err)
+      response = { status: "error", message: err };
+    else
+      response = { status: "ok" };
+    res.json(response);
+  });
+}

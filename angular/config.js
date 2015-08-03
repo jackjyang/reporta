@@ -1,4 +1,4 @@
-var reportaApp = angular.module('reporta', ['ngRoute']);
+var reportaApp = angular.module('reporta', ['ngRoute', 'ui.bootstrap']);
 
 reportaApp.config(function($routeProvider, $locationProvider) {
   $routeProvider
@@ -51,7 +51,8 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
     $http({ method: 'GET',
             url: '/api/getDataSources',
             params: { userId: $scope.user.id }
-    })
+          }
+    )
     .success(function (data, status, headers, config) {
       data.message.forEach(function(elem) {
         elem.updated_on = new Date(elem.updated_on);
@@ -62,6 +63,47 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
     .error(function (data, status, headers, config) {
     });
   }
+});
+
+reportaApp.controller('dataSourceButtonController', function($scope, $modal, $http) {
+  var dirtySource = Object.create($scope.$parent.source); // Deep copy of source.
+  $scope.openEditModal = function() {
+    var modalInstance = $modal.open({
+      templateUrl: 'modals/data_source_edit',
+      controller: 'dataSourceEditModalController',
+      resolve: {
+        source: function () {
+          return dirtySource;
+        }
+      }
+    });
+    modalInstance.result.then(function(source) {
+      var oldSourceName = $scope.$parent.source.name;
+
+      // Save button was clicked. Update parent's source.
+      source.updated_on = new Date();
+      $scope.$parent.source = source;
+
+      // Call API to update entry in database.
+      $http({ method: 'POST',
+              url: '/api/updateDataSource',
+              data: { userId: $scope.user.id,
+                      oldSource: { name: oldSourceName },
+                      source: source
+                    }
+            });
+    });
+  };
+});
+
+reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, source) {
+  $scope.source = source;
+  $scope.save = function() {
+    $modalInstance.close($scope.source);
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
 });
 
 reportaApp.controller('dataSetsController', function($scope) {
