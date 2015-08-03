@@ -1,9 +1,7 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
-var autoIncrement = require('mongoose-auto-increment');
 
 var connection = mongoose.connect('localhost', 'reporta');
-autoIncrement.initialize(connection);
 
 var dataSourceSchema = new Schema({
   owner_id: String,
@@ -13,7 +11,6 @@ var dataSourceSchema = new Schema({
   created_on: Date
 });
 dataSourceSchema.index({ owner_id: 1, name: -1 }, { unique: true });
-dataSourceSchema.plugin(autoIncrement.plugin, 'dataSource');
 
 var templateSchema = new Schema({
   owner_id: String,
@@ -23,8 +20,6 @@ var templateSchema = new Schema({
   created_on: Date
 });
 templateSchema.index({ owner_id: 1, name: -1 }, { unique: true });
-templateSchema.plugin(autoIncrement.plugin, 'template');
-
 
 connection.model('dataSource', dataSourceSchema);
 connection.model('template', templateSchema);
