@@ -86,7 +86,6 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
 
 reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http) {
   $scope.save = function() {
-    var source = $scope.source;
     $scope.source.userId = $scope.user.id;
     $http({
       method: 'POST',
@@ -94,7 +93,7 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
       data: $scope.source
     }).success(function (data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
-      $modalInstance.close();
+      $modalInstance.close(source);
     });
   };
   $scope.cancel = function() {
@@ -119,7 +118,7 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
       }
     }).success(function (data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
-      $modalInstance.close();
+      $modalInstance.close($scope.source);
     });
   };
   $scope.cancel = function() {
