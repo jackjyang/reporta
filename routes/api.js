@@ -7,24 +7,23 @@ exports.handler = function(req, res) {
   // Express routing for REST API.
 
   var data = req.method == 'GET' ? req.query : req.body;
-  res.json(apiHandler.handleRequest(req.params.request, data));
+  apiHandler.handleRequest(res, req.params.request, data);
 };
 
-function APIHandler(action, data) {
+function APIHandler() {
   // Empty constructor.
 }
 
-APIHandler.prototype.handleRequest = function(request, data) {
+APIHandler.prototype.handleRequest = function(res, request, data) {
   // Find and call handler by request name.
   if (typeof this[request] !== 'function')
     return { error: 'Invalid request' };
-  return this[request](data);
+  return this[request](res, data);
 }
 
 // Request handlers.
-APIHandler.prototype.addDataSource = function(data) {
+APIHandler.prototype.addDataSource = function(res, data) {
   var userId = data.userId;
-
   var newSource = new dataSource({
     owner_id: userId,
     name: data.name,
@@ -32,17 +31,24 @@ APIHandler.prototype.addDataSource = function(data) {
     updated_at : new Date,
     created_at : new Date
   });
-  var response = 'asdf';
-
-  return { action: 'addDataSource', response: response };
+  newSource.save(function(err) {
+    var response;
+    if (err)
+      response = { status: "error", message: err };
+    else
+      response = { status: "ok", message: "ok" };
+    res.json(response);
+  });
 };
 
-APIHandler.prototype.getDataSources = function(data) {
+APIHandler.prototype.getDataSources = function(res, data) {
   var userId = data.userId;
-  console.log(userId);
-
-  var response = 'asdf';
-
-  return { action: 'getDataSources', response: response };
+  dataSource.find({ owner_id: userId }, function(err, dataSources) {
+    var response;
+    if (err)
+      response = { status: "error", message: err };
+    else
+      response = { status: "ok", message: dataSources };
+    res.json(response);
+  });
 };
-
