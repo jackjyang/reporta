@@ -28,8 +28,8 @@ APIHandler.prototype.addDataSource = function(res, data) {
     owner_id: userId,
     name: data.name,
     url: data.url,
-    updated_on : new Date,
-    created_on : new Date
+    updated_on: new Date,
+    created_on: new Date
   });
   newSource.save(function(err) {
     var response;

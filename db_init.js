@@ -9,20 +9,22 @@ var dataSourceSchema = new Schema({
   owner_id: String,
   name: String,
   url: String,
-  updated_on : Date,
-  created_on : Date
+  updated_on: Date,
+  created_on: Date
 });
+dataSourceSchema.index({ owner_id: 1, name: -1 }, { unique: true });
+dataSourceSchema.plugin(autoIncrement.plugin, 'dataSource');
 
 var templateSchema = new Schema({
   owner_id: String,
-  name: String,
+  name: String ,
   content: String,
-  updated_on : Date,
-  created_on : Date
+  updated_on: Date,
+  created_on: Date
 });
-
-dataSourceSchema.plugin(autoIncrement.plugin, 'dataSource');
+templateSchema.index({ owner_id: 1, name: -1 }, { unique: true });
 templateSchema.plugin(autoIncrement.plugin, 'template');
+
 
 connection.model('dataSource', dataSourceSchema);
 connection.model('template', templateSchema);
