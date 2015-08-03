@@ -9,16 +9,16 @@ var dataSourceSchema = new Schema({
   owner_id: String,
   name: String,
   url: String,
-  updated_at : Date,
-  created_at : Date
+  updated_on : Date,
+  created_on : Date
 });
 
 var templateSchema = new Schema({
   owner_id: String,
   name: String,
   content: String,
-  updated_at : Date,
-  created_at : Date
+  updated_on : Date,
+  created_on : Date
 });
 
 dataSourceSchema.plugin(autoIncrement.plugin, 'dataSource');

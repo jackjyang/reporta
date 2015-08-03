@@ -47,19 +47,21 @@ reportaApp.controller('dashboardController', function($scope) {
 });
 
 reportaApp.controller('dataSourcesController', function($scope, $http) {
-  $scope.message = 'ab';
-  $http({
-    method: 'GET',
-    url: '/api/getDataSources',
-    params: { userId: $scope.user.id }
-  })
-  .success(function (data, status, headers, config) {
-    console.log(data);
-    $scope.name = data.name;
-  })
-  .error(function (data, status, headers, config) {
-    $scope.name = 'Error!';
-  })
+  if (!$scope.dataSources) {
+    $http({ method: 'GET',
+            url: '/api/getDataSources',
+            params: { userId: $scope.user.id }
+    })
+    .success(function (data, status, headers, config) {
+      data.message.forEach(function(elem) {
+        elem.updated_on = new Date(elem.updated_on);
+        elem.created_on = new Date(elem.created_on);
+      });
+      $scope.dataSources = data.message;
+    })
+    .error(function (data, status, headers, config) {
+    });
+  }
 });
 
 reportaApp.controller('dataSetsController', function($scope) {
