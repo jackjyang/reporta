@@ -82,6 +82,21 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       $scope.$parent.source = source;
     });
   };
+
+  $scope.openDeleteModal = function() {
+    var modalInstance = $modal.open({
+      templateUrl: 'modals/data_source_delete',
+      controller: 'dataSourceDeleteModalController',
+      resolve: {
+        source: function () {
+          return $scope.$parent.source;
+        }
+      }
+    });
+    modalInstance.result.then(function(source) {
+      $scope.$parent.refreshContents();
+    });
+  };
 });
 
 reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http) {
@@ -119,6 +134,23 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
     }).success(function (data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close($scope.source);
+    });
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
+});
+
+reportaApp.controller('dataSourceDeleteModalController', function($scope, $modalInstance, $http, source) {
+  $scope.delete = function() {
+    // Call API to update entry in database.
+    $http({
+      method: 'POST',
+      url: '/api/deleteDataSource',
+      data: { source }
+    }).success(function (data, status, headers, config) {
+      // TODO: Display any errors to the user before closing modal.
+      $modalInstance.close(source);
     });
   };
   $scope.cancel = function() {

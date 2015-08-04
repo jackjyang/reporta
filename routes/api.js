@@ -65,3 +65,15 @@ APIHandler.prototype.updateDataSource = function(res, data) {
     res.json(response);
   });
 }
+
+APIHandler.prototype.deleteDataSource = function(res, data) {
+  var userId = data.userId;
+  dataSource.remove(data.source, function(err, source) {
+    var response;
+    if (err)
+      response = { status: "error", message: err };
+    else
+      response = { status: "ok" };
+    res.json(response);
+  });
+}
