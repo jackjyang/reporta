@@ -33,7 +33,7 @@ app.post('/api/:request', api.handler);
 
 // TODO: remove this.
 app.get('/templateEditor', function(req, res) {
-  res.render('templateEditor');
+  res.render('templateEditor', { user: userInfo });
 });
 
 // Redirect everything else to the index

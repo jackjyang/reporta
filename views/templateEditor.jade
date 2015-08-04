@@ -1,5 +1,38 @@
-doctype html
-
 html
+  link(rel='stylesheet', href='css/bootstrap.min.css')
+  nav.navbar.navbar-default.navbar-static-top
+    .container
+      .navbar-header
+        a.navbar-brand(href="/") Reporta
+
   body
-    include templateEditor.html
+    style.
+      div.padding {
+      padding-top: 25px;
+      padding-right: 50px;
+      padding-bottom: 25px;
+      padding-left: 50px;
+      }
+    script(src='/ckeditor/ckeditor.js')
+    .padding
+      h3
+        p(contenteditable='true', style='width:300px') Template Name
+      textarea#templateEditor(name='templateEditor', style='width:90%')
+        | INSERT EXISTING
+        | TEMPLATE HERE
+    script.
+      CKEDITOR.disableAutoInline = true;
+      CKEDITOR.replace('templateEditor');
+    div(align='right', style='padding-right:5%')
+      button.btn.btn-default(type='button', onclick="location.href='/templates'") Save
+      button.btn.btn-default(type='button', onclick="location.href='/templates'") Cancel
+
+script(src="js/angular.js")
+script(src="js/angular-route.js")
+script(src="js/jquery-2.1.4.min.js")
+script(src="js/bootstrap.min.js")
+script(src="js/ui-bootstrap-tpls-0.13.2.min.js")
+script(src="/ckeditor/ckeditor.js")
+script(src="angular/routing.js")
+script(src="angular/controllers/nav_controllers.js")
+
