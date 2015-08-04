@@ -1,67 +1,77 @@
+<style>
+.hiddenRow {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: none !important;
+}
+.hiddenRowContents {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+}
+</style>
+
 <h2>Templates</h2>
-<div class="col-lg-6">
 
-  <div class="panel panel-default">
-    <a class="btn btn-success btn-xs pull-right" target="_self" href="/templateEditor" id="dashboard-new-template">New Template</a>
-    <div class="panel-body">
-      <table class="table table-hover fixed">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Last Modified</th>
-            <th>Created On</th>
-          </tr>
-        </thead>
-        <tr onclick="$('#templateActions').show(); this.className='active'">
-          <td>a</td>
-          <td>b</td>
-          <td>c</td>
+<div class="panel panel-default">
+  <a class="btn btn-success btn-xs pull-right" target="_self" href="/templateEditor" id="dashboard-new-template">New Template</a>
+  <div class="panel-body">
+    <table class="table table-hover fixed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Last Modified</th>
         </tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div class="col-lg-6" id="templateActions" style="display: none;">
-  <div><textarea class="span6" rows="10"></textarea></div>
-  <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default" onclick="location.href='/templateEditor'">Edit</button>
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneTemplate">Clone</button>
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteTemplate">Delete</button>
-  </div>
-</div>
-<div class="modal fade" id="cloneTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Clone template</h4>
-      </div>
-      <div class="modal-body">
-        <div>Name: <input type="text" value=""></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="deleteTemplate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Confirm delete</h4>
-      </div>
-      <div class="modal-body">
-        Are you sure you wish to delete this template?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
-      </div>
-    </div>
+      </thead>
+      <tbody ng-repeat="template in templates">
+        <tr data-toggle="collapse" data-target="#expand{{template._id}}" class="accordion-toggle">
+          <td>{{template.name}}</td>
+          <td>{{template.updated_on.toLocaleString()}}</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="hiddenRow">
+            <div id="expand{{template._id}}" class="accordian-body collapse hiddenRowContents">
+              <div class="row">
+                <div class="col-md-8">
+                  <table style="width:100%;">
+                    <tr>
+                      <td><b>Info1:</b></td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td><b>Created On:</b></td>
+                      <td>{{template.created_on.toLocaleString()}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Created On:</b></td>
+                      <td>{{template.created_on.toLocaleString()}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Created On:</b></td>
+                      <td>{{template.created_on.toLocaleString()}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-4">
+                  <div ng-controller="templatesButtonController">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button type="button" class="btn btn-default" ng-click="openEditModal()">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                      </button>
+                      <button type="button" class="btn btn-default" ng-click="openCloneModal()">
+                        <span class="glyphicon glyphicon-duplicate"></span> Clone
+                      </button>
+                      <button type="button" class="btn btn-default" ng-click="openDeleteModal()">
+                        <span class="glyphicon glyphicon-trash"></span> Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

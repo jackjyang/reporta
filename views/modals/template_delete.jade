@@ -1,0 +1,11 @@
+html
+  body
+    .modal-header
+      h3.modal-title Delete Template
+    .modal-body
+      | Do you really want to delete
+      b  {{template.name}}
+      | ?
+    .modal-footer
+      button.btn.btn-default(type='button', ng-click='cancel()') Cancel
+      button.btn.btn-primary(type='button', ng-click='delete()') Delete

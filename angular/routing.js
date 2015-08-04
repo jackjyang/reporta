@@ -33,9 +33,6 @@ reportaApp.controller('dashboardController', function($scope) {
 reportaApp.controller('dataSetsController', function($scope) {
 });
 
-reportaApp.controller('templatesController', function($scope) {
-});
-
 reportaApp.controller('recipesController', function($scope) {
 });
 
