@@ -22,7 +22,7 @@ APIHandler.prototype.handleRequest = function(res, request, req) {
 
 // Request handlers.
 APIHandler.prototype.addDataSource = function(res, req) {
-  var data = req.method == 'GET' ? req.query : req.body;;
+  var data = req.method == 'GET' ? req.query : req.body;
   var userId = data.userId;
   var newSource = new dataSource({
     owner_id: userId,
@@ -42,7 +42,7 @@ APIHandler.prototype.addDataSource = function(res, req) {
 };
 
 APIHandler.prototype.getDataSources = function(res, req) {
-  var data = req.method == 'GET' ? req.query : req.body;;
+  var data = req.method == 'GET' ? req.query : req.body;
   var userId = data.userId;
   dataSource.find({ owner_id: userId }, function(err, dataSources) {
     var response;
@@ -55,7 +55,7 @@ APIHandler.prototype.getDataSources = function(res, req) {
 };
 
 APIHandler.prototype.updateDataSource = function(res, req) {
-  var data = req.method == 'GET' ? req.query : req.body;;
+  var data = req.method == 'GET' ? req.query : req.body;
   var userId = data.userId;
   dataSource.findOneAndUpdate({ owner_id: userId, name: data.oldSource.name },
       data.source, function(err, source) {
@@ -69,7 +69,7 @@ APIHandler.prototype.updateDataSource = function(res, req) {
 };
 
 APIHandler.prototype.deleteDataSource = function(res, req) {
-  var data = req.method == 'GET' ? req.query : req.body;;
+  var data = req.method == 'GET' ? req.query : req.body;
   var userId = data.userId;
   dataSource.remove(data.source, function(err, source) {
     var response;
@@ -82,7 +82,7 @@ APIHandler.prototype.deleteDataSource = function(res, req) {
 };
 
 APIHandler.prototype.generateReportWithData = function(res, req) {
-  var data = req.rawBody;
+  var data = req.method == 'GET' ? req.query : req.body;
   console.log(data);
   res.json({ status: "ok" });
 };

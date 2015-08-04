@@ -13,16 +13,6 @@ var userInfo = { displayName: 'Demo Account', id: 'demo' };
 var serverRoute = require('./routes/server')(userInfo);
 var api = require('./routes/api');
 
-app.use(function(req, res, next) {
-  req.rawBody = '';
-  req.setEncoding('utf8');
-  req.on('data', function(chunk) {
-    req.rawBody += chunk;
-  });
-  req.on('end', function() {
-    next();
-  });
-});
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
