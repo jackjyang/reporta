@@ -2,7 +2,7 @@
     icons: 'prev,next',
     init: function( editor ) {
 
-      editor.addCommand( 'findprev',
+      var prevcommand = editor.addCommand( 'findprev',
       {
         exec : function( editor )
         {
@@ -27,7 +27,7 @@
       });
 
 
-      editor.addCommand( 'findnext',
+      var nextcommand = editor.addCommand( 'findnext',
       {
         exec : function( editor )
         {
@@ -50,6 +50,11 @@
           // TODO: index bug
         }
       });
+
+      prevcommand.canUndo = false;
+      nextcommand.canUndo = false;
+      prevcommand.readOnly = 1;
+      nextcommand.readOnly = 1;
 
       if ( editor.ui.addButton ) {
         editor.ui.addButton( 'FindPrevElement', {
