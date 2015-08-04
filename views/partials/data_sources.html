@@ -25,13 +25,13 @@
         </tr>
       </thead>
       <tbody ng-repeat="source in dataSources">
-        <tr data-toggle="collapse" data-target="#expand{{source.name}}" class="accordion-toggle">
+        <tr data-toggle="collapse" data-target="#expand{{source._id}}" class="accordion-toggle">
           <td>{{source.name}}</td>
           <td>{{source.updated_on.toLocaleString()}}</td>
         </tr>
         <tr>
           <td colspan="2" class="hiddenRow">
-            <div id="expand{{source.name}}" class="accordian-body collapse hiddenRowContents">
+            <div id="expand{{source._id}}" class="accordian-body collapse hiddenRowContents">
               <div class="row">
                 <div class="col-md-8">
                   <table style="width:100%;">
