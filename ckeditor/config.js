@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-	config.extraPlugins = 'chart';
+	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace';
 
 	// Define changes to default configuration here.
 	// For complete reference see:
@@ -24,6 +24,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'forms' },
 		{ name: 'tools' },
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'analytics' },
 		{ name: 'others' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
@@ -35,7 +36,12 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+	config.removeButtons = 'Underline,Subscript,Superscript,Flash,Smiley,' +
+		'Language,Save,NewPage,Preview,Print,Templates,SelectAll,SpellChecker,' +
+		'Scayt,Link,Unlink,Anchor,Form,Checkbox,Radio,TextField,Textarea,Select,' +
+		'Button,ImageButton,HiddenField,Maximize,ShowBlocks,Blockquote,' +
+		'CreateDiv,BidiLtr,BidiRtl,About,Paste,PasteText,PasteFromWord,Styles,' +
+		'Iframe';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
