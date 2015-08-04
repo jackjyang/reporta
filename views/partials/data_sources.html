@@ -51,7 +51,7 @@
                       <button type="button" class="btn btn-default" ng-click="openEditModal()">
                         <span class="glyphicon glyphicon-pencil"></span> Edit
                       </button>
-                      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneSource">
+                      <button type="button" class="btn btn-default" ng-click="openCloneModal()">
                         <span class="glyphicon glyphicon-duplicate"></span> Clone
                       </button>
                       <button type="button" class="btn btn-default" ng-click="openDeleteModal()">
@@ -66,30 +66,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<div class="modal fade" id="cloneSource" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Clone Data Source</h4>
-      </div>
-      <div class="modal-body">
-        <div style="margin-bottom: 10px;">
-          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
-          <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
-        </div>
-        <div>
-          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Source:</div>
-          <div width: 85%; float: left; margin-left 10px;><input type="text" value="examplesource"></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-      </div>
-    </div>
   </div>
 </div>

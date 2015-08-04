@@ -45,7 +45,7 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
       method: 'GET',
       url: '/api/getDataSources',
       params: { userId: $scope.user.id }
-    }).success(function (data, status, headers, config) {
+    }).success(function(data, status, headers, config) {
       data.message.forEach(function(elem) {
         elem.updated_on = new Date(elem.updated_on);
         elem.created_on = new Date(elem.created_on);
@@ -61,7 +61,27 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
   $scope.openNewModal = function() {
     var modalInstance = $modal.open({
       templateUrl: 'modals/data_source_new',
-      controller: 'dataSourceNewModalController'
+      controller: 'dataSourceNewModalController',
+      resolve: {
+        source: function() {
+          return undefined;
+        }
+      }
+    });
+    modalInstance.result.then(function(source) {
+      $scope.$parent.refreshContents();
+    });
+  };
+
+  $scope.openCloneModal = function() {
+    var modalInstance = $modal.open({
+      templateUrl: 'modals/data_source_new',
+      controller: 'dataSourceNewModalController',
+      resolve: {
+        source: function() {
+          return $scope.$parent.source;
+        }
+      }
     });
     modalInstance.result.then(function(source) {
       $scope.$parent.refreshContents();
@@ -73,7 +93,7 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_edit',
       controller: 'dataSourceEditModalController',
       resolve: {
-        source: function () {
+        source: function() {
           return Object.create($scope.$parent.source); // Deep copy of source.
         }
       }
@@ -88,7 +108,7 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_delete',
       controller: 'dataSourceDeleteModalController',
       resolve: {
-        source: function () {
+        source: function() {
           return $scope.$parent.source;
         }
       }
@@ -99,14 +119,17 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
   };
 });
 
-reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http) {
+reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http, source) {
+  // Pre-fill data if given, when cloning.
+  if (source)
+    $scope.source = { url: source.url };
   $scope.save = function() {
     $scope.source.userId = $scope.user.id;
     $http({
       method: 'POST',
       url: '/api/addDataSource',
       data: $scope.source
-    }).success(function (data, status, headers, config) {
+    }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close(source);
     });
@@ -131,7 +154,7 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
         oldSource: { name: $scope.oldSourceName },
         source: source
       }
-    }).success(function (data, status, headers, config) {
+    }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close($scope.source);
     });
@@ -148,7 +171,7 @@ reportaApp.controller('dataSourceDeleteModalController', function($scope, $modal
       method: 'POST',
       url: '/api/deleteDataSource',
       data: { source }
-    }).success(function (data, status, headers, config) {
+    }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close(source);
     });
