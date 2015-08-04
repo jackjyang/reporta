@@ -5,24 +5,24 @@ var template = mongoose.model('template');
 var apiHandler = new APIHandler();
 exports.handler = function(req, res) {
   // Express routing for REST API.
-
-  var data = req.method == 'GET' ? req.query : req.body;
-  apiHandler.handleRequest(res, req.params.request, data);
+  apiHandler.handleRequest(res, req.params.request, req);
 };
 
 function APIHandler() {
   // Empty constructor.
 }
 
-APIHandler.prototype.handleRequest = function(res, request, data) {
+APIHandler.prototype.handleRequest = function(res, request, req) {
   // Find and call handler by request name.
   if (typeof this[request] !== 'function')
-    return { error: 'Invalid request' };
-  return this[request](res, data);
+    res.json({ error: 'Invalid request' });
+  else
+    this[request](res, req);
 }
 
 // Request handlers.
-APIHandler.prototype.addDataSource = function(res, data) {
+APIHandler.prototype.addDataSource = function(res, req) {
+  var data = req.method == 'GET' ? req.query : req.body;;
   var userId = data.userId;
   var newSource = new dataSource({
     owner_id: userId,
@@ -41,7 +41,8 @@ APIHandler.prototype.addDataSource = function(res, data) {
   });
 };
 
-APIHandler.prototype.getDataSources = function(res, data) {
+APIHandler.prototype.getDataSources = function(res, req) {
+  var data = req.method == 'GET' ? req.query : req.body;;
   var userId = data.userId;
   dataSource.find({ owner_id: userId }, function(err, dataSources) {
     var response;
@@ -53,7 +54,8 @@ APIHandler.prototype.getDataSources = function(res, data) {
   });
 };
 
-APIHandler.prototype.updateDataSource = function(res, data) {
+APIHandler.prototype.updateDataSource = function(res, req) {
+  var data = req.method == 'GET' ? req.query : req.body;;
   var userId = data.userId;
   dataSource.findOneAndUpdate({ owner_id: userId, name: data.oldSource.name },
       data.source, function(err, source) {
@@ -64,9 +66,10 @@ APIHandler.prototype.updateDataSource = function(res, data) {
       response = { status: "ok" };
     res.json(response);
   });
-}
+};
 
-APIHandler.prototype.deleteDataSource = function(res, data) {
+APIHandler.prototype.deleteDataSource = function(res, req) {
+  var data = req.method == 'GET' ? req.query : req.body;;
   var userId = data.userId;
   dataSource.remove(data.source, function(err, source) {
     var response;
@@ -76,4 +79,10 @@ APIHandler.prototype.deleteDataSource = function(res, data) {
       response = { status: "ok" };
     res.json(response);
   });
-}
+};
+
+APIHandler.prototype.generateReportWithData = function(res, req) {
+  var data = req.rawBody;
+  console.log(data);
+  res.json({ status: "ok" });
+};
