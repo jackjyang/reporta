@@ -14,12 +14,18 @@
           if (!a)
             return;
           for (i = nodeList.count() - 1; i >= 0; i--){
-            if (a.getIndex() > nodeList.getItem(i).getIndex()) {
+            if ((a.getParent().getIndex() == nodeList.getItem(i).getParent().getIndex()  &&
+                a.getIndex() > nodeList.getItem(i).getIndex()) ||
+               (a.getParent().getIndex() > nodeList.getItem(i).getParent().getIndex()))
+            {
+
               editor.getSelection().selectElement(nodeList.getItem(i));
+              editor.getSelection().scrollIntoView();
               return;
             }
           }
           editor.getSelection().selectElement(nodeList.getItem(nodeList.count() -1));
+          editor.getSelection().scrollIntoView();
           return;
 
           // TODO: index bug
@@ -39,12 +45,16 @@
           if (!a)
             return;
           for (i = 0; i < nodeList.count(); i++){
-            if (a.getIndex() < nodeList.getItem(i).getIndex()) {
+            if ((a.getParent().getIndex() == nodeList.getItem(i).getParent().getIndex()  &&
+                a.getIndex() < nodeList.getItem(i).getIndex()) ||
+               (a.getParent().getIndex() < nodeList.getItem(i).getParent().getIndex())) {
               editor.getSelection().selectElement(nodeList.getItem(i));
+              editor.getSelection().scrollIntoView();
               return;
             }
           }
           editor.getSelection().selectElement(nodeList.getItem(0));
+          editor.getSelection().scrollIntoView();
           return;
 
           // TODO: index bug
