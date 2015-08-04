@@ -23,7 +23,7 @@ CKEDITOR.dialog.add( 'basicDialog', function( editor ) {
                         label: 'Type of Analytic',
                         items: [ [ '' ], [ 'Interrupt Analytics' ], [ 'Messaging Analytics' ], [ 'Error Analytics' ], [ 'Performance' ] ],
                         'default': '',
-                        validate: CKEDITOR.dialog.validate.notEmpty( "Chart type cannot be empty." ),
+                        validate: CKEDITOR.dialog.validate.notEmpty( "Analytic type cannot be empty." ),
                         setup: function( element ) {
                             this.setValue( element.getAttribute( "analytictype" ) );
                         }

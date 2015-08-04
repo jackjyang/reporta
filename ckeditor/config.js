@@ -11,6 +11,8 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement';
 
+	config.dialog_noConfirmCancel = true;
+
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
