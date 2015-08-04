@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script>
+
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var rawData = [];
+    {{#each data}}
+    rawData.push({{this.delta}});
+    {{/each}}
+
+    // Remove average (50% quantile) since it is not taken by google charts api.
+    // That is, append first 2 deltas and last 2 deltas from rawData.
+    var chartData = [''];
+    chartData.push(rawData[0]);
+    chartData.push(rawData[1]);
+    chartData.push(rawData[rawData.length-2]);
+    chartData.push(rawData[rawData.length-1]);
+    var data = google.visualization.arrayToDataTable([chartData], true);
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+  var options = {
+    legend: 'none',
+    enableInteractivity: false,
+    vAxis: { title: 'Event Delta (\u03BCs)' }
+  };
+
+</script>
+</head>
+<body>
+<h3><div>
+  <p style="float:left; text-align:left; width:5%;">4</p>
+  <p style="float:left; text-align:center; width:95%;">ISO26262 Compliance Report: Confirmation Measures</p>
+</div></h3>
+<div style="clear: both;"></div>
+
+<div style="background-color: rgb(245,245,245)">
+<h2 style="color: rgb(67,90,135)">Artifact ID_1.10</h2>
+
+<p>This section contains the confirmation measures for Technical Safety Requirement</p>
+
+<p><b>Req_1.10: The control process "adas1s4seghal" shall begin processing input data at most 100&micro;s after the triggering of interrupt 0x29.</b></p>
+
+<p>The boxplot shows the characteristics of the distribution of the time difference values between the
+INT_ENTR event for interrupt 0x29 and the THRUNNING event for the process "adas1s4seghal".
+Event delta is the time difference between subsequent events, measured in &micro;s. The main
+box contains the time difference values that fall between the 25<sup>th</sup> and the 75<sup>th</sup> percentiles.</p>
+
+<p>
+<div id="chart_div" style="margin: auto; padding: 10px; width: 80%;"></div>
+</p>
+
+<p>
+<table style="border: 1px solid black; text-align: center; border-collapse:collapse" width="600">
+  <tr>
+    <td style="border: 1px solid black;">Quantile</td>
+    {{#each data}}
+    <td style="border: 1px solid black;">{{percent}}%</td>
+    {{/each}}
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">Event Delta</td>
+    {{#each data}}
+    <td style="border: 1px solid black;">{{delta}}&micro;s</td>
+    {{/each}}
+  </tr>
+</table>
+</p>
+
+<p>
+<table width="200">
+  <tr>
+    <td>Mean difference:</td>
+    <td>{{mean}}&micro;s</td>
+  </tr>
+  <tr>
+    <td>Min difference:</td>
+    <td>{{min}}&micro;s</td>
+  </tr>
+  <tr>
+    <td>Max difference:</td>
+    <td>{{max}}&micro;s</td>
+  </tr>
+</table>
+</p>
+
+</div>
+</body>
+</html>
