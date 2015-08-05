@@ -3,9 +3,9 @@ var reportaApp = angular.module('reporta');
 reportaApp.controller('dataSourcesController', function($scope, $http) {
   $scope.refreshContents = function() {
     $http({
-      method: 'GET',
+      method: 'post',
       url: '/api/getDataSources',
-      params: { userId: $scope.user.id }
+      data: { userId: $scope.user.id }
     }).success(function(data, status, headers, config) {
       data.message.forEach(function(elem) {
         elem.updated_on = new Date(elem.updated_on);
@@ -131,7 +131,7 @@ reportaApp.controller('dataSourceDeleteModalController', function($scope, $modal
     $http({
       method: 'POST',
       url: '/api/deleteDataSource',
-      data: { source }
+      data: source
     }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close(source);

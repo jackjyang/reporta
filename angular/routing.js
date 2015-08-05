@@ -17,13 +17,13 @@ reportaApp.config(function($routeProvider, $locationProvider) {
     templateUrl: 'partials/templates',
     controller: 'templatesController'
   }).when('/template_editor', {
-    templateUrl: 'partials/templateEditor',
+    templateUrl: 'partials/template_editor',
     controller: 'templateEditorController'
   }).when('/recipes', {
     templateUrl: 'partials/recipes',
     controller: 'recipesController'
   }).when('/recipe_editor', {
-    templateUrl: 'partials/recipeEditor',
+    templateUrl: 'partials/recipe_editor',
     controller: 'recipeEditorController'
   }).when('/generate_report', {
     templateUrl: 'partials/generate_report',

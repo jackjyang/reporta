@@ -136,7 +136,7 @@ reportaApp.controller('dataSetDeleteModalController', function($scope, $modalIns
     $http({
       method: 'POST',
       url: '/api/deleteDataSet',
-      data: { dataSet }
+      data: dataSet
     }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close(dataSet);
