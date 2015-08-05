@@ -16,7 +16,7 @@ reportaApp.config(function($routeProvider, $locationProvider) {
   }).when('/templates', {
     templateUrl: 'partials/templates',
     controller: 'templatesController'
-  }).when('/template_editor', {
+  }).when('/template_editor/:template?', {
     templateUrl: 'partials/template_editor',
     controller: 'templateEditorController'
   }).when('/recipes', {
