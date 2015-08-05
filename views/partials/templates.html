@@ -14,7 +14,9 @@
 <h2>Templates</h2>
 
 <div class="panel panel-default">
-  <a class="btn btn-success btn-xs pull-right" href="template_editor" id="dashboard-new-template">New Template</a>
+  <div ng-controller="dataSourceButtonController">
+    <a class="btn btn-success btn-xs pull-right" href="template_editor" id="dashboard-new-template" ng-click="newTemplate()">New Template</a>
+  </div>
   <div class="panel-body">
     <table class="table table-hover fixed">
       <thead>

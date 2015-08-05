@@ -9,17 +9,11 @@ div.padding {
 
 <script src="/ckeditor/ckeditor.js"></script>
 <div class="padding">
-  <h3><p contenteditable="true" style="width:300px">Template Name</p></h3>
-  <textarea name="templateEditor" id="templateEditor" style="width:90%">INSERT EXISTING
-    TEMPLATE HERE
-  </textarea>
+  <h3><p id="title" contenteditable="true" style="width:300px">Template Name</p></h3>  
+    <textarea name="templateEditor" id="templateEditor" style="width:90%">
+    </textarea>
 </div>
-<script>
-  CKEDITOR.disableAutoInline = true;
-  CKEDITOR.replace('templateEditor');
-</script>
-
 <div align="right" style="padding-right:5%">
-  <button type="button" class="btn btn-default" onclick="location.href='templates'">Save</button>
+  <button type="button" class="btn btn-default" ng-click="save()">Save</button>
   <button type="button" class="btn btn-default" onclick="location.href='templates'">Cancel</button>
 </div>

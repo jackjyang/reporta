@@ -59,3 +59,31 @@ reportaApp.controller('templatesDeleteModalController', function($scope, $modalI
     $modalInstance.dismiss('cancel');
   };
 });
+
+reportaApp.controller('templateEditorController', function($scope, $http) {
+  CKEDITOR.replace('templateEditor', {
+    on: {
+      instanceReady: function(event) {
+
+      },
+      change: function(event) {
+        $scope.content = event.editor.getData();
+      }
+    }
+  });
+
+  $scope.save = function() {
+    template = {userId: '', name: '', content:''};
+    template.userId = $scope.user.id;
+    template.name = document.getElementById('title').innerHTML;
+    template.content = $scope.content;
+    $http({
+      method: 'POST',
+      url: '/api/addTemplate',
+      data: { template }
+    }).success(function(data, status, headers, config) {
+      // TODO: Display any errors to the user before closing modal.
+      location.href='templates';
+    });
+  };
+});
