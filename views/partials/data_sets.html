@@ -34,9 +34,9 @@
             <div id="expand{{dataSet._id}}" class="accordian-body collapse hiddenRowContents">
               <div class="row">
                 <div class="col-md-8">
-                  <table style="width:100%;">
+                  <table style="width:35%;">
                     <tr>
-                      <td><b>Data Set properties:</b></td>
+                      <td><b>Properties:</b></td>
                       <td>??{{dataSet.properties_of_interest}}</td>
                     </tr>
                     <tr>
@@ -66,106 +66,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<div class="modal fade" id="createSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Create New Data Set</h4>
-      </div>
-      <div class="modal-body">
-        <div style="margin-bottom: 10px;">
-          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
-          <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
-        </div>
-        <div>
-          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Data Set:</div>
-          <div width: 85%; float: left; margin-left 10px;><textarea class="span6" rows="10"></textarea></div>
-        </div>
-        <div>
-          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Data Source:</div>
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Dropdown
-            <span class="caret"></span>
-          </button>
-
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="editSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit Data Set</h4>
-      </div>
-    	<div class="modal-body">
-        <div style="margin-bottom: 10px;">
-          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Name:</div>
-          <div width: 85%; float: left; margin-left 10px;><input type="text" value="Data Set 1"></div>
-        </div>
-        <div>
-          <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Data Set:</div>
-          <div width: 85%; float: left; margin-left 10px;><textarea class="span6" rows="10" value="Some Data"></textarea></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="cloneSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Clone Data Set</h4>
-      </div>
-      <div class="modal-body">
-        <div style="margin-bottom: 10px;">
-          <div style="width: 10%; float: left; text-align: right; margin-right: 5px;">Name:</div>
-          <div width: 85%; float: left; margin-left 10px;><input type="text"></div>
-        </div>
-        <div>
-          <div style="width: 10%; float: left; text-align: right; margin-right: 5px;">Data Set:</div>
-          <div width: 85%; float: left; margin-left 10px;><textarea class="span6" rows="10" value="Some Data"></textarea></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="deleteSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Delete Data Set</h4>
-      </div>
-      <div class="modal-body">
-      	Are you sure you wish to delete DataSet 1?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
-      </div>
-    </div>
   </div>
 </div>

@@ -14,9 +14,9 @@ reportaApp.controller('dataSetsController', function($scope, $http) {
     //   $scope.dataSets = data.message;
     // });
     $scope.dataSets = [
-      {_id: 1, name: 'test1' },
-      {_id: 2, name: 'test2' },
-      {_id: 3, name: 'test3' },
+      {_id: 1, name: 'test1', updated_on: new Date() },
+      {_id: 2, name: 'test2', updated_on: new Date() },
+      {_id: 3, name: 'test3', updated_on: new Date() },
     ];
   }
   if (!$scope.dataSets)
