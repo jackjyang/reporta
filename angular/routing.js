@@ -16,15 +16,18 @@ reportaApp.config(function($routeProvider, $locationProvider) {
   }).when('/templates', {
     templateUrl: 'partials/templates',
     controller: 'templatesController'
+  }).when('/template_editor', {
+    templateUrl: 'partials/templateEditor',
+    controller: 'templateEditorController'
   }).when('/recipes', {
     templateUrl: 'partials/recipes',
     controller: 'recipesController'
-  }).when('/recipeEditor', {
+  }).when('/recipe_editor', {
     templateUrl: 'partials/recipeEditor',
     controller: 'recipeEditorController'
   }).when('/generate_report', {
     templateUrl: 'partials/generate_report',
-    controller: 'generateController'
+    controller: 'generateReportController'
   });
   $locationProvider.html5Mode(true);
 });
@@ -42,6 +45,9 @@ reportaApp.controller('recipesController', function($scope) {
 reportaApp.controller('recipeEditorController', function($scope) {
 });
 
-reportaApp.controller('generateController', function($scope) {
+reportaApp.controller('generateReportController', function($scope) {
+});
+
+reportaApp.controller('templateEditorController', function($scope) {
 });
 

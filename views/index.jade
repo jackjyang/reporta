@@ -21,7 +21,7 @@ html(ng-app="reporta")
     .container
       .row
         .tabbable
-          ul.nav.nav-pills.nav-stacked.col-md-2.h5
+          ul.nav.nav-pills.nav-stacked.col-md-2.h5#sidetabs
             li#dashboard
               a(href="dashboard", data-toggle="tab") Dashboard
             li#data_sources
@@ -35,7 +35,7 @@ html(ng-app="reporta")
             li#generate_report
               a(href="generate_report", data-toggle="tab") Generate Report
 
-        .col-md-9(style='left:5px width:100%')
+        .col-md-9(style='left:5px width:100%')#viewContainer
           div(ng-view)
 
 script(src="js/angular.js")
