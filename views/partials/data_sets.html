@@ -1,38 +1,71 @@
+<style>
+.hiddenRow {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: none !important;
+}
+.hiddenRowContents {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+}
+</style>
+
 <h2>Data Sets</h2>
-<div class="col-lg-6">
-  <div class="panel panel-default">
-    <a class="btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#createSet" id="createDataSet">New Data Set</a>
-    <div class="panel-body">
-      <table class="table table-hover fixed">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Last Modified</th>
-            <th>Created On</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr onclick="$('#dataSetInfo').show()">
-            <td>Data Set 1</td>
-            <td>July 19, 2015</td>
-            <td>July 18, 2015</td>
-          </tr>
-          <tr onclick="$('#dataSetInfo').show()">
-            <td>Data Set 2</td>
-            <td>July 19, 2015</td>
-            <td>July 18, 2015</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="panel panel-default">
+  <div ng-controller="dataSetsButtonController">
+    <a class="btn btn-success btn-xs pull-right" ng-click="openNewModal()">New Data Source</a>
   </div>
-</div>
-<div class="col-md-6" id="dataSetInfo" style="display: none;">
-  <div><textarea class="span6" rows="10"></textarea></div>
-  <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editSet">Edit</button>
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cloneSet">Clone</button>
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteSet">Delete</button>
+  <div class="panel-body">
+    <table class="table table-hover fixed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Last Modified</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="dataSet in dataSets">
+        <tr data-toggle="collapse" data-target="#expand{{dataSet._id}}" class="accordion-toggle">
+          <td>{{dataSet.name}}</td>
+          <td>{{dataSet.updated_on.toLocaleString()}}</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="hiddenRow">
+            <div id="expand{{dataSet._id}}" class="accordian-body collapse hiddenRowContents">
+              <div class="row">
+                <div class="col-md-8">
+                  <table style="width:100%;">
+                    <tr>
+                      <td><b>Data Set properties:</b></td>
+                      <td>??{{dataSet.properties_of_interest}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Created On:</b></td>
+                      <td>??{{dataSet.created_on.toLocaleString()}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-4">
+                  <div ng-controller="dataSetsButtonController">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button type="button" class="btn btn-default" ng-click="openEditModal()">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                      </button>
+                      <button type="button" class="btn btn-default" ng-click="openCloneModal()">
+                        <span class="glyphicon glyphicon-duplicate"></span> Clone
+                      </button>
+                      <button type="button" class="btn btn-default" ng-click="openDeleteModal()">
+                        <span class="glyphicon glyphicon-trash"></span> Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

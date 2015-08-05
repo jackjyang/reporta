@@ -15,6 +15,17 @@ var dataSourceSchema = new Schema({
 dataSourceSchema.index({ owner_id: 1, name: -1 }, { unique: true });
 dataSourceSchema.plugin(autoIncrement.plugin, 'dataSource');
 
+var dataSetSchema = new Schema({
+  owner_id: String,
+  name: String,
+  from_source_name: String,
+  data: [String],
+  updated_on: Date,
+  created_on: Date
+});
+dataSetSchema.index({ owner_id: 1, name: -1 }, { unique: true });
+dataSetSchema.plugin(autoIncrement.plugin, 'dataSet');
+
 var templateSchema = new Schema({
   owner_id: String,
   name: String ,
@@ -25,6 +36,6 @@ var templateSchema = new Schema({
 templateSchema.index({ owner_id: 1, name: -1 }, { unique: true });
 templateSchema.plugin(autoIncrement.plugin, 'template');
 
-
 connection.model('dataSource', dataSourceSchema);
+connection.model('dataSet', dataSetSchema);
 connection.model('template', templateSchema);
