@@ -18,7 +18,7 @@ CKEDITOR.editorConfig = function( config ) {
   // The toolbar groups arrangement, optimized for two toolbar rows.
 
   config.toolbarGroups = [
-    { name: 'insert' }
+    { name: 'search' }
   ];
 
   config.removeButtons = 'Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe';

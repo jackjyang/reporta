@@ -1,16 +1,70 @@
-<h2>Recipes</h2>
+<style>
+.hiddenRow {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: none !important;
+}
+.hiddenRowContents {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+}
+</style>
 
-<script src="/ckeditor/ckeditor.js"></script>
-<div class="col-lg-8">
-  <div class="panel panel-default">
-    <div ng-controller="ckeditorRecipeController">
-      <textarea name="editor1" id="editor1" rows="10" cols="40">
-        This is my textarea to be replaced with CKEditor.
-      </textarea>
-    </div>
+<h2>Recipes</h2>
+<div class="panel panel-default">
+  <div ng-controller="dataSourceButtonController">
+    <a class="btn btn-success btn-xs pull-right" target="_self" href="/recipeEditor">New Recipe</a>
   </div>
-  <button type="button" class="btn btn-default">Cancel</button>
-  <button type="button" class="btn btn-default">Save</button>
+  <div class="panel-body">
+    <table class="table table-hover fixed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Last Modified</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="source in dataSources">
+        <tr data-toggle="collapse" data-target="#expand{{source._id}}" class="accordion-toggle">
+          <td>{{source.name}}</td>
+          <td>{{source.updated_on.toLocaleString()}}</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="hiddenRow">
+            <div id="expand{{source._id}}" class="accordian-body collapse hiddenRowContents">
+              <div class="row">
+                <div class="col-md-8">
+                  <table style="width:100%;">
+                    <tr>
+                      <td><b>Source URL:</b></td>
+                      <td>{{source.url}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Created On:</b></td>
+                      <td>{{source.created_on.toLocaleString()}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-4">
+                  <div ng-controller="dataSourceButtonController">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button type="button" class="btn btn-default" ng-click="openEditModal()">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                      </button>
+                      <button type="button" class="btn btn-default" ng-click="openCloneModal()">
+                        <span class="glyphicon glyphicon-duplicate"></span> Clone
+                      </button>
+                      <button type="button" class="btn btn-default" ng-click="openDeleteModal()">
+                        <span class="glyphicon glyphicon-trash"></span> Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-<br/>
-<br/>

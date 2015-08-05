@@ -19,6 +19,9 @@ reportaApp.config(function($routeProvider, $locationProvider) {
   }).when('/recipes', {
     templateUrl: 'partials/recipes',
     controller: 'recipesController'
+  }).when('/recipeEditor', {
+    templateUrl: 'partials/recipeEditor',
+    controller: 'recipeEditorController'
   }).when('/generate_report', {
     templateUrl: 'partials/generate_report',
     controller: 'generateController'
@@ -34,6 +37,9 @@ reportaApp.controller('dataSetsController', function($scope) {
 });
 
 reportaApp.controller('recipesController', function($scope) {
+});
+
+reportaApp.controller('recipeEditorController', function($scope) {
 });
 
 reportaApp.controller('generateController', function($scope) {

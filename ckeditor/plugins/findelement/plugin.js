@@ -67,16 +67,16 @@
       nextcommand.readOnly = 1;
 
       if ( editor.ui.addButton ) {
-        editor.ui.addButton( 'FindPrevElement', {
-          label: 'Find Previous Element',
+        editor.ui.addButton( 'PrevElement', {
+          label: 'Previous Element',
           command: 'findprev',
-          toolbar: 'insert',
+          toolbar: 'search',
           icon: this.path + 'icons/prev.png'
         } );
-        editor.ui.addButton( 'FindNextElement', {
-          label: 'Find Next Element',
+        editor.ui.addButton( 'NextElement', {
+          label: 'Next Element',
           command: 'findnext',
-          toolbar: 'insert',
+          toolbar: 'search',
           icon: this.path + 'icons/next.png'
         } );
       }
