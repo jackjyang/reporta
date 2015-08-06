@@ -211,7 +211,7 @@ reportaApp.controller('dataSetEditorModalController',
     }
   };
   $scope.toggleCheckBox = function(checkboxId) {
-    var traverseAndSetValue = function(elem, value) {
+    var traverseAndSetValueDown = function(elem, value) {
       if (elem.tagName == 'INPUT') {
         if (value)
           $scope.dataSet.properties[elem.id] = value;
@@ -219,12 +219,25 @@ reportaApp.controller('dataSetEditorModalController',
           delete $scope.dataSet.properties[elem.id];
       }
       for (var i = 0; i < elem.childNodes.length; i++)
-        traverseAndSetValue(elem.childNodes[i], value);
+        traverseAndSetValueDown(elem.childNodes[i], value);
     };
 
     var checkbox = document.getElementById(checkboxId);
     var value = $scope.dataSet.properties[checkboxId];
-    traverseAndSetValue(checkbox.parentNode.parentNode, value);
+    traverseAndSetValueDown(checkbox.parentNode.parentNode, value);
+
+    // Also traverse upwards.
+    var elem = checkbox;
+    while (elem.parentNode) {
+      if (elem.tagName == 'LI') {
+        var check = elem.childNodes[1].childNodes[1];
+        if (value)
+          $scope.dataSet.properties[check.id] = value;
+        else
+          delete $scope.dataSet.properties[check.id];
+      }
+      elem = elem.parentNode;
+    }
   };
 
   $scope.save = function() {
