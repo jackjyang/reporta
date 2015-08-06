@@ -54,6 +54,7 @@ reportaApp.controller('dataSetsController', function($scope, $http) {
       data.message.forEach(function(elem) {
         elem.updated_on = new Date(elem.updated_on);
         elem.created_on = new Date(elem.created_on);
+        elem.sourceName = elem.source_name;
         if (elem.properties)
           elem.propertiesList = Object.keys(elem.properties);
       });
@@ -163,7 +164,10 @@ reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
       }
     });
     modalInstance.result.then(function(dataSet) {
-      $scope.$parent.refreshContents();
+      $scope.$parent.dataSet = dataSet;
+      $scope.$parent.dataSet.updated_on = new Date();
+      if (dataSet.properties)
+        $scope.$parent.dataSet.propertiesList = Object.keys(dataSet.properties);
     });
   };
 
@@ -202,6 +206,7 @@ reportaApp.controller('dataSetEditorModalController',
         if (dataSources[i].name == name)
           return dataSources[i];
     };
+    console.log(sourceName);
     if (getSource(sourceName).data) {
       $scope.selectedSourceData = JSON.stringify(getSource(sourceName).data);
       $scope.treeViewData = createTreeViewData(getSource(sourceName).data);
@@ -257,11 +262,15 @@ reportaApp.controller('dataSetEditorModalController',
 
   // Pre-fill data if given.
   if (dataSet) {
+    console.log(dataSet);
     $scope.dataSet = {
       name: dataSet.name,
-      sourceName: dataSet.source_name,
+      sourceName: dataSet.sourceName,
+      created_on: dataSet.created_on,
+      updated_on: dataSet.updated_on
     };
-    $scope.selectSource(dataSet.source_name);
+    console.log(dataSet.sourceName);
+    $scope.selectSource(dataSet.sourceName);
     $scope.dataSet.properties = dataSet.properties;
     $scope.originalDataSetName = dataSet.name;
   }
