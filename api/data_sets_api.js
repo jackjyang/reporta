@@ -5,13 +5,16 @@ module.exports = function(apiHandler) {
   apiHandler.addDataSet = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
     var userId = data.userId;
+    console.log(data);
     var newSet = new dataSet({
       owner_id: userId,
       name: data.name,
-      data_set: data.dataSet,
+      source_name: data.sourceName,
+      properties: data.properties,
       updated_on: new Date,
       created_on: new Date
     });
+
     newSet.save(function(err) {
       var response;
       if (err)

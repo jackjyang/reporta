@@ -18,8 +18,8 @@ dataSourceSchema.plugin(autoIncrement.plugin, 'dataSource');
 var dataSetSchema = new Schema({
   owner_id: String,
   name: String,
-  from_source_name: String,
-  data: [String],
+  source_name: String,
+  properties: Object,
   updated_on: Date,
   created_on: Date
 });

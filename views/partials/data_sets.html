@@ -14,7 +14,7 @@
 <h2>Data Sets</h2>
 <div class="panel panel-default">
   <div ng-controller="dataSetsButtonController">
-    <a class="btn btn-success btn-xs pull-right" ng-click="openNewModal()">New Data Source</a>
+    <a class="btn btn-success btn-xs pull-right" ng-click="openNewModal()">New Data Set</a>
   </div>
   <div class="panel-body">
     <table class="table table-hover fixed">
@@ -34,14 +34,18 @@
             <div id="expand{{dataSet._id}}" class="accordian-body collapse hiddenRowContents">
               <div class="row">
                 <div class="col-md-8">
-                  <table style="width:35%;">
+                  <table style="width:75%;">
                     <tr>
-                      <td><b>Properties:</b></td>
-                      <td>??{{dataSet.properties_of_interest}}</td>
+                      <td><b>Base Source:</b></td>
+                      <td>{{dataSet.name}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Data Properties:</b></td>
+                      <td>{{dataSet.propertiesList}}</td>
                     </tr>
                     <tr>
                       <td><b>Created On:</b></td>
-                      <td>??{{dataSet.created_on.toLocaleString()}}</td>
+                      <td>{{dataSet.created_on.toLocaleString()}}</td>
                     </tr>
                   </table>
                 </div>
