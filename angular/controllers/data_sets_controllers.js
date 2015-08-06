@@ -54,7 +54,8 @@ reportaApp.controller('dataSetsController', function($scope, $http) {
       data.message.forEach(function(elem) {
         elem.updated_on = new Date(elem.updated_on);
         elem.created_on = new Date(elem.created_on);
-        elem.propertiesList = Object.keys(elem.properties);
+        if (elem.properties)
+          elem.propertiesList = Object.keys(elem.properties);
       });
       $scope.dataSets = data.message;
     });
@@ -94,14 +95,20 @@ reportaApp.controller('dataSetsController', function($scope, $http) {
 reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
   $scope.openNewModal = function() {
     var modalInstance = $modal.open({
-      templateUrl: 'modals/data_set_new',
-      controller: 'dataSetNewModalController',
+      templateUrl: 'modals/data_set_editor',
+      controller: 'dataSetEditorModalController',
       resolve: {
         dataSources: function() {
           return $scope.dataSources;
         },
         dataSet: function() {
           return undefined;
+        },
+        title: function() {
+          return 'Create Data Set';
+        },
+        apiUrl: function() {
+          return 'api/addDataSet';
         }
       }
     });
@@ -112,11 +119,22 @@ reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
 
   $scope.openCloneModal = function() {
     var modalInstance = $modal.open({
-      templateUrl: 'modals/data_set_new',
-      controller: 'dataSetNewModalController',
+      templateUrl: 'modals/data_set_editor',
+      controller: 'dataSetEditorModalController',
       resolve: {
+        dataSources: function() {
+          return $scope.dataSources;
+        },
         dataSet: function() {
-          return $scope.$parent.dataSet;
+          var set = Object.create($scope.dataSet);
+          set.name = '';
+          return set;
+        },
+        title: function() {
+          return 'Clone Data Set';
+        },
+        apiUrl: function() {
+          return 'api/addDataSet';
         }
       }
     });
@@ -127,16 +145,25 @@ reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
 
   $scope.openEditModal = function() {
     var modalInstance = $modal.open({
-      templateUrl: 'modals/data_set_edit',
-      controller: 'dataSetEditModalController',
+      templateUrl: 'modals/data_set_editor',
+      controller: 'dataSetEditorModalController',
       resolve: {
+        dataSources: function() {
+          return $scope.dataSources;
+        },
         dataSet: function() {
-          return Object.create($scope.$parent.dataSet); // Deep copy of set.
+          return $scope.dataSet;
+        },
+        title: function() {
+          return 'Edit Data Set';
+        },
+        apiUrl: function() {
+          return 'api/updateDataSet';
         }
       }
     });
     modalInstance.result.then(function(dataSet) {
-      $scope.$parent.dataSet = dataSet;
+      $scope.$parent.refreshContents();
     });
   };
 
@@ -156,16 +183,14 @@ reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
   };
 });
 
-reportaApp.controller('dataSetNewModalController',
-    function($scope, $modalInstance, $http, dataSources, dataSet) {
+reportaApp.controller('dataSetEditorModalController',
+    function($scope, $modalInstance, $http, dataSources, dataSet, title, apiUrl) {
 
   $scope.dataSources = dataSources;
   $scope.dataSet = {};
   $scope.dataSet.sourceName = 'Select a Source';
 
-  // Pre-fill data if given, when cloning.
-  if (dataSet)
-    $scope.dataSet = { url: dataSet.url };
+  $scope.title = title;
 
   $scope.selectSource = function(sourceName) {
     $scope.dataSet.properties = {};
@@ -201,38 +226,13 @@ reportaApp.controller('dataSetNewModalController',
     var value = $scope.dataSet.properties[checkboxId];
     traverseAndSetValue(checkbox.parentNode.parentNode, value);
   };
+
   $scope.save = function() {
     $scope.dataSet.userId = $scope.user.id;
     $http({
       method: 'POST',
-      url: '/api/addDataSet',
-      data: $scope.dataSet
-    }).success(function(data, status, headers, config) {
-      // TODO: Display any errors to the user before closing modal.
-      $modalInstance.close($scope.dataSet);
-    });
-  };
-  $scope.cancel = function() {
-    console.log($scope.checkbox);
-    $modalInstance.dismiss('cancel');
-  };
-});
-
-reportaApp.controller('dataSetEditModalController', function($scope, $modalInstance, $http, dataSet) {
-  $scope.dataSet = dataSet;
-  $scope.oldSetName = dataSet.name;
-  $scope.save = function() {
-    dataSet.updated_on = new Date();
-
-    // Call API to update entry in database.
-    $http({
-      method: 'POST',
-      url: '/api/updateDataSet',
-      data: {
-        userId: $scope.user.id,
-        oldSet: { name: $scope.oldSetName },
-        dataSet: dataSet
-      }
+      url: apiUrl,
+      data: { set: $scope.dataSet, oldName: $scope.originalDataSetName }
     }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close($scope.dataSet);
@@ -241,9 +241,21 @@ reportaApp.controller('dataSetEditModalController', function($scope, $modalInsta
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
+
+  // Pre-fill data if given.
+  if (dataSet) {
+    $scope.dataSet = {
+      name: dataSet.name,
+      sourceName: dataSet.source_name,
+    };
+    $scope.selectSource(dataSet.source_name);
+    $scope.dataSet.properties = dataSet.properties;
+    $scope.originalDataSetName = dataSet.name;
+  }
 });
 
 reportaApp.controller('dataSetDeleteModalController', function($scope, $modalInstance, $http, dataSet) {
+  $scope.dataSet = dataSet;
   $scope.delete = function() {
     // Call API to update entry in database.
     $http({

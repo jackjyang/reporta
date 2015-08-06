@@ -4,13 +4,13 @@ module.exports = function(apiHandler) {
 
   apiHandler.addDataSet = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    var userId = data.userId;
+    var userId = data.set.userId;
     console.log(data);
     var newSet = new dataSet({
       owner_id: userId,
-      name: data.name,
-      source_name: data.sourceName,
-      properties: data.properties,
+      name: data.set.name,
+      source_name: data.set.sourceName,
+      properties: data.set.properties,
       updated_on: new Date,
       created_on: new Date
     });
@@ -40,9 +40,10 @@ module.exports = function(apiHandler) {
 
   apiHandler.updateDataSet = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    var userId = data.userId;
-    dataSet.findOneAndUpdate({ owner_id: userId, name: data.oldSource.name },
-        data.source, function(err, set) {
+    var userId = data.set.userId;
+    data.set.updated_on = new Date();
+    dataSet.findOneAndUpdate({ owner_id: userId, name: data.oldName },
+        data.set, function(err, set) {
       var response;
       if (err)
         response = { status: "error", message: err };
@@ -54,8 +55,7 @@ module.exports = function(apiHandler) {
 
   apiHandler.deleteDataSet = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    var userId = data.userId;
-    dataSet.remove(data.source, function(err, set) {
+    dataSet.remove({ owner_id: data.set.owner_id, name: data.set.name }, function(err, set) {
       var response;
       if (err)
         response = { status: "error", message: err };
