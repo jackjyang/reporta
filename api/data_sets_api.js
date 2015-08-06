@@ -55,7 +55,7 @@ module.exports = function(apiHandler) {
 
   apiHandler.deleteDataSet = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    dataSet.remove({ owner_id: data.set.owner_id, name: data.set.name }, function(err, set) {
+    dataSet.remove({ owner_id: data.owner_id, name: data.name }, function(err, set) {
       var response;
       if (err)
         response = { status: "error", message: err };

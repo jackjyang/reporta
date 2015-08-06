@@ -109,7 +109,7 @@ reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
           return 'Create Data Set';
         },
         apiUrl: function() {
-          return 'api/addDataSet';
+          return '/api/addDataSet';
         }
       }
     });
@@ -135,7 +135,7 @@ reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
           return 'Clone Data Set';
         },
         apiUrl: function() {
-          return 'api/addDataSet';
+          return '/api/addDataSet';
         }
       }
     });
@@ -159,7 +159,7 @@ reportaApp.controller('dataSetsButtonController', function($scope, $modal) {
           return 'Edit Data Set';
         },
         apiUrl: function() {
-          return 'api/updateDataSet';
+          return '/api/updateDataSet';
         }
       }
     });
@@ -206,7 +206,6 @@ reportaApp.controller('dataSetEditorModalController',
         if (dataSources[i].name == name)
           return dataSources[i];
     };
-    console.log(sourceName);
     if (getSource(sourceName).data) {
       $scope.selectedSourceData = JSON.stringify(getSource(sourceName).data);
       $scope.treeViewData = createTreeViewData(getSource(sourceName).data);
@@ -262,14 +261,12 @@ reportaApp.controller('dataSetEditorModalController',
 
   // Pre-fill data if given.
   if (dataSet) {
-    console.log(dataSet);
     $scope.dataSet = {
       name: dataSet.name,
       sourceName: dataSet.sourceName,
       created_on: dataSet.created_on,
       updated_on: dataSet.updated_on
     };
-    console.log(dataSet.sourceName);
     $scope.selectSource(dataSet.sourceName);
     $scope.dataSet.properties = dataSet.properties;
     $scope.originalDataSetName = dataSet.name;
