@@ -35,6 +35,21 @@ reportaApp.controller('templatesButtonController', function($scope, $modal, $loc
     });
   };
 
+  $scope.openCopyModal = function() {
+    var modalInstance = $modal.open({
+      templateUrl: 'modals/template_clone',
+      controller: 'templatesCloneModalController',
+      resolve: {
+        template: function() {
+          return $scope.$parent.template;
+        }
+      }
+    });
+    modalInstance.result.then(function() {
+      $scope.$parent.refreshContents();
+    });
+  };
+
   $scope.editTemplate = function() {
     template = $scope.$parent.template;
     $location.path("/template_editor/" + template.name);
@@ -52,6 +67,26 @@ reportaApp.controller('templatesDeleteModalController', function($scope, $modalI
     }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
       $modalInstance.close(source);
+    });
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
+});
+
+reportaApp.controller('templatesCloneModalController', function($scope, $modalInstance, $http, template) {
+  $scope.clone = function() {
+    $http({
+      method: 'POST',
+      url: '/api/addTemplate',
+      data: {
+        userId: $scope.user.id,
+        name: $scope.template.name,
+        content: template.content
+      }
+    }).success(function(data, status, headers, config) {
+      // TODO: Display any errors to the user before closing modal.
+      location.href='templates';
     });
   };
   $scope.cancel = function() {
