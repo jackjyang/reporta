@@ -1,7 +1,7 @@
-module.exports = function(userInfo) {
+module.exports = function(userInfo, config) {
   return {
     index: function(req, res) {
-      res.render('index', { user: userInfo });
+      res.render('index', { user: userInfo, config: config });
     },
     partials: function (req, res) {
       var name = req.params.name;

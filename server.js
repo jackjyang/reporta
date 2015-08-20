@@ -5,12 +5,13 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 var app = express();
+var config = require('./config');
 
 // TODO: Allow upper level web app to pass user information.
 var userInfo = { displayName: 'Demo Account', id: 'demo' };
 // app.set('userInfo', userInfo);
 
-var serverRoute = require('./routes/server')(userInfo);
+var serverRoute = require('./routes/server')(userInfo, config);
 var api = require('./routes/api');
 
 app.use(bodyParser.json()); // support json encoded bodies
