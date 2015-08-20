@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var template = mongoose.model('template');
-var dataSet = mongoose.model('dataSet');
 
 var apiHandler = new APIHandler();
 exports.handler = function(req, res) {

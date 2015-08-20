@@ -1,6 +1,6 @@
 module.exports = function(apiHandler) {
   var mongoose = require('mongoose');
-  var dataSet = mongoose.model('dataSet');
+  // var dataSet = mongoose.model('dataSet');
 
   apiHandler.addDataSet = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
