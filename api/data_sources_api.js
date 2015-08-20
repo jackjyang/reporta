@@ -8,7 +8,8 @@ module.exports = function(apiHandler) {
     var newSource = new dataSource({
       owner_id: userId,
       name: data.name,
-      url: data.url,
+      system: data.system,
+      trace: data.trace,
       updated_on: new Date,
       created_on: new Date
     });

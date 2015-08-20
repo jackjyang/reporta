@@ -1,3 +1,22 @@
+<style>
+.animate-show {
+  opacity: 1;
+  padding: 10px;
+  background: white;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+}
+
+.animate-show.ng-hide {
+  opacity: 0;
+  padding: 0 10px;
+}
+</style>
+
 <div class="modal-header">
   <h3 class="modal-title">Create Data Source</h3>
 </div>
@@ -8,13 +27,42 @@
         <input type="text" ng-model="source.name"/>
       </div>
   </div>
-  <div>
-    <div style="width: 15%; float: left; text-align: right; margin-right: 5px;">Source:</div>
-      <div style="width:85%; margin-left:10px;">
-        <input type="text" ng-model="source.url"/>
+
+  <div style="margin-top: 5px">
+    <div style="width: 15%; float: left; text-align: right; margin-right: 10px;">System:</div>
+    <div style="width:85%; margin-left:10px;">
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          {{source.system}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li ng-repeat="name in systemNames">
+            <a ng-click="selectSystem(name)">{{name}}</a>
+          </li>
+        </ul>
       </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 5px" class="animate-show" ng-show="source.system">
+    <div style="width: 15%; float: left; text-align: right; margin-right: 10px;">Trace:</div>
+    <div style="width:85%; margin-left:10px;">
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          {{source.trace}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li ng-repeat="name in traceNames">
+            <a ng-click="selectTrace(name)">{{name}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
+
 <div class="modal-footer">
   <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
   <button type="button" class="btn btn-primary" ng-click="save()">Save</button>

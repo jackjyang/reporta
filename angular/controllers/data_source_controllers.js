@@ -16,6 +16,10 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
   }
   if (!$scope.dataSources)
     $scope.refreshContents();
+
+  // TODO: Pull this from external api.
+  $scope.systemNames = ['a', 'b', 'c'];
+  $scope.traceNames = ['d', 'e', 'f'];
 });
 
 reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
@@ -24,6 +28,12 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_new',
       controller: 'dataSourceNewModalController',
       resolve: {
+        systemNames: function() {
+          return $scope.systemNames;
+        },
+        traceNames: function() {
+          return $scope.traceNames;
+        },
         source: function() {
           return undefined;
         }
@@ -39,6 +49,12 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_new',
       controller: 'dataSourceNewModalController',
       resolve: {
+        systemNames: function() {
+          return $scope.systemNames;
+        },
+        traceNames: function() {
+          return $scope.traceNames;
+        },
         source: function() {
           return $scope.$parent.source;
         }
@@ -54,6 +70,12 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_edit',
       controller: 'dataSourceEditModalController',
       resolve: {
+        systemNames: function() {
+          return $scope.systemNames;
+        },
+        traceNames: function() {
+          return $scope.traceNames;
+        },
         source: function() {
           return Object.create($scope.$parent.source); // Deep copy of source.
         }
@@ -80,10 +102,16 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
   };
 });
 
-reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http, source) {
+reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http,
+    systemNames, traceNames, source) {
+
+  $scope.systemNames = systemNames;
+  $scope.traceNames = traceNames;
+
   // Pre-fill data if given, when cloning.
+  $scope.source = {};
   if (source)
-    $scope.source = { url: source.url };
+    $scope.source = { system: source.system, trace: source.trace };
   $scope.save = function() {
     $scope.source.userId = $scope.user.id;
     $http({
@@ -98,9 +126,21 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
+
+  $scope.selectSystem = function(system) {
+    $scope.source.system = system;
+  };
+  $scope.selectTrace = function(trace) {
+    $scope.source.trace = trace;
+  };
 });
 
-reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, $http, source) {
+reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, $http,
+    systemNames, traceNames, source) {
+
+  $scope.systemNames = systemNames;
+  $scope.traceNames = traceNames;
+
   $scope.source = source;
   $scope.oldSourceName = source.name;
   $scope.save = function() {
@@ -123,9 +163,16 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
   $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
+  $scope.selectSystem = function(system) {
+    $scope.source.system = system;
+  };
+  $scope.selectTrace = function(trace) {
+    $scope.source.trace = trace;
+  };
 });
 
 reportaApp.controller('dataSourceDeleteModalController', function($scope, $modalInstance, $http, source) {
+  $scope.source = source;
   $scope.delete = function() {
     // Call API to update entry in database.
     $http({
