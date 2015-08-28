@@ -61,3 +61,4 @@ apiHandler.test = function(res, req) {
 require('../api/data_sources_api.js')(apiHandler);
 require('../api/data_sets_api.js')(apiHandler);
 require('../api/templates_api.js')(apiHandler);
+require('../api/recipes_api.js')(apiHandler);

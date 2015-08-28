@@ -37,6 +37,20 @@ var templateSchema = new Schema({
 templateSchema.index({ owner_id: 1, name: -1 }, { unique: true });
 templateSchema.plugin(autoIncrement.plugin, 'template');
 
+var recipeSchema = new Schema({
+  data_source_name: String,
+  template_name: String,
+  owner_id: String,
+  name: String,
+  content: String,
+  updated_on: Date,
+  created_on: Date
+});
+recipeSchema.index({ owner_id: 1, name: -1 }, { unique: true });
+recipeSchema.plugin(autoIncrement.plugin, 'recipe');
+
 connection.model('dataSource', dataSourceSchema);
 // connection.model('dataSet', dataSetSchema);
 connection.model('template', templateSchema);
+connection.model('recipe', recipeSchema);
+

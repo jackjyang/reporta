@@ -12,6 +12,7 @@
 </style>
 
 <h2>Recipes</h2>
+
 <div class="panel panel-default">
   <a class="btn btn-success btn-xs pull-right" href="recipe_editor">New Recipe</a>
   <div class="panel-body">
@@ -22,31 +23,39 @@
           <th>Last Modified</th>
         </tr>
       </thead>
-      <tbody ng-repeat="source in dataSources">
-        <tr data-toggle="collapse" data-target="#expand{{source._id}}" class="accordion-toggle">
-          <td>{{source.name}}</td>
-          <td>{{source.updated_on.toLocaleString()}}</td>
+      <tbody ng-repeat="recipe in recipes">
+        <tr data-toggle="collapse" data-target="#expand{{recipe._id}}" class="accordion-toggle">
+          <td>{{recipe.name}}</td>
+          <td>{{recipe.updated_on.toLocaleString()}}</td>
         </tr>
         <tr>
           <td colspan="2" class="hiddenRow">
-            <div id="expand{{source._id}}" class="accordian-body collapse hiddenRowContents">
+            <div id="expand{{recipe._id}}" class="accordian-body collapse hiddenRowContents">
               <div class="row">
                 <div class="col-md-8">
                   <table style="width:100%;">
                     <tr>
-                      <td><b>Source URL:</b></td>
-                      <td>{{source.url}}</td>
+                      <td><b>Data Source:</b></td>
+                      <td>{{recipe.data_source_name}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Template:</b></td>
+                      <td>{{recipe.template_name}}</td>
                     </tr>
                     <tr>
                       <td><b>Created On:</b></td>
-                      <td>{{source.created_on.toLocaleString()}}</td>
+                      <td>{{recipe.created_on.toLocaleString()}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Updated On:</b></td>
+                      <td>{{recipe.updated_on.toLocaleString()}}</td>
                     </tr>
                   </table>
                 </div>
                 <div class="col-md-4">
-                  <div ng-controller="dataSourceButtonController">
+                  <div ng-controller="recipesButtonController">
                     <div class="btn-group btn-group-sm" role="group">
-                      <button type="button" class="btn btn-default" ng-click="openEditModal()">
+                      <button type="button" class="btn btn-default" ng-click="editRecipe()">
                         <span class="glyphicon glyphicon-pencil"></span> Edit
                       </button>
                       <button type="button" class="btn btn-default" ng-click="openCloneModal()">
