@@ -39,11 +39,11 @@ reportaApp.controller('recipeTemplateSelectController', function($scope, $http) 
 reportaApp.controller('recipesButtonController', function($scope, $modal, $location) {
   $scope.openDeleteModal = function() {
     var modalInstance = $modal.open({
-      templateUrl: 'modals/template_delete',
-      controller: 'templatesDeleteModalController',
+      templateUrl: 'modals/recipe_delete',
+      controller: 'recipesDeleteModalController',
       resolve: {
-        template: function() {
-          return $scope.$parent.template;
+        recipe: function() {
+          return $scope.$parent.recipe;
         }
       }
     });
@@ -54,11 +54,11 @@ reportaApp.controller('recipesButtonController', function($scope, $modal, $locat
 
   $scope.openCopyModal = function() {
     var modalInstance = $modal.open({
-      templateUrl: 'modals/template_clone',
-      controller: 'templatesCloneModalController',
+      templateUrl: 'modals/recipe_clone',
+      controller: 'recipesCloneModalController',
       resolve: {
-        template: function() {
-          return $scope.$parent.template;
+        recipe: function() {
+          return $scope.$parent.recipe;
         }
       }
     });
@@ -70,6 +70,46 @@ reportaApp.controller('recipesButtonController', function($scope, $modal, $locat
   $scope.editRecipe = function() {
     recipe = $scope.$parent.recipe;
     $location.path("/recipe_editor/" + recipe.name);
+  };
+});
+
+reportaApp.controller('recipesDeleteModalController', function($scope, $modalInstance, $http, recipe) {
+  $scope.recipe = recipe;
+  $scope.delete = function() {
+    // Call API to update entry in database.
+    $http({
+      method: 'POST',
+      url: '/api/deleteRecipe',
+      data: recipe
+    }).success(function(data, status, headers, config) {
+      // TODO: Display any errors to the user before closing modal.
+      $modalInstance.close(recipe);
+    });
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
+});
+
+reportaApp.controller('recipesCloneModalController', function($scope, $modalInstance, $http, recipe) {
+  $scope.clone = function() {
+    $http({
+      method: 'POST',
+      url: '/api/addRecipe',
+      data: {
+        name: $scope.recipe.name,
+        data_source_name: recipe.data_source_name,
+        template_name: recipe.template_name,
+        userId: $scope.user.id,
+        content: recipe.content
+      }
+    }).success(function(data, status, headers, config) {
+      // TODO: Display any errors to the user before closing modal.
+      location.href='recipes';
+    });
+  };
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
   };
 });
 

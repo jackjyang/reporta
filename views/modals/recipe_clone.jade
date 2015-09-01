@@ -1,0 +1,12 @@
+html
+  body
+    .modal-header
+      h3.modal-title Clone Recipe
+    .modal-body
+      div(style='margin-bottom: 10px;')
+        div(style='width: 15%; float: left; text-align: right; margin-right: 5px;') Name:
+        div(style='width:85%; margin-left:10px;')
+          input(type='text', ng-model='recipe.name')
+    .modal-footer
+      button.btn.btn-default(type='button', ng-click='cancel()') Cancel
+      button.btn.btn-primary(type='button', ng-click='clone()') Save
