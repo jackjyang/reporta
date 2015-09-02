@@ -9,9 +9,16 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement,iframedialog';
+	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement,iframedialog,' +
+		'interruptanalytic,messaginganalytic,erroranalytic,performance,' +
+		'markovModel,densityMap,' +
+		'cooccurrence,followedBy,precededBy,iffCooccurrence,singlePeriod,dependencies,' +
+		'bufferState,arrivalCurve,ecdf,frequencyHeatmap,regularityHeatmap,eventRuntimeJitter,processStateAnalytic,systemIdleTime,' +
+		'fiveNumberSummary,parallelCoordinate';
 
 	config.dialog_noConfirmCancel = true;
+
+	config.height = '325px';
 
 	// Define changes to default configuration here.
 	// For complete reference see:
@@ -27,7 +34,12 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'forms' },
 		{ name: 'tools' },
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'analytics' },
+		// { name: 'analytics' },
+		{ name: 'basicAnalytic' },
+		{ name: 'anomalyDetection' },
+		{ name: 'invariantMining' },
+		{ name: 'singleTrace' },
+		{ name: 'multiTrace' },
 		{ name: 'search' },
 		{ name: 'others' },
 		'/',
