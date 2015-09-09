@@ -42,6 +42,7 @@
             return;
 
           var a = editor.getSelection().getStartElement();
+          // TODO: no start element in readonly mode
           if (!a)
             return;
           for (i = 0; i < nodeList.count(); i++){

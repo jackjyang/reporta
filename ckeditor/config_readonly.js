@@ -9,7 +9,15 @@ CKEDITOR.editorConfig = function( config ) {
   // config.language = 'fr';
   // config.uiColor = '#AADC6E';
 
-  config.extraPlugins = 'findelement';
+  config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement,iframedialog,' +
+    'interruptanalytic,messaginganalytic,erroranalytic,performance,' +
+    'markovModel,densityMap,' +
+    'cooccurrence,followedBy,precededBy,iffCooccurrence,singlePeriod,dependencies,' +
+    'bufferState,arrivalCurve,ecdf,frequencyHeatmap,regularityHeatmap,eventRuntimeJitter,processStateAnalytic,systemIdleTime,' +
+    'fiveNumberSummary,parallelCoordinate';
+
+  config.height = '325px';
+
   config.disableAutoInline = true;
   // Define changes to default configuration here.
   // For complete reference see:
@@ -18,10 +26,11 @@ CKEDITOR.editorConfig = function( config ) {
   // The toolbar groups arrangement, optimized for two toolbar rows.
 
   config.toolbarGroups = [
-    { name: 'search' }
+    { name: 'search' },
+    { name: 'about' }
   ];
 
-  config.removeButtons = 'Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe';
+  config.allowedContent = true;
 
   // Simplify the dialog windows.
   config.removeDialogTabs = 'image:advanced;link:advanced';
