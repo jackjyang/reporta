@@ -8,18 +8,27 @@
 
 <div class="well">
   <form class="form-horizontal">
+
     <div class="form-group">
+      <div class="col-sm-9" ng-controller="recipeDataSourceSelectController">
+        <label class="col-sm-4 control-label">Default data source: </label>
+        <select id="dataSourceSelect" class="selectpicker" ng-model="dataSources.repeatSelect">
+            <option value='' disabled selected style='display:none;'> </option>
+            <option ng-repeat="dataSource in dataSources" value="{{dataSource.name}}">{{dataSource.name}} </option>
+        </select>
+      </div>
+    </div>
 
+    <div class="form-group">
       <div class="col-sm-9" ng-controller="recipeTemplateSelectController">
-
-        <label class="col-sm-2 control-label">Select template: </label>
+        <label class="col-sm-4 control-label">Select template: </label>
         <select id="templateSelect" class="selectpicker" ng-model="templates.repeatSelect">
             <option value='' disabled selected style='display:none;'> </option>
             <option ng-repeat="template in templates" value="{{template.name}}">{{template.name}} </option>
         </select>
       </div>
-
     </div>
+
   </form>
 </div>
 

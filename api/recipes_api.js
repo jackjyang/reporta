@@ -5,6 +5,7 @@ module.exports = function(apiHandler) {
   apiHandler.addRecipe = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
     var newRecipe = new recipe({
+      data_source_name: data.data_source_name,
       template_name: data.template_name,
       owner_id: data.userId,
       name: data.name,

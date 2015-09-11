@@ -36,6 +36,25 @@ reportaApp.controller('recipeTemplateSelectController', function($scope, $http) 
     $scope.refreshContents();
 });
 
+reportaApp.controller('recipeDataSourceSelectController', function($scope, $http) {
+  $scope.refreshContents = function() {
+    $http({
+      method: 'GET',
+      url: '/api/getDataSources',
+      params: { userId: $scope.user.id }
+    }).success(function(data, status, headers, config) {
+      data.message.forEach(function(elem) {
+        elem.updated_on = new Date(elem.updated_on);
+        elem.created_on = new Date(elem.created_on);
+      });
+      $scope.dataSources = data.message;
+    });
+  };
+  if (!$scope.dataSources)
+    $scope.refreshContents();
+});
+
+
 reportaApp.controller('recipesButtonController', function($scope, $modal, $location) {
   $scope.openDeleteModal = function() {
     var modalInstance = $modal.open({
@@ -131,13 +150,15 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       url: '/api/findTemplate',
       data: {
         userId: $scope.user.id,
-        name: $('.selectpicker').val()
+        name: $('#templateSelect').val()
       }
     }).success(function(data, status, headers, config) {
       CKEDITOR.instances.recipeEditor.setData(data.content);
     });
+  };
 
-
+  document.getElementById('dataSourceSelect').onchange = function() {
+    // TODO: need to pull system and trace
   };
 
   CKEDITOR.replace('recipeEditor',  {
@@ -157,15 +178,19 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
             oldTitle = data.name;
             document.getElementById('recipeTitle').innerHTML = data.name;
 
-            $('.selectpicker').val(data.template_name).change();
-            $('.selectpicker').selectpicker('render');
+            $('#dataSourceSelect').val(data.data_source_name).change();
+            $('#dataSourceSelect').selectpicker('render');
+
+            $('#templateSelect').val(data.template_name).change();
+            $('#templateSelect').selectpicker('render');
 
             event.editor.setData(data.content);
 
           });
         }
         else {
-          $('.selectpicker').selectpicker('refresh');
+          $('#dataSourceSelect').selectpicker('refresh');
+          $('#templateSelect').selectpicker('refresh');
         }
       },
 
@@ -184,6 +209,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
           userId: $scope.user.id,
           recipe: {
             name: document.getElementById('recipeTitle').innerHTML,
+            data_source_name: $(document.getElementById('dataSourceSelect')).val(),
             template_name: $(document.getElementById('templateSelect')).val(),
             content: $scope.content,
             updated_on: new Date()
@@ -202,6 +228,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
         data: {
           userId: $scope.user.id,
           name: document.getElementById('recipeTitle').innerHTML,
+          data_source_name: $(document.getElementById('dataSourceSelect')).val(),
           template_name: $(document.getElementById('templateSelect')).val(),
           content: $scope.content
         }
