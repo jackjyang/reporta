@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'markovModel', {
   icons: 'markovModel',
   init: function( editor ) {
     editor.addCommand( 'markovModel', new CKEDITOR.dialogCommand( 'markovModelDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'markovModel', {
 	    label: 'Insert Markov Model',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'markovModel', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'markovModel')
+		       if ( element.getAttribute( 'data-type' ) == 'markovmodel')
 		       {
 		          evt.data.dialog =  'markovModelDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'markovModel', {
 	 	});
   }
 });
-
-

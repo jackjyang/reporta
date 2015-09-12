@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'erroranalytic', {
   icons: 'erroranalytic',
   init: function( editor ) {
     editor.addCommand( 'erroranalytic', new CKEDITOR.dialogCommand( 'errorAnalyticDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'errorAnalytic', {
 	    label: 'Insert Error Analytic',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'erroranalytic', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'erroranalytic')
+		       if ( element.getAttribute( 'data-type' ) == 'erroranalytic')
 		       {
 		          evt.data.dialog =  'errorAnalyticDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'erroranalytic', {
 	 	});
   }
 });
-
-

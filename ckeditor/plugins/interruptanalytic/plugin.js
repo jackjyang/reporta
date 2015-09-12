@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'interruptanalytic', {
   icons: 'interruptanalytic',
   init: function( editor ) {
     editor.addCommand( 'interruptanalytic', new CKEDITOR.dialogCommand( 'interruptAnalyticDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'InterruptAnalytic', {
 	    label: 'Insert Interrupt Analytic',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'interruptanalytic', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'interruptanalytic')
+		       if ( element.getAttribute( 'data-type' ) == 'interruptanalytic')
 		       {
 		          evt.data.dialog =  'interruptAnalyticDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'interruptanalytic', {
 	 	});
   }
 });
-
-

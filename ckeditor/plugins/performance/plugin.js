@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'performance', {
   icons: 'performance',
   init: function( editor ) {
     editor.addCommand( 'performance', new CKEDITOR.dialogCommand( 'performanceDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'performance', {
 	    label: 'Insert Performance Analytic',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'performance', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'performance')
+		       if ( element.getAttribute( 'data-type' ) == 'performance')
 		       {
 		          evt.data.dialog =  'performanceDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'performance', {
 	 	});
   }
 });
-
-

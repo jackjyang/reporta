@@ -2,9 +2,9 @@ CKEDITOR.plugins.add( 'messaginganalytic', {
   icons: 'messaginganalytic',
   init: function( editor ) {
     editor.addCommand( 'messaginganalytic', new CKEDITOR.dialogCommand( 'messagingAnalyticDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
-    editor.ui.addButton( 'MessagingAnalytic', {
+    editor.ui.addButton( 'messagingAnalytic', {
 	    label: 'Insert Messaging Analytic',
 	    command: 'messaginganalytic',
 	    toolbar: 'basicAnalytic'
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'messaginganalytic', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'messaginganalytic')
+		       if ( element.getAttribute( 'data-type' ) == 'messaginganalytic')
 		       {
 		          evt.data.dialog =  'messagingAnalyticDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'messaginganalytic', {
 	 	});
   }
 });
-
-
