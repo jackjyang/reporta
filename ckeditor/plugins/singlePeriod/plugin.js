@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'singlePeriod', {
   icons: 'singlePeriod',
   init: function( editor ) {
     editor.addCommand( 'singlePeriod', new CKEDITOR.dialogCommand( 'singlePeriodDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'singlePeriod', {
 	    label: 'Insert Single Period',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'singlePeriod', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'singlePeriod')
+		       if ( element.getAttribute( 'data-type' ) == 'singleperiod')
 		       {
 		          evt.data.dialog =  'singlePeriodDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'singlePeriod', {
 	 	});
   }
 });
-
-

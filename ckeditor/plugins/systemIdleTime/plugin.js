@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'systemIdleTime', {
   icons: 'systemIdleTime',
   init: function( editor ) {
     editor.addCommand( 'systemIdleTime', new CKEDITOR.dialogCommand( 'systemIdleTimeDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'systemIdleTime', {
 	    label: 'Insert System Idle Time',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'systemIdleTime', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'systemIdleTime')
+		       if ( element.getAttribute( 'data-type' ) == 'systemidletime')
 		       {
 		          evt.data.dialog =  'systemIdleTimeDialog' ;
 		          editor.getSelection().selectElement( element );

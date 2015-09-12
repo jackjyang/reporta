@@ -2,10 +2,10 @@ CKEDITOR.plugins.add( 'frequencyHeatmap', {
   icons: 'frequencyHeatmap',
   init: function( editor ) {
     editor.addCommand( 'frequencyHeatmap', new CKEDITOR.dialogCommand( 'frequencyHeatmapDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'frequencyHeatmap', {
-	    label: 'Insert Frequency Hetamap',
+	    label: 'Insert Frequency Heatmap',
 	    command: 'frequencyHeatmap',
 	    toolbar: 'singleTrace'
 		});
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'frequencyHeatmap', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'frequencyHeatmap')
+		       if ( element.getAttribute( 'data-type' ) == 'frequencyheatmap')
 		       {
 		          evt.data.dialog =  'frequencyHeatmapDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'frequencyHeatmap', {
 	 	});
   }
 });
-
-

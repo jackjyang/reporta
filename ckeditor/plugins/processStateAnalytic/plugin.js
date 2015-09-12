@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'processStateAnalytic', {
   icons: 'processStateAnalytic',
   init: function( editor ) {
     editor.addCommand( 'processStateAnalytic', new CKEDITOR.dialogCommand( 'processStateAnalyticDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'processStateAnalytic', {
 	    label: 'Insert Process State Analytic',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'processStateAnalytic', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'processStateAnalytic')
+		       if ( element.getAttribute( 'data-type' ) == 'processstateanalytic')
 		       {
 		          evt.data.dialog =  'processStateAnalyticDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'processStateAnalytic', {
 	 	});
   }
 });
-
-

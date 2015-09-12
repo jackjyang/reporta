@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'precededBy', {
   icons: 'precededBy',
   init: function( editor ) {
     editor.addCommand( 'precededBy', new CKEDITOR.dialogCommand( 'precededByDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'precededBy', {
 	    label: 'Insert Preceded By',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'precededBy', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'precededBy')
+		       if ( element.getAttribute( 'data-type' ) == 'precededby')
 		       {
 		          evt.data.dialog =  'precededByDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'precededBy', {
 	 	});
   }
 });
-
-

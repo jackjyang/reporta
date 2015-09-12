@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'fiveNumberSummary', {
   icons: 'fiveNumberSummary',
   init: function( editor ) {
     editor.addCommand( 'fiveNumberSummary', new CKEDITOR.dialogCommand( 'fiveNumberSummaryDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'fiveNumberSummary', {
 	    label: 'Insert Five Number Summary',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'fiveNumberSummary', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'fiveNumberSummary')
+		       if ( element.getAttribute( 'data-type' ) == 'fivenumbersummary')
 		       {
 		          evt.data.dialog =  'fiveNumberSummaryDialog' ;
 		          editor.getSelection().selectElement( element );

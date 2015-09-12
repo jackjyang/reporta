@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'dependencies', {
   icons: 'dependencies',
   init: function( editor ) {
     editor.addCommand( 'dependencies', new CKEDITOR.dialogCommand( 'dependenciesDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'dependencies', {
 	    label: 'Insert Dependencies',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'dependencies', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'dependencies')
+		       if ( element.getAttribute( 'data-type' ) == 'dependencies')
 		       {
 		          evt.data.dialog =  'dependenciesDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'dependencies', {
 	 	});
   }
 });
-
-

@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'bufferState', {
   icons: 'bufferState',
   init: function( editor ) {
     editor.addCommand( 'bufferState', new CKEDITOR.dialogCommand( 'bufferStateDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'bufferState', {
 	    label: 'Insert Buffer State',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'bufferState', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'bufferState')
+		       if ( element.getAttribute( 'data-type' ) == 'bufferstate')
 		       {
 		          evt.data.dialog =  'bufferStateDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'bufferState', {
 	 	});
   }
 });
-
-

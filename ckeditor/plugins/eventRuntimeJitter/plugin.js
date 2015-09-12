@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'eventRuntimeJitter', {
   icons: 'eventRuntimeJitter',
   init: function( editor ) {
     editor.addCommand( 'eventRuntimeJitter', new CKEDITOR.dialogCommand( 'eventRuntimeJitterDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'eventRuntimeJitter', {
 	    label: 'Insert Event and Runtime Jitter',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'eventRuntimeJitter', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'eventRuntimeJitter')
+		       if ( element.getAttribute( 'data-type' ) == 'eventruntimejitter')
 		       {
 		          evt.data.dialog =  'eventRuntimeJitterDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'eventRuntimeJitter', {
 	 	});
   }
 });
-
-

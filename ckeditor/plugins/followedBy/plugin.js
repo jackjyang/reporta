@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'followedBy', {
   icons: 'followedBy',
   init: function( editor ) {
     editor.addCommand( 'followedBy', new CKEDITOR.dialogCommand( 'followedByDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'followedBy', {
 	    label: 'Insert Followed By',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'followedBy', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'followedBy')
+		       if ( element.getAttribute( 'data-type' ) == 'followedby')
 		       {
 		          evt.data.dialog =  'followedByDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'followedBy', {
 	 	});
   }
 });
-
-

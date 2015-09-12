@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'regularityHeatmap', {
   icons: 'regularityHeatmap',
   init: function( editor ) {
     editor.addCommand( 'regularityHeatmap', new CKEDITOR.dialogCommand( 'regularityHeatmapDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'regularityHeatmap', {
 	    label: 'Insert Regularity Heatmap',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'regularityHeatmap', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'regularityHeatmap')
+		       if ( element.getAttribute( 'data-type' ) == 'regularityheatmap')
 		       {
 		          evt.data.dialog =  'regularityHeatmapDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'regularityHeatmap', {
 	 	});
   }
 });
-
-

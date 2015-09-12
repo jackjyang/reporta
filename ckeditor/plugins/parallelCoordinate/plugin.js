@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'parallelCoordinate', {
   icons: 'parallelCoordinate',
   init: function( editor ) {
     editor.addCommand( 'parallelCoordinate', new CKEDITOR.dialogCommand( 'parallelCoordinateDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'parallelCoordinate', {
       label: 'Insert Parallel Coordinate',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'parallelCoordinate', {
 
         if ( !element.isReadOnly() )
         {
-           if ( element.getAttribute( 'data-analytictype' ) == 'parallelCoordinate')
+           if ( element.getAttribute( 'data-type' ) == 'parallelcoordinate')
            {
               evt.data.dialog =  'parallelCoordinateDialog' ;
               editor.getSelection().selectElement( element );

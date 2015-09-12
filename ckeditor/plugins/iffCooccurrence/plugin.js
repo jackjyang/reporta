@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'iffCooccurrence', {
   icons: 'iffCooccurrence',
   init: function( editor ) {
     editor.addCommand( 'iffCooccurrence', new CKEDITOR.dialogCommand( 'iffCooccurrenceDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'iffCooccurrence', {
 	    label: 'Insert IFF Co-Occurrence',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'iffCooccurrence', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'iffCooccurrence')
+		       if ( element.getAttribute( 'data-type' ) == 'iffcooccurrence')
 		       {
 		          evt.data.dialog =  'iffCooccurrenceDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'iffCooccurrence', {
 	 	});
   }
 });
-
-

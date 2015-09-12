@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'cooccurrence', {
   icons: 'cooccurrence',
   init: function( editor ) {
     editor.addCommand( 'cooccurrence', new CKEDITOR.dialogCommand( 'cooccurrenceDialog', {
-      allowedContent: 'img[src,style,name,data-analytictype]'
+      allowedContent: 'img[src,style,data-type,data-name,data-desc]'
     }));
     editor.ui.addButton( 'cooccurrence', {
 	    label: 'Insert Co-Occurrence',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'cooccurrence', {
 
 		    if ( !element.isReadOnly() )
 		    {
-		       if ( element.getAttribute( 'data-analytictype' ) == 'cooccurrence')
+		       if ( element.getAttribute( 'data-type' ) == 'cooccurrence')
 		       {
 		          evt.data.dialog =  'cooccurrenceDialog' ;
 		          editor.getSelection().selectElement( element );
@@ -28,5 +28,3 @@ CKEDITOR.plugins.add( 'cooccurrence', {
 	 	});
   }
 });
-
-
