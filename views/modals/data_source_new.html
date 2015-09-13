@@ -33,12 +33,12 @@
     <div style="width:85%; margin-left:10px;">
       <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-          {{source.system}}
+          {{source.system.name}}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-          <li ng-repeat="name in systemNames">
-            <a ng-click="selectSystem(name)">{{name}}</a>
+          <li ng-repeat="sys in systems">
+            <a ng-click="selectSystem(sys)">{{sys.name}}</a>
           </li>
         </ul>
       </div>
@@ -50,12 +50,12 @@
     <div style="width:85%; margin-left:10px;">
       <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-          {{source.trace}}
+          {{source.trace.name}}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-          <li ng-repeat="name in traceNames">
-            <a ng-click="selectTrace(name)">{{name}}</a>
+          <li ng-repeat="trace in tracesForSelectedSystem">
+            <a ng-click="selectTrace(trace)">{{trace.name}}</a>
           </li>
         </ul>
       </div>

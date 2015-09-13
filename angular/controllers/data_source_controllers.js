@@ -13,13 +13,19 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
       });
       $scope.dataSources = data.message;
     });
+
+    $http({
+      method: 'post',
+      url: '/api/acerta',
+      data: { func: 'list_systems' }
+    }).success(function(data, status, headers, config) {
+      $scope.systems = data.message;
+      console.log($scope.systems);
+    });
+
   }
   if (!$scope.dataSources)
     $scope.refreshContents();
-
-  // TODO: Pull this from external api.
-  $scope.systemNames = ['a', 'b', 'c'];
-  $scope.traceNames = ['d', 'e', 'f'];
 });
 
 reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
@@ -28,11 +34,11 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_new',
       controller: 'dataSourceNewModalController',
       resolve: {
-        systemNames: function() {
-          return $scope.systemNames;
+        systems: function() {
+          return $scope.systems;
         },
-        traceNames: function() {
-          return $scope.traceNames;
+        tracesForSelectedSystem: function() {
+          return $scope.tracesForSelectedSystem;
         },
         source: function() {
           return undefined;
@@ -49,11 +55,11 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_new',
       controller: 'dataSourceNewModalController',
       resolve: {
-        systemNames: function() {
-          return $scope.systemNames;
+        systems: function() {
+          return $scope.systems;
         },
-        traceNames: function() {
-          return $scope.traceNames;
+        tracesForSelectedSystem: function() {
+          return $scope.tracesForSelectedSystem;
         },
         source: function() {
           return $scope.$parent.source;
@@ -70,11 +76,11 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_edit',
       controller: 'dataSourceEditModalController',
       resolve: {
-        systemNames: function() {
-          return $scope.systemNames;
+        systems: function() {
+          return $scope.systems;
         },
-        traceNames: function() {
-          return $scope.traceNames;
+        tracesForSelectedSystem: function() {
+          return $scope.tracesForSelectedSystem;
         },
         source: function() {
           return Object.create($scope.$parent.source); // Deep copy of source.
@@ -103,10 +109,10 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
 });
 
 reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http,
-    systemNames, traceNames, source) {
+    systems, tracesForSelectedSystem, source) {
 
-  $scope.systemNames = systemNames;
-  $scope.traceNames = traceNames;
+  $scope.systems = systems;
+  $scope.tracesForSelectedSystem = tracesForSelectedSystem;
 
   // Pre-fill data if given, when cloning.
   $scope.source = {};
@@ -129,6 +135,18 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
 
   $scope.selectSystem = function(system) {
     $scope.source.system = system;
+    $scope.source.trace = undefined;
+    $scope.tracesForSelectedSystem = undefined;
+    // Get traces for the selected system.
+    $http({
+      method: 'post',
+      url: '/api/acerta',
+      data: { func: 'list_sys_traces', param: system.name }
+    }).success(function(data, status, headers, config) {
+      console.log(data.message);
+      $scope.tracesForSelectedSystem = data.message;
+    });
+
   };
   $scope.selectTrace = function(trace) {
     $scope.source.trace = trace;
@@ -136,10 +154,10 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
 });
 
 reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, $http,
-    systemNames, traceNames, source) {
+    systems, tracesForSelectedSystem, source) {
 
-  $scope.systemNames = systemNames;
-  $scope.traceNames = traceNames;
+  $scope.systems = systems;
+  $scope.tracesForSelectedSystem = tracesForSelectedSystem;
 
   $scope.source = source;
   $scope.oldSourceName = source.name;
