@@ -8,8 +8,8 @@ autoIncrement.initialize(connection);
 var dataSourceSchema = new Schema({
   owner_id: String,
   name: String,
-  system: String,
-  trace: String,
+  system: Object,
+  trace: Object,
   updated_on: Date,
   created_on: Date
 });

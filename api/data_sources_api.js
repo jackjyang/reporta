@@ -5,6 +5,8 @@ module.exports = function(apiHandler) {
   apiHandler.addDataSource = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
     var userId = data.userId;
+    console.log(data.system);
+    console.log(data.trace);
     var newSource = new dataSource({
       owner_id: userId,
       name: data.name,
@@ -33,6 +35,7 @@ module.exports = function(apiHandler) {
       else
         response = { status: "ok", message: dataSources };
       res.json(response);
+      console.log(response);
     });
   };
 
@@ -52,8 +55,8 @@ module.exports = function(apiHandler) {
 
   apiHandler.deleteDataSource = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    var userId = data.userId;
-    dataSource.remove(data, function(err, source) {
+    var userId = data.owner_id;
+    dataSource.remove({_id: data._id, owner_id: userId}, function(err, source) {
       var response;
       if (err)
         response = { status: "error", message: err };

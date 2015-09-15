@@ -19,8 +19,8 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
       url: '/api/acerta',
       data: { func: 'list_systems' }
     }).success(function(data, status, headers, config) {
-      $scope.systems = data.message;
-      console.log($scope.systems);
+      $scope.system = data.message;
+      console.log($scope.system);
     });
 
   }
@@ -31,14 +31,17 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
 reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
   $scope.openNewModal = function() {
     var modalInstance = $modal.open({
-      templateUrl: 'modals/data_source_new',
+      templateUrl: 'modals/data_source_edit',
       controller: 'dataSourceNewModalController',
       resolve: {
-        systems: function() {
-          return $scope.systems;
+        system: function() {
+          return $scope.system;
         },
         tracesForSelectedSystem: function() {
           return $scope.tracesForSelectedSystem;
+        },
+        title: function() {
+          return 'Create Data Source';
         },
         source: function() {
           return undefined;
@@ -52,14 +55,17 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
 
   $scope.openCloneModal = function() {
     var modalInstance = $modal.open({
-      templateUrl: 'modals/data_source_new',
+      templateUrl: 'modals/data_source_edit',
       controller: 'dataSourceNewModalController',
       resolve: {
-        systems: function() {
-          return $scope.systems;
+        system: function() {
+          return $scope.system;
         },
         tracesForSelectedSystem: function() {
           return $scope.tracesForSelectedSystem;
+        },
+        title: function() {
+          return 'Clone Data Source';
         },
         source: function() {
           return $scope.$parent.source;
@@ -76,11 +82,14 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
       templateUrl: 'modals/data_source_edit',
       controller: 'dataSourceEditModalController',
       resolve: {
-        systems: function() {
-          return $scope.systems;
+        system: function() {
+          return $scope.system;
         },
         tracesForSelectedSystem: function() {
           return $scope.tracesForSelectedSystem;
+        },
+        title: function() {
+          return 'Edit Data Source';
         },
         source: function() {
           return Object.create($scope.$parent.source); // Deep copy of source.
@@ -109,15 +118,27 @@ reportaApp.controller('dataSourceButtonController', function($scope, $modal) {
 });
 
 reportaApp.controller('dataSourceNewModalController', function($scope, $modalInstance, $http,
-    systems, tracesForSelectedSystem, source) {
+    system, tracesForSelectedSystem, title, source) {
 
-  $scope.systems = systems;
+  $scope.system = system;
   $scope.tracesForSelectedSystem = tracesForSelectedSystem;
+  $scope.title = title;
 
   // Pre-fill data if given, when cloning.
   $scope.source = {};
-  if (source)
+  if (source) {
     $scope.source = { system: source.system, trace: source.trace };
+    // Get traces for the pre-selected system.
+    $http({
+      method: 'post',
+      url: '/api/acerta',
+      data: { func: 'list_sys_traces', param: source.system.name }
+    }).success(function(data, status, headers, config) {
+      console.log(data.message);
+      $scope.tracesForSelectedSystem = data.message;
+    });
+
+  }
   $scope.save = function() {
     $scope.source.userId = $scope.user.id;
     $http({
@@ -146,7 +167,6 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
       console.log(data.message);
       $scope.tracesForSelectedSystem = data.message;
     });
-
   };
   $scope.selectTrace = function(trace) {
     $scope.source.trace = trace;
@@ -154,10 +174,22 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
 });
 
 reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, $http,
-    systems, tracesForSelectedSystem, source) {
+    system, tracesForSelectedSystem, title, source) {
 
-  $scope.systems = systems;
+  $scope.system = system;
   $scope.tracesForSelectedSystem = tracesForSelectedSystem;
+  $scope.title = title;
+
+  // Get traces for the pre-selected system.
+  $http({
+    method: 'post',
+    url: '/api/acerta',
+    data: { func: 'list_sys_traces', param: source.system.name }
+  }).success(function(data, status, headers, config) {
+    console.log(data.message);
+    $scope.tracesForSelectedSystem = data.message;
+  });
+
 
   $scope.source = source;
   $scope.oldSourceName = source.name;
@@ -183,6 +215,17 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
   };
   $scope.selectSystem = function(system) {
     $scope.source.system = system;
+    $scope.source.trace = undefined;
+    $scope.tracesForSelectedSystem = undefined;
+    // Get traces for the selected system.
+    $http({
+      method: 'post',
+      url: '/api/acerta',
+      data: { func: 'list_sys_traces', param: system.name }
+    }).success(function(data, status, headers, config) {
+      console.log(data.message);
+      $scope.tracesForSelectedSystem = data.message;
+    });
   };
   $scope.selectTrace = function(trace) {
     $scope.source.trace = trace;
