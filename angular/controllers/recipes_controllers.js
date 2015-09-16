@@ -157,7 +157,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     });
   };
 
-  var analytic_type = 'interrupt';
+  var analytic_type = 'Interrupts';
   var system = undefined;
   var trace = undefined;
   var dataSource = undefined;
@@ -181,10 +181,11 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
 
       $http({
         method: 'POST',
-        url: 'api/acerta',
-        data: { func: 'get_report_form', param: analytic_type + '%20' + system + '%20' + trace}
+        url: 'api/acertaGetHTML',
+        data: { func: 'get_report_form', param: analytic_type + ' ' + system + ' ' + trace}
       }).success(function(data,status,headers,config) {
-        console.log(data.message);
+        console.log(data);
+        $("#formDiv").html(data);
       });
 
     });
