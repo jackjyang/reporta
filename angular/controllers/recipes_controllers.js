@@ -157,7 +157,39 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     });
   };
 
+  var analytic_type = 'interrupt';
+  var system = undefined;
+  var trace = undefined;
+  var dataSource = undefined;
+  var blah = '';
+
   document.getElementById('dataSourceSelect').onchange = function() {
+
+    console.log($('#dataSourceSelect').val());
+
+    $http({
+      method: 'POST',
+      url: '/api/findDataSource',
+      data: {
+        userId: $scope.user.id,
+        name: $('#dataSourceSelect').val()
+      }
+    }).success(function(data, status, headers, config) {
+      dataSource = data.message;
+      system = dataSource.system.name;
+      trace = dataSource.trace.name;
+
+      $http({
+        method: 'POST',
+        url: 'api/acerta',
+        data: { func: 'get_report_form', param: analytic_type + '%20' + system + '%20' + trace}
+      }).success(function(data,status,headers,config) {
+        console.log(data.message);
+      });
+
+    });
+
+
     // TODO: need to pull system and trace
   };
 

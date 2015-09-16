@@ -5,8 +5,6 @@ module.exports = function(apiHandler) {
   apiHandler.addDataSource = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
     var userId = data.userId;
-    console.log(data.system);
-    console.log(data.trace);
     var newSource = new dataSource({
       owner_id: userId,
       name: data.name,
@@ -34,6 +32,25 @@ module.exports = function(apiHandler) {
         response = { status: "error", message: err };
       else
         response = { status: "ok", message: dataSources };
+      res.json(response);
+      console.log(response);
+    });
+  };
+
+  apiHandler.findDataSource = function(res, req) {
+    var data = req.method == 'GET' ? req.query : req.body;
+    var userId = data.userId;
+    var dataSourceName = data.name;
+
+    console.log('userid = ' + userId);
+    console.log('name = ' + dataSourceName);
+
+    dataSource.findOne({owner_id: userId, name: dataSourceName }, function(err, dataSource) {
+      var response;
+      if (err)
+        response = { status: "error", message: err };
+      else
+        response = { status: "ok", message: dataSource };
       res.json(response);
       console.log(response);
     });
