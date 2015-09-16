@@ -16,7 +16,7 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
 
     $http({
       method: 'post',
-      url: '/api/acerta',
+      url: '/api/acertaGetJSON',
       data: { func: 'list_systems' }
     }).success(function(data, status, headers, config) {
       $scope.system = data.message;
@@ -131,7 +131,7 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
     // Get traces for the pre-selected system.
     $http({
       method: 'post',
-      url: '/api/acerta',
+      url: '/api/acertaGetJSON',
       data: { func: 'list_sys_traces', param: source.system.name }
     }).success(function(data, status, headers, config) {
       console.log(data.message);
@@ -161,7 +161,7 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
     // Get traces for the selected system.
     $http({
       method: 'post',
-      url: '/api/acerta',
+      url: '/api/acertaGetJSON',
       data: { func: 'list_sys_traces', param: system.name }
     }).success(function(data, status, headers, config) {
       console.log(data.message);
@@ -183,7 +183,7 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
   // Get traces for the pre-selected system.
   $http({
     method: 'post',
-    url: '/api/acerta',
+    url: '/api/acertaGetJSON',
     data: { func: 'list_sys_traces', param: source.system.name }
   }).success(function(data, status, headers, config) {
     console.log(data.message);
@@ -220,7 +220,7 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
     // Get traces for the selected system.
     $http({
       method: 'post',
-      url: '/api/acerta',
+      url: '/api/acertaGetJSON',
       data: { func: 'list_sys_traces', param: system.name }
     }).success(function(data, status, headers, config) {
       console.log(data.message);
