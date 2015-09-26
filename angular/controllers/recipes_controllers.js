@@ -189,9 +189,6 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       });
 
     });
-
-
-    // TODO: need to pull system and trace
   };
 
   CKEDITOR.replace('recipeEditor',  {
@@ -229,9 +226,15 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
 
       change: function(event) {
         $scope.content = event.editor.getData();
+      },
+
+      findElementEvent: function(event) {
+        alert(event.data);
       }
     }
   });
+
+
 
   $scope.save = function() {
     if (edit) {

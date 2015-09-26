@@ -32,10 +32,12 @@ CKEDITOR.editorConfig = function( config ) {
 
   config.allowedContent = true;
 
+  // TODO: image selection when clicked
+  config.readOnly = true;
+
   // Simplify the dialog windows.
   config.removeDialogTabs = 'image:advanced;link:advanced';
 
-  config.readOnly = true;
   config.resize_enabled = false;
 
 };
