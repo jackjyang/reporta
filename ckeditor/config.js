@@ -3,20 +3,17 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.editorConfig = function( config ) {
+CKEDITOR.editorConfig = function(config) {
 
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement,iframedialog,' +
-		'interruptanalytic,messaginganalytic,erroranalytic,performance,' +
-		'markovModel,densityMap,' +
-		'cooccurrence,followedBy,precededBy,iffCooccurrence,singlePeriod,dependencies,' +
-		'bufferState,arrivalCurve,ecdf,frequencyHeatmap,regularityHeatmap,eventRuntimeJitter,processStateAnalytic,systemIdleTime,' +
-		'fiveNumberSummary,parallelCoordinate';
+	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace';
 
 	config.dialog_noConfirmCancel = true;
+
+	config.extraAllowedContent = 'img[data-type,data-name,data-desc]';
 
 	config.height = '325px';
 
@@ -34,12 +31,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'forms' },
 		{ name: 'tools' },
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		// { name: 'analytics' },
-		{ name: 'basicAnalytic' },
-		{ name: 'anomalyDetection' },
-		{ name: 'invariantMining' },
-		{ name: 'singleTrace' },
-		{ name: 'multiTrace' },
 		{ name: 'search' },
 		{ name: 'others' },
 		'/',
@@ -47,7 +38,9 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
 		{ name: 'colors' },
-		{ name: 'about' }
+		{ name: 'about' },
+		'/',
+		{ name: 'analytics' }
 	];
 
 	// Remove some buttons provided by the standard plugins, which are
