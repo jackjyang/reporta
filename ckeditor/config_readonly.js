@@ -9,12 +9,7 @@ CKEDITOR.editorConfig = function( config ) {
   // config.language = 'fr';
   // config.uiColor = '#AADC6E';
 
-  config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement,iframedialog,' +
-    'interruptanalytic,messaginganalytic,erroranalytic,performance,' +
-    'markovModel,densityMap,' +
-    'cooccurrence,followedBy,precededBy,iffCooccurrence,singlePeriod,dependencies,' +
-    'bufferState,arrivalCurve,ecdf,frequencyHeatmap,regularityHeatmap,eventRuntimeJitter,processStateAnalytic,systemIdleTime,' +
-    'fiveNumberSummary,parallelCoordinate';
+  config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement';
 
   config.height = '325px';
 
