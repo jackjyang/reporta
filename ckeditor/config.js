@@ -10,7 +10,7 @@ CKEDITOR.editorConfig = function(config) {
 	// config.uiColor = '#AADC6E';
 
 	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,' +
-		'findelement,iframedialog';
+		'findelement';
 
 	config.dialog_noConfirmCancel = true;
 
