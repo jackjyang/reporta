@@ -126,6 +126,7 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
 
   // Pre-fill data if given, when cloning.
   $scope.source = {};
+  $scope.source.trace = [];
   if (source) {
     $scope.source = { system: source.system, trace: source.trace };
     // Get traces for the pre-selected system.
@@ -156,7 +157,7 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
 
   $scope.selectSystem = function(system) {
     $scope.source.system = system;
-    $scope.source.trace = undefined;
+    $scope.source.trace = [];
     $scope.tracesForSelectedSystem = undefined;
     // Get traces for the selected system.
     $http({
@@ -168,9 +169,8 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
       $scope.tracesForSelectedSystem = data.message;
     });
   };
-  $scope.selectTrace = function(trace) {
-    $scope.source.trace = trace;
-  };
+
+  $scope.traceDropDownSettings = {displayProp:'name', externalIdProp: ''};
 });
 
 reportaApp.controller('dataSourceEditModalController', function($scope, $modalInstance, $http,
@@ -215,7 +215,7 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
   };
   $scope.selectSystem = function(system) {
     $scope.source.system = system;
-    $scope.source.trace = undefined;
+    $scope.source.trace = [];
     $scope.tracesForSelectedSystem = undefined;
     // Get traces for the selected system.
     $http({
@@ -227,9 +227,7 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
       $scope.tracesForSelectedSystem = data.message;
     });
   };
-  $scope.selectTrace = function(trace) {
-    $scope.source.trace = trace;
-  };
+  $scope.traceDropDownSettings = {displayProp:'name', externalIdProp: ''};
 });
 
 reportaApp.controller('dataSourceDeleteModalController', function($scope, $modalInstance, $http, source) {

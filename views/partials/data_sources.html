@@ -40,8 +40,8 @@
                       <td>{{source.system.name}}</td>
                     </tr>
                     <tr>
-                      <td><b>Trace:</b></td>
-                      <td>{{source.trace.name}}</td>
+                      <td valign="top"><b>Trace:</b></td>
+                      <td><div ng-repeat='trace in source.trace'>{{trace.name}}</div></td>
                     </tr>
                     <tr>
                       <td><b>Created On:</b></td>

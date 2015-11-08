@@ -48,17 +48,9 @@
   <div style="margin-top: 5px" class="animate-show" ng-show="source.system">
     <div style="width: 15%; float: left; text-align: right; margin-right: 10px;">Trace:</div>
     <div style="width:85%; margin-left:10px;">
-      <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-          {{source.trace.name}}
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li ng-repeat="trace in tracesForSelectedSystem">
-            <a ng-click="selectTrace(trace)">{{trace.name}}</a>
-          </li>
-        </ul>
-      </div>
+      
+      <div ng-dropdown-multiselect="" options="tracesForSelectedSystem" selected-model="source.trace" extra-settings="traceDropDownSettings"></div>
+
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-var reportaApp = angular.module('reporta', ['ngRoute', 'ngAnimate', 'ui.bootstrap']);
+var reportaApp = angular.module('reporta', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'angularjs-dropdown-multiselect']);
 
 reportaApp.config(function($routeProvider, $locationProvider) {
   $routeProvider.when('/', {
