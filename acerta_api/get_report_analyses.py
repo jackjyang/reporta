@@ -30,5 +30,8 @@ if r.status_code != 200:
 
 analyses = r.json()
 
-for analysis in analyses['result']:
-  print 'Analysis Name: ' + str(analysis);
+import json
+print json.dumps(analyses)
+
+# for analysis in analyses['result']:
+#  print 'Analysis Name: ' + str(analysis);
