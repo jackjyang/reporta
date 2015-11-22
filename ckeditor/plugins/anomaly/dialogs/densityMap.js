@@ -43,7 +43,7 @@ CKEDITOR.dialog.add('densityMapDialog', function(editor) {
       chart.setAttribute('style', 'width: 150px; height: 150px;');
       chart.setAttribute('data-name', dialog.getValueOf('tab-basic', 'data-name'));
       chart.setAttribute('data-desc', dialog.getValueOf('tab-basic', 'data-desc'));
-      chart.setAttribute('data-type', 'densitymap');
+      chart.setAttribute('data-type', 'DensityMaps');
       editor.insertElement(chart);
     }
   };

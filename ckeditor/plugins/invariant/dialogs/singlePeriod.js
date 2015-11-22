@@ -43,7 +43,7 @@ CKEDITOR.dialog.add('singlePeriodDialog', function(editor) {
       chart.setAttribute('style', 'width: 150px; height: 150px;');
       chart.setAttribute('data-name', dialog.getValueOf('tab-basic', 'data-name'));
       chart.setAttribute('data-desc', dialog.getValueOf('tab-basic', 'data-desc'));
-      chart.setAttribute('data-type', 'singlePeriod');
+      chart.setAttribute('data-type', 'SinglePeriodInvar');
       editor.insertElement(chart);
     }
   };

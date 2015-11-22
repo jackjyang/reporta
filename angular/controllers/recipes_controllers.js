@@ -157,16 +157,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     });
   };
 
-  var analytic_type = 'Interrupts';
-  var system = undefined;
-  var trace = undefined;
-  var dataSource = undefined;
-  var blah = '';
-
   document.getElementById('dataSourceSelect').onchange = function() {
-
-    console.log($('#dataSourceSelect').val());
-
     $http({
       method: 'POST',
       url: '/api/findDataSource',
@@ -176,19 +167,8 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       }
     }).success(function(data, status, headers, config) {
       dataSource = data.message;
-      system = dataSource.system.name;
-      trace = dataSource.trace.name;
-
-      $http({
-        method: 'POST',
-        url: 'api/acertaGetHTML',
-        data: { func: 'get_report_form', param: analytic_type + ' ' + system + ' ' + trace}
-      }).success(function(data,status,headers,config) {
-        console.log(data);
-        $("#formDiv").html(data);
-      });
-
     });
+
   };
 
   CKEDITOR.replace('recipeEditor',  {
@@ -229,12 +209,36 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       },
 
       findElementEvent: function(event) {
-        alert(event.data);
+        $http({
+          method: 'POST',
+          url: '/api/findDataSource',
+          data: {
+            userId: $scope.user.id,
+            name: $('#dataSourceSelect').val()
+          }
+        }).success(function(data, status, headers, config) {
+
+          var dataSource = data.message;
+          var system = dataSource.system.name;
+          var params = event.data + ' ' + system
+          for (i = 0; i < dataSource.trace.length; i++) {
+            params += ' ' + dataSource.trace[i].name;
+          }
+          console.log(params);
+
+          $http({
+            method: 'POST',
+            url: 'api/acertaGetHTML',
+            data: { func: 'get_report_form', param: params}
+
+          }).success(function(data,status,headers,config) {
+            //console.log(data);
+            $("#formDiv").html(data);
+          });
+        });
       }
     }
   });
-
-
 
   $scope.save = function() {
     if (edit) {

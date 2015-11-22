@@ -30,7 +30,7 @@
           editor.getSelection().selectElement(selected);
           editor.getSelection().scrollIntoView();
 
-          var analyticType = selected.getAttribute('data-analytictype');
+          var analyticType = selected.getAttribute('data-type');
           editor.fire('findElementEvent', analyticType)
 
           return;
@@ -69,7 +69,7 @@
           editor.getSelection().selectElement(selected);
           editor.getSelection().scrollIntoView();
 
-          var analyticType = selected.getAttribute('data-analytictype');
+          var analyticType = selected.getAttribute('data-type');
           editor.fire('findElementEvent', analyticType)
           return;
 

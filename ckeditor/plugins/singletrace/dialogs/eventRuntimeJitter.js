@@ -43,7 +43,7 @@ CKEDITOR.dialog.add('eventRuntimeJitterDialog', function(editor) {
       chart.setAttribute('style', 'width: 150px; height: 150px;');
       chart.setAttribute('data-name', dialog.getValueOf('tab-basic', 'data-name'));
       chart.setAttribute('data-desc', dialog.getValueOf('tab-basic', 'data-desc'));
-      chart.setAttribute('data-type', 'eventRuntimeJitter');
+      chart.setAttribute('data-type', 'EventRuntimeJitter');
       editor.insertElement(chart);
     }
   };
