@@ -1,4 +1,5 @@
 var reportaApp = angular.module('reporta');
+var counter;
 
 reportaApp.controller('templatesController', function($scope, $http) {
   $scope.refreshContents = function() {
@@ -63,10 +64,10 @@ reportaApp.controller('templatesDeleteModalController', function($scope, $modalI
     $http({
       method: 'POST',
       url: '/api/deleteTemplate',
-      data: { source }
+      data: { template }
     }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
-      $modalInstance.close(source);
+      $modalInstance.close(template);
     });
   };
   $scope.cancel = function() {
@@ -97,6 +98,14 @@ reportaApp.controller('templatesCloneModalController', function($scope, $modalIn
 reportaApp.controller('templateEditorController', function($scope, $http, $routeParams) {
   var edit = false;
   var oldTitle = undefined;
+
+  $http({
+    method: 'GET',
+    url: '/api/getCounter'
+  }).success(function(data, status, headers, config) {
+    counter = Number(data);
+  });
+
   CKEDITOR.replace('templateEditor', {
     on: {
       instanceReady: function(event) {

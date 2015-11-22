@@ -14,7 +14,7 @@ CKEDITOR.editorConfig = function(config) {
 
 	config.dialog_noConfirmCancel = true;
 
-	config.extraAllowedContent = 'img[data-type,data-name,data-desc]';
+	config.extraAllowedContent = 'img[data-id,data-type,data-name,data-desc]';
 
 	config.height = '325px';
 

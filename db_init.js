@@ -49,8 +49,17 @@ var recipeSchema = new Schema({
 recipeSchema.index({ owner_id: 1, name: -1 }, { unique: true });
 recipeSchema.plugin(autoIncrement.plugin, 'recipe');
 
+var counterSchema = new Schema({
+  id: String,
+  value: String
+});
+counterSchema.index({ id: 1 }, { unique: true });
+counterSchema.plugin(autoIncrement.plugin, 'counter');
+
+
 connection.model('dataSource', dataSourceSchema);
 // connection.model('dataSet', dataSetSchema);
 connection.model('template', templateSchema);
 connection.model('recipe', recipeSchema);
+connection.model('counter', counterSchema);
 

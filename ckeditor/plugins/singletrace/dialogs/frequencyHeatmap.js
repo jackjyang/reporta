@@ -27,20 +27,27 @@ CKEDITOR.dialog.add('frequencyHeatmapDialog', function(editor) {
     onShow: function() {
       var selection = editor.getSelection();
       var element = selection.getStartElement();
-      if (element) {
+      if (element && element.getName() != 'img') {
         this.insertMode = true;
-        this.element = element;
-        this.setupContent(this.element);
       } else {
         this.insertMode = false;
+        this.element = element;
+        this.setupContent(this.element);
       }
     },
     onOk: function() {
       var dialog = this;
       var chart = editor.document.createElement('img');
+      var id;
 
       chart.setAttribute('src', '/ckeditor/genericplaceholder/placeholder.png');
       chart.setAttribute('style', 'width: 150px; height: 150px;');
+      if (this.insertMode) {
+        id = counter++;
+      } else {
+        id = this.element.getAttribute('data-id');
+      }
+      chart.setAttribute('data-id', id);
       chart.setAttribute('data-name', dialog.getValueOf('tab-basic', 'data-name'));
       chart.setAttribute('data-desc', dialog.getValueOf('tab-basic', 'data-desc'));
       chart.setAttribute('data-type', 'frequencyHeatmap');

@@ -1,6 +1,7 @@
 module.exports = function(apiHandler) {
   var mongoose = require('mongoose');
   var template = mongoose.model('template');
+  var counter = mongoose.model('counter');
 
   apiHandler.addTemplate = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
@@ -57,4 +58,36 @@ module.exports = function(apiHandler) {
       res.json(template);
     });
   }
+
+  apiHandler.deleteTemplate = function(res, req) {
+    var data = req.method == 'GET' ? req.query : req.body;
+    var userId = data.userId;
+    console.log(data);
+    template.remove({_id: data.template._id}, function(err, source) {
+      var response;
+      if (err) {
+        response = { status: "error", message: err };
+      } else {
+        response = { status: "ok" };
+      }
+      res.json(response);
+    });
+  };
+
+  apiHandler.getCounter = function(res, req) {
+    counter.find({_id: 1}, function(err, counter) {
+      res.json(counter[0].toObject().value);
+    });
+  };
+
+  apiHandler.saveCounter = function(res, req) {
+    var data = req.method == 'GET' ? req.query : req.body;
+    counter.findOneAndUpdate({_id: 1}, data, function(err, counter) {
+      if (err) {
+        response = { status: "error", message: err };
+      } else {
+        response = { status: "ok" };
+      }
+    });
+  };
 };
