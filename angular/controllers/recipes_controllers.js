@@ -137,6 +137,29 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   var edit = false;
   var oldTitle = undefined;
   var template = undefined;
+  var forms = new Array();
+  var selections = new Array();
+
+  function saveCurrentForm(editor) {
+    var selected = editor.getSelection().getStartElement();
+    if (selected == null) {
+      return;
+    }
+    var key = editor.getSelection().getStartElement().getAttribute('data-name');
+    var value = $("#formDiv").html();
+    if (value.trim()) {
+      forms[key] = value;
+    }
+
+    // save all form input as json
+    var choices = new Array();
+    var form_fields = document.getElementsByClassName("form-control");
+    for (i = 0; i < form_fields.length; i++) {
+      choices[i] = form_fields[i].value;
+    }
+    var choices_to_string = JSON.stringify(choices);
+    selections[key] = choices_to_string;
+  }
 
   document.getElementById('templateSelect').onchange = function() {
     var e = document.getElementById('recipeEditorForm');
@@ -209,6 +232,8 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       },
 
       findElementEvent: function(event) {
+        saveCurrentForm(event.editor);
+
         $http({
           method: 'POST',
           url: '/api/findDataSource',
@@ -217,23 +242,41 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
             name: $('#dataSourceSelect').val()
           }
         }).success(function(data, status, headers, config) {
-
+          // construct arg list
           var dataSource = data.message;
           var system = dataSource.system.name;
           var params = event.data + ' ' + system
           for (i = 0; i < dataSource.trace.length; i++) {
             params += ' ' + dataSource.trace[i].name;
           }
-          console.log(params);
 
+          // try to find existing form first
           $http({
             method: 'POST',
-            url: 'api/acertaGetHTML',
-            data: { func: 'get_report_form', param: params}
-
+            url: 'api/findForm',
+            data: {
+              recipe_name: $(document.getElementById('recipeTitle')).text(),
+              userId: $scope.user.id,
+              name: event.editor.getSelection().getStartElement().getAttribute('data-name')
+            }
           }).success(function(data,status,headers,config) {
-            //console.log(data);
-            $("#formDiv").html(data);
+            if (data == null) {
+              $http({
+              method: 'POST',
+              url: 'api/acertaGetHTML',
+              data: {
+                func: 'get_report_form',
+                param: params
+              }
+              }).success(function(data,status,headers,config) {
+                $("#formDiv").html(data);
+              });
+            } else {
+              $("#formDiv").html(data.form);
+              // TODO: populate form selection
+            }
+          }).error(function(data,status,headers,config) {
+            console.log("unknown error");
           });
         });
       }
@@ -241,6 +284,8 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   });
 
   $scope.save = function() {
+    saveCurrentForm(CKEDITOR.instances.recipeEditor);
+    // save all forms
     if (edit) {
       $http({
         method: 'POST',
@@ -261,7 +306,6 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
         location.href='recipes';
       });
     } else {
-
       $http({
         method: 'POST',
         url: '/api/addRecipe',
@@ -275,6 +319,23 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       }).success(function(data, status, headers, config) {
         // TODO: Display any errors to the user before closing modal.
         location.href='recipes';
+      });
+    }
+    for (var key in forms){
+      $http({
+        method: 'POST',
+        url: '/api/addForm',
+        data: {
+          recipe_name: $(document.getElementById('recipeTitle')).text(),
+          userId: $scope.user.id,
+          data_source_name: $(document.getElementById('dataSourceSelect')).val(),
+          template_name: $(document.getElementById('templateSelect')).val(),
+          name: key,
+          form: forms[key],
+          selections: selections[key]
+        }
+      }).success(function(data, status, headers, config) {
+        // TODO: Display any errors to the user before closing modal.
       });
     }
   };

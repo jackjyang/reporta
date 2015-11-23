@@ -54,9 +54,21 @@ var counterSchema = new Schema({
   value: Number
 });
 
+var formSchema = new Schema({
+  recipe_name: String,
+  owner_id: String,
+  name: String,
+  form: String,
+  selections: String,
+  updated_on: Date,
+  created_on: Date
+});
+formSchema.index({ owner_id: 1, name: -1 }, { unique: true });
+formSchema.plugin(autoIncrement.plugin, 'form');
+
 connection.model('dataSource', dataSourceSchema);
 // connection.model('dataSet', dataSetSchema);
 connection.model('template', templateSchema);
 connection.model('recipe', recipeSchema);
 connection.model('counter', counterSchema);
-
+connection.model('form', formSchema);
