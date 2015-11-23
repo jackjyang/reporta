@@ -75,8 +75,19 @@ module.exports = function(apiHandler) {
   };
 
   apiHandler.getCounter = function(res, req) {
-    counter.findOne({id: 1}, 'value', function(err, counter) {
-      res.json(counter.toObject().value);
+    counter.findOne({id: 1}, 'value', function(err, result) {
+      if (result == null) {
+        var newCounter = new counter({
+          id: 1,
+          value: 1
+        });
+        newCounter.save(function(err) {
+          var response;
+          res.json(1);
+        });
+      } else {
+        res.json(result.toObject().value);
+      }
     });
   };
 
