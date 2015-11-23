@@ -132,6 +132,13 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
   });
 
   $scope.save = function() {
+    $http({
+      method: 'POST',
+      url: '/api/saveCounter',
+      data: { value: Number(counter) }
+    }).success(function(data, status, headers, config) {
+      // Find something to do if error/successful?
+    });
     if (edit) {
       $http({
         method: 'POST',

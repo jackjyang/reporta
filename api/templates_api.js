@@ -75,19 +75,22 @@ module.exports = function(apiHandler) {
   };
 
   apiHandler.getCounter = function(res, req) {
-    counter.find({_id: 1}, function(err, counter) {
-      res.json(counter[0].toObject().value);
+    counter.findOne({id: 1}, 'value', function(err, counter) {
+      res.json(counter.toObject().value);
     });
   };
 
   apiHandler.saveCounter = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    counter.findOneAndUpdate({_id: 1}, data, function(err, counter) {
+    console.log('new counter value = ' + data.value);
+    counter.update({ id: 1 }, { value: data.value }, function(err, counter) {
+      var repsonse;
       if (err) {
         response = { status: "error", message: err };
       } else {
         response = { status: "ok" };
       }
+      res.json(repsonse);
     });
   };
 };
