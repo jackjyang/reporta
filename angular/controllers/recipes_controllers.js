@@ -137,15 +137,15 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   var edit = false;
   var oldTitle = undefined;
   var template = undefined;
+  var last = undefined;
   var forms = new Array();
   var selections = new Array();
 
   function saveCurrentForm(editor) {
-    var selected = editor.getSelection().getStartElement();
-    if (selected == null) {
+    if (last == null)
       return;
-    }
-    var key = editor.getSelection().getStartElement().getAttribute('data-name');
+
+    var key = last.getAttribute('data-name');
     var value = $("#formDiv").html();
     if (value.trim()) {
       forms[key] = value;
@@ -159,6 +159,15 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     }
     var choices_to_string = JSON.stringify(choices);
     selections[key] = choices_to_string;
+  }
+
+  function loadCurrentSelection(selections) {
+    console.log(selections);
+    var selection_list = JSON.parse(selections);
+    var form_fields = document.getElementsByClassName("form-control");
+    for (i = 0; i < form_fields.length; i++) {
+      form_fields[i].value = selection_list[i];
+    }
   }
 
   document.getElementById('templateSelect').onchange = function() {
@@ -233,6 +242,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
 
       findElementEvent: function(event) {
         saveCurrentForm(event.editor);
+        last = event.editor.getSelection().getStartElement();
 
         $http({
           method: 'POST',
@@ -242,42 +252,56 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
             name: $('#dataSourceSelect').val()
           }
         }).success(function(data, status, headers, config) {
-          // construct arg list
-          var dataSource = data.message;
-          var system = dataSource.system.name;
-          var params = event.data + ' ' + system
-          for (i = 0; i < dataSource.trace.length; i++) {
-            params += ' ' + dataSource.trace[i].name;
-          }
+          // try to find existing form in memory, then in db, finally from acerta
+          var key = event.editor.getSelection().getStartElement().getAttribute('data-name');
 
-          // try to find existing form first
-          $http({
-            method: 'POST',
-            url: 'api/findForm',
-            data: {
-              recipe_name: $(document.getElementById('recipeTitle')).text(),
-              userId: $scope.user.id,
-              name: event.editor.getSelection().getStartElement().getAttribute('data-name')
-            }
-          }).success(function(data,status,headers,config) {
-            if (data == null) {
-              $http({
+          // load from mem
+          if (forms[key] != null)
+          {
+              $("#formDiv").html(forms[key]);
+              loadCurrentSelection(selections[key]);
+          }
+          else {
+            $http({
               method: 'POST',
-              url: 'api/acertaGetHTML',
+              url: 'api/findForm',
               data: {
-                func: 'get_report_form',
-                param: params
+                recipe_name: $(document.getElementById('recipeTitle')).text(),
+                userId: $scope.user.id,
+                name: event.editor.getSelection().getStartElement().getAttribute('data-name')
               }
-              }).success(function(data,status,headers,config) {
-                $("#formDiv").html(data);
-              });
-            } else {
-              $("#formDiv").html(data.form);
-              // TODO: populate form selection
-            }
-          }).error(function(data,status,headers,config) {
-            console.log("unknown error");
-          });
+            }).success(function(data2,status,headers,config) {
+              if (data2 == null) {
+                // no record in memory or db, pull from acerta
+
+                // TODO: if failed to read, don't save last form
+                // construct arg list
+                var dataSource = data.message;
+                var system = dataSource.system.name;
+                var params = event.data + ' ' + system
+                for (i = 0; i < dataSource.trace.length; i++) {
+                  params += ' ' + dataSource.trace[i].name;
+                }
+
+                $http({
+                method: 'POST',
+                url: 'api/acertaGetHTML',
+                data: {
+                  func: 'get_report_form',
+                  param: params
+                }
+                }).success(function(data3,status,headers,config) {
+                  $("#formDiv").html(data3);
+                });
+              } else {
+                // pull from db
+                $("#formDiv").html(data2.form);
+                loadCurrentSelection(data2.selections);
+              }
+            }).error(function(data,status,headers,config) {
+              console.log("unknown error");
+            });
+          }
         });
       }
     }
