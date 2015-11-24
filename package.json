@@ -19,8 +19,13 @@
   "dependencies": {
     "body-parser": "1.13.3",
     "express": "4.13.1",
+    "fs": "0.0.2",
+    "handlebars": "^3.0.3",
     "jade": "1.11.0",
     "mongoose": "4.1.12",
-    "mongoose-auto-increment": "5.0.1"
+    "mongoose-auto-increment": "5.0.1",
+    "phantom": "^0.7.2",
+    "phantom-html-to-pdf": "^0.3.1",
+    "phantom-pdf": "^0.2.2"
   }
 }
