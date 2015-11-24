@@ -26,6 +26,7 @@
     "mongoose-auto-increment": "5.0.1",
     "phantom": "^0.7.2",
     "phantom-html-to-pdf": "^0.3.1",
-    "phantom-pdf": "^0.2.2"
+    "phantom-pdf": "^0.2.2",
+    "nodemailer": "1.10.0"
   }
 }
