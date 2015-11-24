@@ -85,15 +85,19 @@ module.exports = function(apiHandler) {
       updated_on: new Date,
       created_on: new Date
     });
-    //newForm.update({upsert:true}, function(err) {
-      newForm.save(function(err) {
-      var response;
-      if (err)
-        response = { status: "error", message: err };
-      else
-        response = { status: "ok" };
-      res.json(response);
-    });
+    form.update(
+      {recipe_name: newForm.recipe_name, owner_id: newForm.owner_id, name: newForm.name},
+      newForm,
+      {upsert: true},
+      function(err) {
+        var response;
+        if (err)
+          response = { status: "error", message: err };
+        else
+          response = { status: "ok" };
+        res.json(response);
+      }
+    );
   }
 
   apiHandler.findForm = function(res, req) {
@@ -101,7 +105,7 @@ module.exports = function(apiHandler) {
     var recipe_name = data.recipe_name;
     var userId = data.userId;
     var name = data.name;
-    form.findOne({ recipe_name: recipe_name, owner_id: userId, name: name }, function(err, form) {
+    form.findOne({recipe_name:recipe_name, owner_id: userId, name:name}, function(err, form) {
       res.json(form);
     });
   };
