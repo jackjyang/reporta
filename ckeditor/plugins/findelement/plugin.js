@@ -54,7 +54,7 @@
           if (!a)
             return;
 
-          var selected = editor.getSelection().selectElement(nodeList.getItem(0));
+          var selected = nodeList.getItem(0);
 
           for (i = 0; i < nodeList.count(); i++){
             if ((a.getParent().getIndex() == nodeList.getItem(i).getParent().getIndex()  &&
