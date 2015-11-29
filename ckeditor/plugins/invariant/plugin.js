@@ -19,19 +19,19 @@ CKEDITOR.plugins.add('invariant', {
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {
-        if (element.getAttribute('data-type') == 'cooccurrence') {
+        if (element.getAttribute('data-type') == 'CooccurInvar') {
           evt.data.dialog = 'cooccurrenceDialog';
           editor.getSelection().selectElement(element);
-        } else if (element.getAttribute('data-type') == 'followedBy') {
+        } else if (element.getAttribute('data-type') == 'FollowCooccurInvar') {
           evt.data.dialog = 'followedByDialog';
           editor.getSelection().selectElement(element);
-        } else if (element.getAttribute('data-type') == 'precededBy') {
+        } else if (element.getAttribute('data-type') == 'PrecedeCooccurInvar') {
           evt.data.dialog = 'precededByDialog';
           editor.getSelection().selectElement(element);
-        } else if (element.getAttribute('data-type') == 'iffCooccurrence') {
+        } else if (element.getAttribute('data-type') == 'IffCooccurInvar') {
           evt.data.dialog = 'iffCooccurrenceDialog';
           editor.getSelection().selectElement(element);
-        } else if (element.getAttribute('data-type') == 'singlePeriod') {
+        } else if (element.getAttribute('data-type') == 'SinglePeriodInvar') {
           evt.data.dialog = 'singlePeriodDialog';
           editor.getSelection().selectElement(element);
         } else if (element.getAttribute('data-type') == 'dependencies') {

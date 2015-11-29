@@ -25,7 +25,7 @@ CKEDITOR.plugins.add('singletrace', {
         if (element.getAttribute('data-type') == 'bufferState') {
           evt.data.dialog = 'bufferStateDialog';
           editor.getSelection().selectElement(element);
-        } else if (element.getAttribute('data-type') == 'arrivalCurve') {
+        } else if (element.getAttribute('data-type') == 'ArrivalCurve') {
           evt.data.dialog = 'arrivalCurveDialog';
           editor.getSelection().selectElement(element);
         } else if (element.getAttribute('data-type') == 'ecdf') {
@@ -37,7 +37,7 @@ CKEDITOR.plugins.add('singletrace', {
         } else if (element.getAttribute('data-type') == 'regularityHeatmap') {
           evt.data.dialog = 'regularityHeatmapDialog';
           editor.getSelection().selectElement(element);
-        } else if (element.getAttribute('data-type') == 'eventRuntimeJitter') {
+        } else if (element.getAttribute('data-type') == 'EventRuntimeJitter') {
           evt.data.dialog = 'eventRuntimeJitterDialog';
           editor.getSelection().selectElement(element);
         } else if (element.getAttribute('data-type') == 'processStateAnalytics') {

@@ -10,7 +10,7 @@ CKEDITOR.plugins.add('anomaly', {
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {
-        if (element.getAttribute('data-type') == 'densitymap') {
+        if (element.getAttribute('data-type') == 'DensityMaps') {
           evt.data.dialog =  'densityMapDialog';
           editor.getSelection().selectElement(element);
         } else if (element.getAttribute('data-type') == 'markovmodel') {

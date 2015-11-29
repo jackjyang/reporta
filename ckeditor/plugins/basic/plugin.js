@@ -14,7 +14,7 @@ CKEDITOR.plugins.add('basic', {
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {
-        if (element.getAttribute('data-type') == 'interruptAnalytics') {
+        if (element.getAttribute('data-type') == 'Interrupts') {
           evt.data.dialog = 'interruptAnalyticsDialog';
           editor.getSelection().selectElement(element);
         } else if (element.getAttribute('data-type') == 'messagingAnalytics') {
