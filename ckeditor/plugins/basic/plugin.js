@@ -11,6 +11,11 @@ CKEDITOR.plugins.add('basic', {
     CKEDITOR.dialog.add('performanceDialog', this.path + 'dialogs/performance.js');
 
     editor.on('doubleclick', function(evt) {
+      if (editor.config.isReadOnly) {
+        evt.cancel();
+        return;
+      }
+
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {

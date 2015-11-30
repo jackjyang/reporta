@@ -7,6 +7,11 @@ CKEDITOR.plugins.add('multitrace', {
     CKEDITOR.dialog.add('parallelCoordinatesDialog', this.path + 'dialogs/parallelCoordinates.js');
 
     editor.on('doubleclick', function(evt) {
+      if (editor.config.isReadOnly) {
+        evt.cancel();
+        return;
+      }
+
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {

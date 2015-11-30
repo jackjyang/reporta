@@ -7,6 +7,11 @@ CKEDITOR.plugins.add('anomaly', {
     CKEDITOR.dialog.add('markovModelDialog', this.path + 'dialogs/markovModel.js');
 
     editor.on('doubleclick', function(evt) {
+      if (editor.config.isReadOnly) {
+        evt.cancel();
+        return;
+      }
+
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {

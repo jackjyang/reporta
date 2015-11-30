@@ -16,6 +16,12 @@ CKEDITOR.plugins.add('invariant', {
     CKEDITOR.dialog.add('dependenciesDialog', this.path + 'dialogs/dependencies.js');
 
     editor.on('doubleclick', function(evt) {
+      if (editor.config.isReadOnly) {
+        evt.cancel();
+        return;
+      }
+
+      console.log(editor);
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {

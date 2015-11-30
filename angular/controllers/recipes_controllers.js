@@ -159,7 +159,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     }
     var choices_to_string = JSON.stringify(choices);
     selections[key] = choices_to_string;
-  }
+  };
 
   function loadCurrentSelection(selections) {
     console.log(selections);
@@ -168,9 +168,11 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     for (i = 0; i < form_fields.length; i++) {
       form_fields[i].value = selection_list[i];
     }
-  }
+  };
 
   document.getElementById('templateSelect').onchange = function() {
+    forms = {};
+    selections = {};
     var e = document.getElementById('recipeEditorForm');
     if (this.value != '')
       e.style.display = 'block';
@@ -190,6 +192,8 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   };
 
   document.getElementById('dataSourceSelect').onchange = function() {
+    forms = {};
+    selections = {};
     $http({
       method: 'POST',
       url: '/api/findDataSource',
@@ -206,7 +210,33 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   CKEDITOR.replace('recipeEditor',  {
     customConfig : '/ckeditor/config_readonly.js',
     on: {
+      key: function(event) {
+        // enable only direction arrow keys
+        if (event.data.keyCode < 37 || event.data.keyCode > 40) {
+          event.cancel();
+        }
+      },
+
       instanceReady: function(event) {
+
+        var editor = event.editor;
+        var remove_commands = ['contextMenu','image', 'cut', 'copy', 'paste', 'preview',
+        'arrivalCurve', 'cooccurrence', 'densityMap', 'errorAnalytics', 'fiveNumberSummary',
+        'followedBy', 'frequencyHeatmap', 'iffCooccurrence', 'interruptAnalytics',
+        'markovModel', 'messagingAnalytics', 'precededBy', 'processStateAnalytics',
+        'regularityHeatmap', 'singlePeriod'];
+
+        // disable command actions
+        for (var i = 0; i < remove_commands.length; i++) {
+           editor.commands[remove_commands[i]].setState(CKEDITOR.TRISTATE_DISABLED);
+        }
+
+        // clear the right click menu
+        var remove_menu_commands = ['copy', 'cut', 'paste'];
+        for (var i = 0; i < remove_menu_commands.length; i++) {
+          editor.removeMenuItem(remove_menu_commands[i]);
+        }
+
         if($routeParams.recipe) {
           edit = true;
           $http({
@@ -267,6 +297,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
               url: 'api/findForm',
               data: {
                 recipe_name: $(document.getElementById('recipeTitle')).text(),
+                template_name: $(document.getElementById('templateSelect')).val(),
                 userId: $scope.user.id,
                 name: event.editor.getSelection().getStartElement().getAttribute('data-name')
               }
@@ -282,6 +313,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                 for (i = 0; i < dataSource.trace.length; i++) {
                   params += ' ' + dataSource.trace[i].name;
                 }
+                console.log(params)
 
                 $http({
                 method: 'POST',
@@ -292,6 +324,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                 }
                 }).success(function(data3,status,headers,config) {
                   $("#formDiv").html(data3);
+                  console.log(data3);
                 });
               } else {
                 // pull from db

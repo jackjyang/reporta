@@ -56,6 +56,7 @@ var counterSchema = new Schema({
 
 var formSchema = new Schema({
   recipe_name: String,
+  template_name: String,
   owner_id: String,
   name: String,
   form: String,

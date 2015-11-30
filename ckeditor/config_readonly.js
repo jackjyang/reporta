@@ -4,35 +4,25 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
+  config.allowedContent = true;
 
-  // Define changes to default configuration here. For example:
-  // config.language = 'fr';
-  // config.uiColor = '#AADC6E';
+  config.disableAutoInline = true;
 
   config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,findelement';
 
   config.height = '325px';
 
-  config.disableAutoInline = true;
-  // Define changes to default configuration here.
-  // For complete reference see:
-  // http://docs.ckeditor.com/#!/api/CKEDITOR.config
-
-  // The toolbar groups arrangement, optimized for two toolbar rows.
-
-  config.toolbarGroups = [
-    { name: 'search' },
-    { name: 'about' }
-  ];
-
-  config.allowedContent = true;
-
-  // TODO: image selection when clicked
-  config.readOnly = true;
+  // don't use default readOnly
+  config.isReadOnly = true;
 
   // Simplify the dialog windows.
   config.removeDialogTabs = 'image:advanced;link:advanced';
 
   config.resize_enabled = false;
 
+  // The toolbar groups arrangement, optimized for two toolbar rows.
+  config.toolbarGroups = [
+    { name: 'search' },
+    { name: 'about' }
+  ];
 };

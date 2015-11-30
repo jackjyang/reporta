@@ -19,6 +19,11 @@ CKEDITOR.plugins.add('singletrace', {
     CKEDITOR.dialog.add('systemIdleTimeDialog', this.path + 'dialogs/systemIdleTime.js');
 
     editor.on('doubleclick', function(evt) {
+      if (editor.config.isReadOnly) {
+        evt.cancel();
+        return;
+      }
+
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {

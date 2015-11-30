@@ -22,5 +22,6 @@ require('../api/data_sources_api.js')(apiHandler);
 require('../api/data_sets_api.js')(apiHandler);
 require('../api/templates_api.js')(apiHandler);
 require('../api/recipes_api.js')(apiHandler);
+require('../api/forms_api.js')(apiHandler);
 require('../api/report_api.js')(apiHandler);
 require('../api/acerta_interface_api.js')(apiHandler);

@@ -33,5 +33,7 @@ if r.status_code != 200:
   print r.text
   SYSTEM.exit(1)
 formHtml = r.json()
-
-print(formHtml['form']);
+try:
+  print(formHtml['form']);
+except:
+  print json.dumps(formHtml)
