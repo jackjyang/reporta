@@ -43,10 +43,10 @@ reportaApp.controller('generationController', function($scope, $http) {
   }
 
   $scope.generate = function() {
-    // if($(".ng-invalid").size() > 0 || !$scope.validateEmail($scope.email)) {
-    //   console.log("failed initial validation");
-    //   return;
-    // }
+    if($(".ng-invalid").size() > 0 || !$scope.validateEmail($scope.email)) {
+      console.log("failed initial validation");
+      return;
+    }
     $scope.generatedReport();
   }
 

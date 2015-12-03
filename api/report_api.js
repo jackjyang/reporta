@@ -4,6 +4,12 @@ module.exports = function(apiHandler) {
   var phantom = require('phantom');
   var PhantomPDF = require('phantom-pdf');
 
+	function evaluate(page, func) {
+	    var args = [].slice.call(arguments, 2);
+	    var fn = "function() { return (" + func.toString() + ").apply(this, " + JSON.stringify(args) + ");}";
+	    return page.evaluate(fn);
+	}
+
   function sendEmail() {
   	console.log("SENDING")
 
@@ -46,24 +52,27 @@ module.exports = function(apiHandler) {
     phantom.create(function (ph) {
       ph.createPage(function (page) {
         page.set('paperSize', {
-          format: 'A4'
+          	format: 'A4'
         }, function() {
-          page.open("http://localhost:8080/generate_report", function (status) {
-			page.includeJs("http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function() {
 
-				page.evaluate(page, function () {
-				    $("#image").attr("src", 'http://www.redditstatic.com/about/assets/reddit-logo.png');
-				});
+          	page.open("http://localhost:8080/generate_report", function() {
 
-		        page.render("test.pdf", {format: 'pdf', quality: '100'}, function() {
-	              res.download('test.pdf', function(err) {
-	                
-	              });
-	              ph.exit();
-	            });
-			    
-		  	});        
-          });
+          		var foo = "https://www.redditstatic.com/about/assets/reddit-logo.png";
+
+          		evaluate(page, function(foo) {
+				    // this code has now has access to foo
+				    document.getElementsByTagName('img')[0].src = foo;
+				  }, foo);
+
+				setTimeout(function() {
+					console.log("RENDER");
+					page.render("test.png", {format: 'png', quality: '100'}, function() {
+		          		res.download('test.png', function(err) {
+		          		});
+			            ph.exit();
+			        });
+				}, 1000);
+          	});
         });
       });
     });
