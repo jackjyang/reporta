@@ -25,12 +25,17 @@ reportaApp.controller('generationController', function($scope, $http) {
     });
   };
 
-  $scope.generatedReport = function() {
+  $scope.selectRecipe = function(index) {
+    $scope.recipe = $scope.allRecipes[index];
+    console.log($scope.recipe);
+  };
+
+  $scope.generateReport = function() {
     console.log("start generate report request");
     $http({
       method: 'GET',
       url: '/api/generateReport',
-      params: { userId: $scope.user.id, recipeId:1, email:$scope.email }
+      params: { userId: $scope.user.id, recipeName:$scope.recipe.name, email:$scope.email }
     }).success(function(data, status, headers, config) {
       console.log("generate report succeeded")
     }).error(function() {
@@ -43,11 +48,11 @@ reportaApp.controller('generationController', function($scope, $http) {
   }
 
   $scope.generate = function() {
-    if($(".ng-invalid").size() > 0 || !$scope.validateEmail($scope.email)) {
-      console.log("failed initial validation");
+    if($(".ng-invalid").size() > 0 || !$scope.validateEmail($scope.email) || _.isEmpty($scope.recipe)) {
+      alert("failed initial validation");
       return;
     }
-    $scope.generatedReport();
+    $scope.generateReport();
   }
 
 });

@@ -18,7 +18,7 @@
 			        </tr>
 			      </thead>
 			      <tbody>
-			      	<tr ng-repeat="recipe in allRecipes">
+			      	<tr ng-repeat="recipe in allRecipes" ng-click="selectRecipe($index)">
 			      		<td ng-model="recipe.name">{{recipe.name}}</td>
 			      		<td ng-model="recipe.updated_on">{{recipe.updated_on}}</td>
 			      	</tr>
