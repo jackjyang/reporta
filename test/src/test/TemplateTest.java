@@ -11,8 +11,12 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.testng.Assert;
 
 public class TemplateTest {	
-	static WebDriver driver;
-	static String url = "http://localhost:8080";
+	ChromeDriver driver;
+	String url = "http://localhost:8080";
+	int delay = 500;
+	String expectedTitle = "Auto Test Template";
+	String expectedContent = "";
+	String copyName = "Copy of Auto Test Template";
 	
 	private void setup() {
 		System.setProperty(
@@ -26,9 +30,55 @@ public class TemplateTest {
 	}
 	
 	private void goToNewTemplate() {
-		setup();
 		WebElement templatesButton = driver.findElement(By.id("dashboard-new-template"));
 		templatesButton.click();
+	}
+	
+	private void deleteTemplates() throws InterruptedException {
+		WebElement table = driver.findElement(By.className("table"));
+
+		// checks first row in table has name 'test1'
+		while (true) {
+			List<WebElement> trs = table.findElements(By.className("accordion-toggle"));
+			if (trs.isEmpty())
+				break;
+
+			WebElement tr = trs.get(0);
+			tr.click();
+			Thread.sleep(delay);
+
+			WebElement deleteButton = table.findElements(By.tagName("button")).get(2);
+			deleteButton.click();
+
+			WebElement dialog = driver.findElement(By.className("modal-content"));
+			WebElement modalFooter = dialog.findElement(By.className("modal-footer"));
+			WebElement deleteButton2 = modalFooter.findElements(By.className("btn")).get(1);
+			deleteButton2.click();
+			Thread.sleep(delay);
+		}
+	}
+	
+	private void createTemplate() {
+		WebElement titleTextBox = driver.findElement(By.id("title"));
+		titleTextBox.clear();
+		titleTextBox.sendKeys(expectedTitle);
+		
+		WebElement groupChartButton = driver.findElement(By.cssSelector("a[title='Basic Analytic']"));
+		groupChartButton.click();
+		driver.switchTo().frame("cke_76_frame");
+		WebElement chartButton = driver.findElement(By.cssSelector("a[title='Interrupt Analytic']"));
+		chartButton.click();
+		driver.switchTo().defaultContent();
+		List<WebElement> dialogs = driver.findElements(By.cssSelector("table[class='cke_dialog_contents']"));
+		WebElement dialog = dialogs.get(dialogs.size() - 1);
+		WebElement chartNameBox = dialog.findElement(By.cssSelector("input[class='cke_dialog_ui_input_text']"));
+		chartNameBox.sendKeys("a");
+		WebElement okBox = dialog.findElement(By.cssSelector("a[title='OK']"));
+		okBox.click();
+		WebElement ckEditor = driver.findElement(By.cssSelector("iframe[title='Rich Text Editor, templateEditor']"));
+		ckEditor.sendKeys(" and some text as well.");
+		expectedContent = (String) driver.executeScript("return CKEDITOR.instances['templateEditor'].getData();");
+		driver.findElement(By.cssSelector("button[ng-click='save()'")).click();
 	}
 	
 	@Test
@@ -50,11 +100,12 @@ public class TemplateTest {
 	
 	@Test
 	public void testChangeTemplateTitle() {
+		setup();
 		goToNewTemplate();
 		WebElement titleTextBox = driver.findElement(By.id("title"));
 		titleTextBox.clear();
-		titleTextBox.sendKeys("Auto Test Template");
-		Assert.assertEquals(titleTextBox.getText(), "Auto Test Template");
+		titleTextBox.sendKeys(expectedTitle);
+		Assert.assertEquals(titleTextBox.getText(), expectedTitle);
 		driver.quit();
 	}
 	
@@ -63,6 +114,7 @@ public class TemplateTest {
 	// is always cke_76_frame so we check for this.
 	@Test
 	public void testBasicAnalyticCharts() throws InterruptedException {
+		setup();
 		goToNewTemplate();
 		
 		// Interrupt Analytic
@@ -140,6 +192,7 @@ public class TemplateTest {
 	
 	@Test
 	public void testAnomalyDetectionCharts() throws InterruptedException {
+		setup();
 		goToNewTemplate();
 		
 		// Density Map
@@ -181,6 +234,7 @@ public class TemplateTest {
 	
 	@Test
 	public void testInvariantMiningCharts() throws InterruptedException {
+		setup();
 		goToNewTemplate();
 		
 		// Co-occurrence
@@ -294,6 +348,7 @@ public class TemplateTest {
 	
 	@Test
 	public void testSingleTraceCharts() throws InterruptedException {
+		setup();
 		goToNewTemplate();
 		
 		// Buffer State
@@ -443,6 +498,7 @@ public class TemplateTest {
 	
 	@Test
 	public void testMultiTraceCharts() throws InterruptedException {
+		setup();
 		goToNewTemplate();
 		
 		// Five Number Summary
@@ -479,6 +535,138 @@ public class TemplateTest {
 		driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title='Rich Text Editor, templateEditor']")));
 		chart = driver.findElement(By.cssSelector("img[data-type='parallelCoordinates']"));
 		Assert.assertEquals("b", chart.getAttribute("data-name"));
+		driver.quit();
+	}
+	
+	@Test
+	public void testSaveTemplate() throws InterruptedException {
+		setup();
+		deleteTemplates();
+		goToNewTemplate();
+		createTemplate();
+		
+		Thread.sleep(delay);
+		WebElement table = driver.findElement(By.className("table"));
+		String templateName = driver.findElement(By.cssSelector("td[class='ng-binding']")).getText();
+		Assert.assertEquals(templateName, expectedTitle);
+		WebElement tr = table.findElement(By.className("accordion-toggle"));
+		tr.click();
+		Thread.sleep(delay);
+
+		WebElement editButton = table.findElements(By.tagName("button")).get(0);
+		editButton.click();
+		Thread.sleep(delay);
+		Assert.assertEquals(
+				driver.executeScript("return CKEDITOR.instances['templateEditor'].getData();"),
+				expectedContent);
+		Thread.sleep(delay);
+		driver.findElement(By.xpath("//*[@id='viewContainer']/div/div[2]/button[2]")).click();
+		deleteTemplates();
+		driver.quit();
+	}
+	
+	@Test
+	public void testEditTemplate() throws InterruptedException {
+		setup();
+		deleteTemplates();
+		goToNewTemplate();
+		createTemplate();
+		
+		Thread.sleep(delay);
+		WebElement table = driver.findElement(By.className("table"));
+		String templateName = driver.findElement(By.cssSelector("td[class='ng-binding']")).getText();
+		Assert.assertEquals(templateName, expectedTitle);
+		WebElement tr = table.findElement(By.className("accordion-toggle"));
+		tr.click();
+		Thread.sleep(delay);
+		WebElement editButton = table.findElements(By.tagName("button")).get(0);
+		editButton.click();
+		Thread.sleep(delay);		
+		driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title='Rich Text Editor, templateEditor']")));
+		WebElement ckEditor = driver.findElement(By.cssSelector("body[contenteditable='true']"));
+		ckEditor.clear();
+		ckEditor.sendKeys("Edited text");
+		driver.switchTo().defaultContent();
+		Thread.sleep(delay);
+		expectedContent = (String) driver.executeScript("return CKEDITOR.instances['templateEditor'].getData();");
+		driver.findElement(By.cssSelector("button[ng-click='save()'")).click();
+		
+		table = driver.findElement(By.className("table"));
+		templateName = driver.findElement(By.cssSelector("td[class='ng-binding']")).getText();
+		Assert.assertEquals(templateName, expectedTitle);
+		tr = table.findElement(By.className("accordion-toggle"));
+		tr.click();
+		Thread.sleep(delay);
+		editButton = table.findElements(By.tagName("button")).get(0);
+		editButton.click();
+		Thread.sleep(delay);
+		Assert.assertEquals(
+				driver.executeScript("return CKEDITOR.instances['templateEditor'].getData();"),
+				expectedContent);
+		Thread.sleep(delay);
+		driver.findElement(By.xpath("//*[@id='viewContainer']/div/div[2]/button[2]")).click();
+		deleteTemplates();
+		driver.quit();
+	}
+	
+	@Test
+	public void testTemplateClone() throws InterruptedException {
+		setup();
+		deleteTemplates();
+		goToNewTemplate();
+		createTemplate();
+		
+		Thread.sleep(delay);
+		WebElement table = driver.findElement(By.className("table"));
+		String templateName = driver.findElement(By.cssSelector("td[class='ng-binding']")).getText();
+		Assert.assertEquals(templateName, expectedTitle);
+		WebElement tr = table.findElement(By.className("accordion-toggle"));
+		tr.click();
+		Thread.sleep(delay);
+		WebElement copyButton = table.findElements(By.tagName("button")).get(1);
+		copyButton.click();
+		WebElement name = driver.findElement(By.cssSelector("input[type='text']"));
+		name.sendKeys(copyName);
+		WebElement saveButton = driver.findElement(By.cssSelector("button[ng-click='clone()']"));
+		saveButton.click();
+		Thread.sleep(delay);
+		table = driver.findElement(By.className("table"));
+		List<WebElement> rows = table.findElements(By.cssSelector("tbody[ng-repeat='template in templates']"));
+		Assert.assertEquals(2, rows.size());
+		WebElement row1 = rows.get(0);
+		row1.click();
+		Thread.sleep(delay);
+		WebElement editButton = row1.findElements(By.tagName("button")).get(0);
+		editButton.click();
+		String row1Content = (String) driver.executeScript("return CKEDITOR.instances['templateEditor'].getData();");
+		driver.findElement(By.xpath("//*[@id='viewContainer']/div/div[2]/button[2]")).click();
+		Thread.sleep(delay);
+		table = driver.findElement(By.className("table"));
+		rows = table.findElements(By.cssSelector("tbody[ng-repeat='template in templates']"));
+		Assert.assertEquals(2, rows.size());
+		WebElement row2 = rows.get(1);
+		row2.click();
+		Thread.sleep(delay);
+		editButton = row2.findElements(By.tagName("button")).get(0);
+		editButton.click();
+		String row2Content = (String) driver.executeScript("return CKEDITOR.instances['templateEditor'].getData();");
+		Thread.sleep(delay);
+		driver.findElement(By.xpath("//*[@id='viewContainer']/div/div[2]/button[2]")).click();
+		Assert.assertEquals(row1Content, row2Content);
+		deleteTemplates();
+		driver.quit();
+	}
+
+	@Test
+	public void testDeleteTemplate() throws InterruptedException {
+		setup();
+		deleteTemplates();
+		goToNewTemplate();
+		createTemplate();
+		deleteTemplates();
+		WebElement table = driver.findElement(By.className("table"));
+		List<WebElement> rows = table.findElements(By.cssSelector("tbody[ng-repeat='template in templates']"));
+		Assert.assertEquals(rows.size(), 0);
 		driver.quit();
 	}
 }
