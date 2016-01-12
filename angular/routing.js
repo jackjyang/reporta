@@ -28,6 +28,9 @@ reportaApp.config(function($routeProvider, $locationProvider) {
   }).when('/generate_report', {
     templateUrl: 'partials/generate_report',
     controller: 'generateReportController'
+  }).when('/api_auth_test', {
+    templateUrl: 'partials/api_auth_test',
+    controller: 'apiAuthTestController'
   });
   $locationProvider.html5Mode(true);
 });
