@@ -2,6 +2,16 @@
     icons: 'prev,next',
     init: function( editor ) {
 
+      function getForm(editor, selected) {
+          editor.getSelection().selectElement(selected);
+          editor.getSelection().scrollIntoView();
+
+          var analyticType = selected.getAttribute('data-type');
+          editor.fire('findElementEvent', analyticType);
+
+          return;
+      };
+
       var prevcommand = editor.addCommand( 'findprev',
       {
         exec : function( editor )
@@ -11,7 +21,6 @@
             return;
 
           var a = editor.getSelection().getStartElement();
-
           if (!a)
             return;
 
@@ -27,15 +36,7 @@
             }
           }
 
-          editor.getSelection().selectElement(selected);
-          editor.getSelection().scrollIntoView();
-
-          var analyticType = selected.getAttribute('data-type');
-          editor.fire('findElementEvent', analyticType)
-
-          return;
-
-          // TODO: index bug
+          getForm(editor, selected);
         }
       });
 
@@ -49,8 +50,6 @@
             return;
 
           var a = editor.getSelection().getStartElement();
-          // TODO: no start element in readonly mode
-
           if (!a)
             return;
 
@@ -66,21 +65,32 @@
             }
           }
 
-          editor.getSelection().selectElement(selected);
-          editor.getSelection().scrollIntoView();
-
-          var analyticType = selected.getAttribute('data-type');
-          editor.fire('findElementEvent', analyticType)
-          return;
-
-          // TODO: index bug
+          getForm(editor, selected);
         }
       });
 
+      var currentcommand = editor.addCommand ('findcurrent',
+      {
+        exec : function( editor )
+        {
+          var nodeList = editor.document.find( 'img' );
+          if (nodeList.count() == 0)
+            return;
+
+          var selected = editor.getSelection().getStartElement();
+          if (!selected)
+            return;
+
+          getForm(editor, selected);
+        }
+      })
+
       prevcommand.canUndo = false;
       nextcommand.canUndo = false;
+      currentcommand.canUndo = false;
       prevcommand.readOnly = 1;
       nextcommand.readOnly = 1;
+      currentcommand.readOnly = 1;
 
       if ( editor.ui.addButton ) {
         editor.ui.addButton( 'PrevElement', {

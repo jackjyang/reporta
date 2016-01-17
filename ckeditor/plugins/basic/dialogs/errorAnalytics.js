@@ -24,6 +24,7 @@ CKEDITOR.dialog.add('errorAnalyticsDialog', function(editor) {
         }
       }]
     }],
+
     onShow: function() {
       var selection = editor.getSelection();
       var element = selection.getStartElement();

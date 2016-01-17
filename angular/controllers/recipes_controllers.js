@@ -217,6 +217,17 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
         }
       },
 
+      contentDom: function (event) {
+        if (!event.editor.document)
+          return;
+        var analyses = event.editor.document.getElementsByTag("img");
+        for (var i = 0; i < analyses.count(); i++) {
+          analyses.getItem(i).on('click', function(ev){
+            event.editor.execCommand('findcurrent'); // add getform command to analysis
+          });
+        }
+      },
+
       instanceReady: function(event) {
 
         var editor = event.editor;
