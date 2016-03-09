@@ -28,6 +28,7 @@ reportaApp.controller('generationController', function($scope, $http) {
   $scope.selectRecipe = function(index) {
     $scope.recipe = $scope.allRecipes[index];
     console.log($scope.recipe);
+    document.getElementById('recipe' + index).checked = true;
   };
 
   $scope.generateReport = function() {
