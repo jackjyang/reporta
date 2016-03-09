@@ -162,7 +162,6 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   };
 
   function loadCurrentSelection(selections) {
-    console.log(selections);
     var selection_list = JSON.parse(selections);
     var form_fields = document.getElementsByClassName("form-control");
     for (i = 0; i < form_fields.length; i++) {
@@ -310,17 +309,22 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                 recipe_name: $(document.getElementById('recipeTitle')).text(),
                 template_name: $(document.getElementById('templateSelect')).val(),
                 userId: $scope.user.id,
-                name: event.editor.getSelection().getStartElement().getAttribute('data-name')
+                name: key
               }
-            }).success(function(data2,status,headers,config) {
-              if (data2 == null) {
+            }).success(function(data_db,status,headers,config) {
+              if (data_db != null) {
+                $("#formDiv").html(data_db.form);
+                loadCurrentSelection(data_db.selections);
+              }
+              else {
                 // no record in memory or db, pull from acerta
-
                 // TODO: if failed to read, don't save last form
+
                 // construct arg list
                 var dataSource = data.message;
+                var dataType = event.data;
                 var system = dataSource.system.name;
-                var params = event.data + ' ' + system
+                var params = dataType + ' ' + system
                 for (i = 0; i < dataSource.trace.length; i++) {
                   params += ' ' + dataSource.trace[i].name;
                 }
@@ -333,17 +337,23 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                   func: 'get_report_form',
                   param: params
                 }
-                }).success(function(data3,status,headers,config) {
-                  $("#formDiv").html(data3);
-                  console.log(data3);
+                }).success(function(data_acerta,status,headers,config) {
+                  if (data_acerta != "error") {
+                    $("#formDiv").html(data_acerta);
+                  }
+                  else {
+                    $http({
+                      method: 'get',
+                      url: 'http://127.0.0.1:3000/api/mockForm',
+                      params: { param: dataType }
+                    }).success(function(data_mock, status, headers, config) {
+                      //console.log(data4.message);
+                      $("#formDiv").html(data_mock.message);
+                      console.log("using mock form");
+                    });
+                  }
                 });
-              } else {
-                // pull from db
-                $("#formDiv").html(data2.form);
-                loadCurrentSelection(data2.selections);
               }
-            }).error(function(data,status,headers,config) {
-              console.log("unknown error");
             });
           }
         });
