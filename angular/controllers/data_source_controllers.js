@@ -20,7 +20,17 @@ reportaApp.controller('dataSourcesController', function($scope, $http) {
       data: { func: 'list_systems' }
     }).success(function(data, status, headers, config) {
       $scope.system = data.message;
-      console.log($scope.system);
+      if (data.status == "error") {
+        $http({
+          method: 'get',
+          url: 'http://127.0.0.1:3000/api/mockDataSource',
+          data: { func: 'list_systems' }
+        }).success(function(data, status, headers, config) {
+          console.log(status);
+          $scope.system = data.message;
+          console.log("using mock data source");
+        });
+      }
     });
 
   }
@@ -137,6 +147,17 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
     }).success(function(data, status, headers, config) {
       console.log(data.message);
       $scope.tracesForSelectedSystem = data.message;
+      if (data.status == "error") {
+        $http({
+          method: 'get',
+          url: 'http://127.0.0.1:3000/api/mockTrace',
+          data: { func: 'list_systems', param: system.name }
+        }).success(function(data, status, headers, config) {
+          console.log(data.message);
+          $scope.tracesForSelectedSystem = data.message;
+          console.log("using mock trace");
+        });
+      }
     });
 
   }
@@ -167,6 +188,17 @@ reportaApp.controller('dataSourceNewModalController', function($scope, $modalIns
     }).success(function(data, status, headers, config) {
       console.log(data.message);
       $scope.tracesForSelectedSystem = data.message;
+      if (data.status == "error") {
+        $http({
+          method: 'get',
+          url: 'http://127.0.0.1:3000/api/mockTrace',
+          data: { func: 'list_systems', param: system.name }
+        }).success(function(data, status, headers, config) {
+          console.log(data.message);
+          $scope.tracesForSelectedSystem = data.message;
+          console.log("using mock trace");
+        });
+      }
     });
   };
 
@@ -188,6 +220,17 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
   }).success(function(data, status, headers, config) {
     console.log(data.message);
     $scope.tracesForSelectedSystem = data.message;
+    if (data.status == "error") {
+      $http({
+        method: 'get',
+        url: 'http://127.0.0.1:3000/api/mockTrace',
+        data: { func: 'list_systems', param: system.name }
+      }).success(function(data, status, headers, config) {
+        console.log(data.message);
+        $scope.tracesForSelectedSystem = data.message;
+        console.log("using mock trace");
+      });
+    }
   });
 
 
@@ -225,6 +268,17 @@ reportaApp.controller('dataSourceEditModalController', function($scope, $modalIn
     }).success(function(data, status, headers, config) {
       console.log(data.message);
       $scope.tracesForSelectedSystem = data.message;
+      if (data.status == "error") {
+        $http({
+          method: 'get',
+          url: 'http://127.0.0.1:3000/api/mockTrace',
+          data: { func: 'list_systems', param: system.name }
+        }).success(function(data, status, headers, config) {
+          console.log(data.message);
+          $scope.tracesForSelectedSystem = data.message;
+          console.log("using mock trace");
+        });
+      }
     });
   };
   $scope.traceDropDownSettings = {displayProp:'name', externalIdProp: ''};
