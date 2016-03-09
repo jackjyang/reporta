@@ -4,23 +4,25 @@
 	<img id="image" src=""/>
 
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-2">
 			<h5>Select Recipe:</h5>
 		</div>
-		<div class="col-lg-4">
+		<div class="col-lg-8">
 			<div class="panel panel-default">
 			  <div class="panel-body">
 			    <table class="table table-hover fixed">
 			      <thead>
 			        <tr>
+			        	<th></th>
 			          <th>Name</th>
 			          <th>Last Modified</th>
 			        </tr>
 			      </thead>
 			      <tbody>
 			      	<tr ng-repeat="recipe in allRecipes" ng-click="selectRecipe($index)">
+			      		<td><input type="radio" name="recipesGroup" id="recipe{{$index}}"></td>
 			      		<td ng-model="recipe.name">{{recipe.name}}</td>
-			      		<td ng-model="recipe.updated_on">{{recipe.updated_on}}</td>
+			      		<td ng-model="recipe.updated_on">{{recipe.updated_on.toLocaleString()}}</td>
 			      	</tr>
 			      </tbody>
 			    </table>
@@ -29,17 +31,17 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-2">
 			<h5>Add Email:</h5>
 		</div>
-		<div class="col-lg-4">
+		<div class="col-lg-8">
 			<input ng-model="email" type="text" required="required"/>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-2">
 		</div>
-		<div class="col-lg-4">
+		<div class="col-lg-8">
 			<button type="button" ng-click="generate()" class="btn btn-default">Generate</button>
 		</div>
 	</div>
