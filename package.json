@@ -27,6 +27,7 @@
     "phantom": "^0.7.2",
     "phantom-html-to-pdf": "^0.3.1",
     "phantom-pdf": "^0.2.2",
-    "nodemailer": "1.10.0"
+    "nodemailer": "1.10.0",
+    "jsdom" : "3.1.2"
   }
 }
