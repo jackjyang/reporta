@@ -171,6 +171,7 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
           userId: $scope.user.id,
           name: document.getElementById('title').innerHTML,
           content: $scope.content,
+          page_numbers: pageNumber,
           header: CKEDITOR.config.customConfig.valueOf['headerValue']
         }
       }).success(function(data, status, headers, config) {
