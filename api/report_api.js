@@ -91,24 +91,24 @@ module.exports = function(apiHandler) {
 		    		elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" || 
 		    		elementsToGenerate[i].getAttribute("data-type") == "EventRuntimeJitter") {
 
-		    		http.get({
-				        host : 'localhost',
-					    port : 3000,
-				        path: '/api/mockDataImage'
-				    }, function(response) {
-				        // Continuously update stream with data
-				        var body = '';
-				        response.on('data', function(d) {
-				            body += d;
-				        });
-				        response.on('end', function() {
-
-				            // Data reception is done, do whatever with it!
-				            var parsed = JSON.parse(body);
-				            elementToGenerate.src = parsed.message;
-				            generatedElementCount ++;
-				        });
-				    });
+		    		(function(index) {
+						http.get({
+					        host : 'localhost',
+						    port : 3000,
+					        path: '/api/mockDataImage'
+					    }, function(response) {
+					        // Continuously update stream with data
+					        var body = '';
+					        response.on('data', function(d) {
+					            body += d;
+					        });
+					        response.on('end', function() {
+								var parsed = JSON.parse(body);
+					            elementsToGenerate[index].src = parsed.message;
+					            generatedElementCount ++;
+					        });
+					    });
+					})(i)
 		    	}
 		    }
 
