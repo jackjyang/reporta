@@ -139,6 +139,10 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
     }).success(function(data, status, headers, config) {
       // Find something to do if error/successful?
     });
+    var pageNumber = false;
+    if($('.cke_button__pagenumber').hasClass('cke_button_on')) {
+      pageNumber = true;
+    }
     if (edit) {
       $http({
         method: 'POST',
@@ -148,7 +152,8 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
           template: {
             name: document.getElementById('title').innerHTML,
             content: $scope.content,
-            updated_on: new Date()
+            updated_on: new Date(),
+            page_numbers: pageNumber
           },
           oldTitle: oldTitle
         }

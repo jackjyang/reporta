@@ -32,7 +32,8 @@ var templateSchema = new Schema({
   name: String ,
   content: String,
   updated_on: Date,
-  created_on: Date
+  created_on: Date,
+  page_numbers: Boolean
 });
 templateSchema.index({ owner_id: 1, name: -1 }, { unique: true });
 templateSchema.plugin(autoIncrement.plugin, 'template');
