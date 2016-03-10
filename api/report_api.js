@@ -123,7 +123,10 @@ module.exports = function(apiHandler) {
                   });
                   response.on('end', function() {
                   var parsed = JSON.parse(body);
-                  elementsToGenerate[index].innerHTML = parsed.message["min"];
+
+                  var text = window.document.createTextNode(parsed.message["min"]);
+                  elementsToGenerate[index].parentNode.replaceChild(text, elementsToGenerate[index]);
+                  // elementsToGenerate[index].removeChild(elementsToGenerate[index]);
                   generatedElementCount ++;
                 });
               });
