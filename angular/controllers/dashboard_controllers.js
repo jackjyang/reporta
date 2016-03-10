@@ -23,7 +23,7 @@ reportaApp.controller('dashboardController', function($scope, $http) {
       $scope.templates = data.message;
       // Sort by created_on date, and truncate to first 5 elems.
       $scope.templates.sort(compareDate);
-      $scope.templates.slice(0, 5);
+      $scope.templates = $scope.templates.slice(0, 5);
     });
 
     $http({
@@ -37,7 +37,7 @@ reportaApp.controller('dashboardController', function($scope, $http) {
       });
       $scope.recipes = data.message;
       $scope.recipes.sort(compareDate);
-      $scope.recipes.slice(0, 5);
+      $scope.recipes = $scope.recipes.slice(0, 5);
     });
 
   }
