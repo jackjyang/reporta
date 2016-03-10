@@ -152,10 +152,14 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     }
 
     // save all form input as json
-    var choices = new Array();
+    var choices = {};
     var form_fields = document.getElementsByClassName("form-control");
     for (i = 0; i < form_fields.length; i++) {
-      choices[i] = form_fields[i].value;
+      var multiselects = [];
+      for (j = 0; j < form_fields[i].selectedOptions.length; j++) {
+        multiselects.push(form_fields[i].selectedOptions[j].label);
+      }
+      choices[form_fields[i].id] = multiselects;
     }
     var choices_to_string = JSON.stringify(choices);
     selections[key] = choices_to_string;
