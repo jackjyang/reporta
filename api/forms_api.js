@@ -62,7 +62,8 @@ module.exports = function(apiHandler) {
     {
       recipe_name: recipe_name,
       template_name: template_name,
-      owner_id: userId, name: name
+      owner_id: userId,
+      name: name
     },
     data.form, data.selections, function(err, source) {
       var response;
@@ -73,4 +74,6 @@ module.exports = function(apiHandler) {
       res.json(response);
     });
   };
+
+  // TODO: add clone form api
 };

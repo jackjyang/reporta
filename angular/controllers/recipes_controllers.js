@@ -124,6 +124,8 @@ reportaApp.controller('recipesCloneModalController', function($scope, $modalInst
       }
     }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
+
+      // TODO: call cloneForm
       location.href='recipes';
     });
   };
@@ -155,11 +157,14 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     var choices = {};
     var form_fields = document.getElementsByClassName("form-control");
     for (i = 0; i < form_fields.length; i++) {
-      var multiselects = [];
-      for (j = 0; j < form_fields[i].selectedOptions.length; j++) {
-        multiselects.push(form_fields[i].selectedOptions[j].label);
+      var id = form_fields[i].id;
+      if (id) {
+        var multiselects = [];
+        for (j = 0; j < form_fields[i].selectedOptions.length; j++) {
+          multiselects.push(form_fields[i].selectedOptions[j].label);
+        }
+        choices[form_fields[i].id] = multiselects;
       }
-      choices[form_fields[i].id] = multiselects;
     }
     var choices_to_string = JSON.stringify(choices);
     selections[key] = choices_to_string;
@@ -169,7 +174,14 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
     var selection_list = JSON.parse(selections);
     var form_fields = document.getElementsByClassName("form-control");
     for (i = 0; i < form_fields.length; i++) {
-      form_fields[i].value = selection_list[i];
+      var id = form_fields[i].id;
+      if (id) {
+        for (j = 0; j < form_fields[id].options.length; j++) {
+          if (selection_list[id].indexOf (form_fields[id].options[j].label) >= 0) {
+            form_fields[id].options[j].selected = true;
+          }
+        }
+      }
     }
   };
 
@@ -354,6 +366,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                       //console.log(data4.message);
                       $("#formDiv").html(data_mock.message);
                       console.log("using mock form");
+                      loadCurrentSelection(selections[key]);
                     });
                   }
                 });
