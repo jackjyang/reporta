@@ -151,13 +151,21 @@ module.exports = function(apiHandler) {
 			      ph.createPage(function (page) {
 			      	page.set('content', window.document.getElementsByTagName('body')[0].innerHTML);
 
-					var createHeader = new Function('pageNum', 'numPages', 'return \'<h4>' + template.header + '</h4>\';');
+			      	if(template.header == undefined)
+			      		template.header = "";
+					var createHeader = new Function('pageNum', 'numPages', 'return \'<h5>' + template.header + '</h5>\';');
+					var createFooter = new Function('pageNum', 'numPages', 'if(' + template.page_numbers + ') { return \'<h6>\' + pageNum + "/" + numPages + \'</h6>\';} return "";');
+					
 
 			        page.set('paperSize', {
 			          	format: 'A4',
 			          	header: {
                             height: "2cm",
                             contents: ph.callback(createHeader)
+                        },
+                        footer: {
+                            height: "2cm",
+                            contents: ph.callback(createFooter)
                         }
 			        }, function() {
 						setTimeout(function() {
