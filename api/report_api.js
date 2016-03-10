@@ -153,7 +153,7 @@ module.exports = function(apiHandler) {
 
 			      	if(template.header == undefined)
 			      		template.header = "";
-					var createHeader = new Function('pageNum', 'numPages', 'return \'<h5>' + template.header + '</h5>\';');
+					var createHeader = new Function('pageNum', 'numPages', 'return \'<br><h5>' + template.header + '</h5>\';');
 					var createFooter = new Function('pageNum', 'numPages', 'if(' + template.page_numbers + ') { return \'<h6>\' + pageNum + "/" + numPages + \'</h6>\';} return "";');
 					
 
@@ -164,7 +164,7 @@ module.exports = function(apiHandler) {
                             contents: ph.callback(createHeader)
                         },
                         footer: {
-                            height: "2cm",
+                            height: "1cm",
                             contents: ph.callback(createFooter)
                         }
 			        }, function() {
