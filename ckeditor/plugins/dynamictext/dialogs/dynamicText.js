@@ -28,29 +28,24 @@ CKEDITOR.dialog.add('dynamicTextDialog', function(editor) {
     onShow: function() {
       var selection = editor.getSelection();
       var element = selection.getStartElement();
-      if (element) {
-        if (element.getName() != 'div') {
-          element = element.getParent();
-        }
-        if (element.getName() != 'div') {
-          this.insertMode = true;
-        } else {
-          this.insertMode = false;
-          this.element = element;
-          this.setupContent(this.element);
-        }
-      } else {
+      if (element && element.getName() != 'img') {
         this.insertMode = true;
+      } else {
+        this.insertMode = false;
+        this.element = element;
+        this.setupContent(this.element);
       }
     },
     onOk: function() {
       var dialog = this;
-      var chart = editor.document.createElement('div');
+      var chart = editor.document.createElement('img');
       var id;
       var name = dialog.getValueOf('tab-basic', 'data-name');
       var desc = dialog.getValueOf('tab-basic', 'data-desc');
 
-      chart.appendHtml('<img src="/ckeditor/genericplaceholder/textplaceholder.png" style="height:25px; width:100px" />');
+      chart.setAttribute('src', '/ckeditor/genericplaceholder/textplaceholder.png');
+      chart.setAttribute('style', 'width: 100px; height: 25px;');
+
       if (this.insertMode) {
         id = counter++;
       } else {
