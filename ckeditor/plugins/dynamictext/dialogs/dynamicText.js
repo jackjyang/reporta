@@ -50,7 +50,7 @@ CKEDITOR.dialog.add('dynamicTextDialog', function(editor) {
       var name = dialog.getValueOf('tab-basic', 'data-name');
       var desc = dialog.getValueOf('tab-basic', 'data-desc');
 
-      chart.appendHtml('<img data-type="dynamicText" src="/ckeditor/genericplaceholder/textplaceholder.png" style="height:25px; width:100px" />');
+      chart.appendHtml('<img src="/ckeditor/genericplaceholder/textplaceholder.png" style="height:25px; width:100px" />');
       if (this.insertMode) {
         id = counter++;
       } else {

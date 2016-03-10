@@ -19,7 +19,7 @@ CKEDITOR.plugins.add('dynamicText', {
       var element = CKEDITOR.plugins.link.getSelectedLink(editor) || evt.data.element;
 
       if (!element.isReadOnly()) {
-        if (element.getAttribute('data-type') == 'dynamicText') {
+        if (element.getParent().getAttribute('data-type') == 'dynamicText') {
           evt.data.dialog = 'dynamicTextDialog';
           editor.getSelection().selectElement(element);
         } else if (CKEDITOR.plugins.link.tryRestoreFakeAnchor(editor, element)) {
