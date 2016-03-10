@@ -11,7 +11,8 @@ module.exports = function(apiHandler) {
       name: data.name,
       content: data.content,
       updated_on: new Date,
-      created_on: new Date
+      created_on: new Date,
+      header: data.header
     });
     newTemplate.save(function(err) {
       var response;
