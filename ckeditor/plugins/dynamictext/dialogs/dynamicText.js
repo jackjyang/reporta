@@ -28,29 +28,37 @@ CKEDITOR.dialog.add('dynamicTextDialog', function(editor) {
     onShow: function() {
       var selection = editor.getSelection();
       var element = selection.getStartElement();
-      if (element && element.getName() != 'img') {
-        this.insertMode = true;
+      if (element) {
+        if (element.getName() != 'div') {
+          element = element.getParent();
+        }
+        if (element.getName() != 'div') {
+          this.insertMode = true;
+        } else {
+          this.insertMode = false;
+          this.element = element;
+          this.setupContent(this.element);
+        }
       } else {
-        this.insertMode = false;
-        this.element = element;
-        this.setupContent(this.element);
+        this.insertMode = true;
       }
     },
     onOk: function() {
       var dialog = this;
-      var chart = editor.document.createElement('img');
+      var chart = editor.document.createElement('div');
       var id;
+      var name = dialog.getValueOf('tab-basic', 'data-name');
+      var desc = dialog.getValueOf('tab-basic', 'data-desc');
 
-      chart.setAttribute('src', '/ckeditor/genericplaceholder/textplaceholder.png');
-      chart.setAttribute('style', 'width: 100px; height: 25px;');
+      chart.appendHtml('<img data-type="dynamicText" src="/ckeditor/genericplaceholder/textplaceholder.png" style="height:25px; width:100px" />');
       if (this.insertMode) {
         id = counter++;
       } else {
         id = this.element.getAttribute('data-id');
       }
       chart.setAttribute('data-id', id);
-      chart.setAttribute('data-name', dialog.getValueOf('tab-basic', 'data-name'));
-      chart.setAttribute('data-desc', dialog.getValueOf('tab-basic', 'data-desc'));
+      chart.setAttribute('data-name', name);
+      chart.setAttribute('data-desc', desc);
       chart.setAttribute('data-type', 'dynamicText');
       editor.insertElement(chart);
     }
