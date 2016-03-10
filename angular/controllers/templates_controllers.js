@@ -154,7 +154,7 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
             name: document.getElementById('title').innerHTML,
             content: $scope.content,
             updated_on: new Date(),
-            page_numbers: pageNumber,
+            pageNumber: pageNumber,
             header: CKEDITOR.config.customConfig.valueOf['headerValue']
           },
           oldTitle: oldTitle
@@ -171,7 +171,7 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
           userId: $scope.user.id,
           name: document.getElementById('title').innerHTML,
           content: $scope.content,
-          page_numbers: pageNumber,
+          pageNumber: pageNumber,
           header: CKEDITOR.config.customConfig.valueOf['headerValue']
         }
       }).success(function(data, status, headers, config) {
