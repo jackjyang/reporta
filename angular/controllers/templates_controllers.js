@@ -122,6 +122,7 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
             oldTitle = data.name;
             document.getElementById('title').innerHTML = data.name;
             event.editor.setData(data.content);
+            CKEDITOR.config.customConfig.valueOf['headerValue'] = data.header;
           });
         }
       },
@@ -153,7 +154,8 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
             name: document.getElementById('title').innerHTML,
             content: $scope.content,
             updated_on: new Date(),
-            page_numbers: pageNumber
+            page_numbers: pageNumber,
+            header: CKEDITOR.config.customConfig.valueOf['headerValue']
           },
           oldTitle: oldTitle
         }
@@ -168,7 +170,8 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
         data: {
           userId: $scope.user.id,
           name: document.getElementById('title').innerHTML,
-          content: $scope.content
+          content: $scope.content,
+          header: CKEDITOR.config.customConfig.valueOf['headerValue']
         }
       }).success(function(data, status, headers, config) {
         // TODO: Display any errors to the user before closing modal.

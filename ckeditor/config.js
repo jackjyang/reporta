@@ -10,7 +10,7 @@ CKEDITOR.editorConfig = function(config) {
 	// config.uiColor = '#AADC6E';
 
 	config.extraPlugins = 'basic,anomaly,invariant,singletrace,multitrace,' +
-		'findelement,dynamicText,pagebreak,pageNumbers';
+		'findelement,dynamicText,pagebreak,pageNumbers,header';
 
 	config.dialog_noConfirmCancel = true;
 
