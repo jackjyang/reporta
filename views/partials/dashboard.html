@@ -9,11 +9,16 @@
             <th>Last Modified</th>
           </tr>
         </thead>
-        <tr>
-          <td>template1</td>
-          <td>date</td>
-          <td><span class="glyphicon glyphicon-edit"></span></td>
-        </tr>
+        <tbody ng-repeat="template in templates">
+          <tr>
+            <td>{{template.name}}</td>
+            <td>{{template.updated_on.toLocaleString()}}</td>
+            <td>
+              <a class="glyphicon glyphicon-edit" href="/template_editor/{{template.name}}">
+              </a>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div class="panel-footer">
@@ -32,11 +37,16 @@
             <th>Last Modified</th>
           </tr>
         </thead>
-        <tr>
-          <td>recipie</td>
-          <td>date</td>
-          <td><span class="glyphicon glyphicon-edit"></span></td>
-        </tr>
+        <tbody ng-repeat="recipe in recipes">
+          <tr>
+            <td>{{recipe.name}}</td>
+            <td>{{recipe.updated_on.toLocaleString()}}</td>
+            <td>
+              <a class="glyphicon glyphicon-edit" href="/recipe_editor/{{recipe.name}}">
+              </a>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div class="panel-footer">
