@@ -43,4 +43,20 @@ module.exports = function(apiHandler) {
 
     res.json(response);
   }
+
+  apiHandler.mockDataJSON = function(res, req) {
+    var data = req.method == 'GET' ? req.query : req.body;
+    var dataType = data.param;
+    console.log(dataType);
+
+    var data = {
+      "mean": 22,
+      "min": 9,
+      "max": 36
+    };
+
+    var response = {status:"ok", message: data};
+
+    res.json(response);
+  }
 };

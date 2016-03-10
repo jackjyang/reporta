@@ -39,7 +39,7 @@ module.exports = function(apiHandler) {
 	};
 	smtpTransport.sendMail(mailOptions, function (err, info){
 		// If a problem occurs, return callback with the error
-		if(err) 
+		if(err)
 			console.log(err)
 		else {
 			console.log(info);
@@ -115,7 +115,29 @@ module.exports = function(apiHandler) {
 						        });
 						    });
 						})(i)
-			    	}
+			    	} else if (elementsToGenerate[i].getAttribute("data-type") == "dynamicText") {
+			            (function(index) {
+			              	http.get({
+			                 	host : 'localhost',
+			                  	port : 3000,
+			                  	path: '/api/mockDataJSON'
+			              	}, function(response) {
+			                  	// Continuously update stream with data
+			                  	var body = '';
+								response.on('data', function(d) {
+								  	body += d;
+								});
+								response.on('end', function() {
+									var parsed = JSON.parse(body);
+
+									var text = window.document.createTextNode(parsed.message["min"]);
+									elementsToGenerate[index].parentNode.replaceChild(text, elementsToGenerate[index]);
+									// elementsToGenerate[index].removeChild(elementsToGenerate[index]);
+									generatedElementCount ++;
+			                	});
+			              	});
+			            })(i);
+			        }
 			    }
 
 			    while(generatedElementCount < elementsToGenerate) {
@@ -129,15 +151,13 @@ module.exports = function(apiHandler) {
 			      ph.createPage(function (page) {
 			      	page.set('content', window.document.getElementsByTagName('body')[0].innerHTML);
 
+					var createHeader = new Function('pageNum', 'numPages', 'return \'<h4>' + template.header + '</h4>\';');
+
 			        page.set('paperSize', {
 			          	format: 'A4',
 			          	header: {
-                            height: "1cm",
-                            contents: 'function(pageNum, numPages) { return pageNum + "/" + numPages; }'
-                        },
-                        footer: {
-                            height: "1cm",
-                            contents: 'function(pageNum, numPages) { return pageNum + "/" + numPages; }'
+                            height: "2cm",
+                            contents: ph.callback(createHeader)
                         }
 			        }, function() {
 						setTimeout(function() {
