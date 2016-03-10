@@ -38,7 +38,7 @@ module.exports = function(apiHandler) {
 	};
 	smtpTransport.sendMail(mailOptions, function (err, info){
 		// If a problem occurs, return callback with the error
-		if(err) 
+		if(err)
 			console.log(err)
 		else {
 			console.log(info);
@@ -86,15 +86,15 @@ module.exports = function(apiHandler) {
 		    	var elementToGenerate = elementsToGenerate[i];
 
 		    	// image
-		    	if(elementsToGenerate[i].getAttribute("data-type") == "Interrupts" || 
-		    		elementsToGenerate[i].getAttribute("data-type") == "DensityMaps" || 
-		    		elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" || 
+		    	if(elementsToGenerate[i].getAttribute("data-type") == "Interrupts" ||
+		    		elementsToGenerate[i].getAttribute("data-type") == "DensityMaps" ||
+		    		elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" ||
 		    		elementsToGenerate[i].getAttribute("data-type") == "EventRuntimeJitter") {
 
 		    		(function(index) {
 						http.get({
 					        host : 'localhost',
-						    port : 3000,
+						      port : 3000,
 					        path: '/api/mockDataImage'
 					    }, function(response) {
 					        // Continuously update stream with data
@@ -108,8 +108,27 @@ module.exports = function(apiHandler) {
 					            generatedElementCount ++;
 					        });
 					    });
-					})(i)
-		    	}
+					  })(i);
+		    	} else if (elementsToGenerate[i].getAttribute("data-type") == "dynamicText") {
+            (function(index) {
+              http.get({
+                  host : 'localhost',
+                  port : 3000,
+                  path: '/api/mockDataJSON'
+              }, function(response) {
+                  // Continuously update stream with data
+                  var body = '';
+                  response.on('data', function(d) {
+                      body += d;
+                  });
+                  response.on('end', function() {
+                  var parsed = JSON.parse(body);
+                  elementsToGenerate[index].innerHTML = parsed.message["min"];
+                  generatedElementCount ++;
+                });
+              });
+            })(i);
+          }
 		    }
 
 		    while(generatedElementCount < elementsToGenerate) {
