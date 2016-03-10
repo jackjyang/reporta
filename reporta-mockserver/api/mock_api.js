@@ -34,4 +34,14 @@ module.exports = function(apiHandler) {
 
     res.json(response);
   }
+
+  apiHandler.mockDataImage = function(res, req) {
+    var data = req.method == 'GET' ? req.query : req.body;
+    var dataType = data.param;
+    console.log(dataType);
+
+    var response = {status:"ok", message: "http://scedc.caltech.edu/Module/Pics/s3iS_off.gif"};
+
+    res.json(response);
+  }
 };
