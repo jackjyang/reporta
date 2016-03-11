@@ -183,7 +183,8 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
         if(selects[i].id) {
           var multiselects = [];
           for (j = 0; j < selects[i].selectedOptions.length; j++) {
-            multiselects.push(selects[i].selectedOptions[j].label);
+            if (selects[i].selectedOptions[j].label != "")
+              multiselects.push(selects[i].selectedOptions[j].label);
           }
           choices[selects[i].id] = multiselects;
         }
