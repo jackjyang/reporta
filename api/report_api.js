@@ -23,8 +23,8 @@ module.exports = function(apiHandler) {
 	var smtpTransport = nodemailer.createTransport({
 	   service: "Gmail",  // sets automatically host, port and connection security settings
 	   auth: {
-	       user: "demo.reporta@gmail.com",
-	       pass: "wololofydp"
+	       user: "demo2.reporta@gmail.com",
+	       pass: "wololofydp1"
 	   }
 	});
 
@@ -95,11 +95,10 @@ module.exports = function(apiHandler) {
 								}
 							}
 
+							var datatype = elementsToGenerate[i].getAttribute("data-type");
+
 							// image
-							if(elementsToGenerate[i].getAttribute("data-type") == "Interrupts" ||
-								elementsToGenerate[i].getAttribute("data-type") == "DensityMaps" ||
-								elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" ||
-								elementsToGenerate[i].getAttribute("data-type") == "EventRuntimeJitter") {
+							if(datatype == "Interrupts" || datatype == "DensityMaps" || datatype == "IffCooccurInvar" || datatype == "EventRuntimeJitter") {
 
 								var requestPath = '/api/mockDataImage?dataType=' + elementsToGenerate[i].getAttribute("data-type");
 
