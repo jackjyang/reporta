@@ -75,5 +75,18 @@ module.exports = function(apiHandler) {
     });
   };
 
+  apiHandler.deleteForms = function(res, req) {
+    var data = req.method == 'GET' ? req.query : req.body;
+    var recipe_name = data.recipe_name;
+    form.find({recipe_name: recipe_name}).remove(function(err, source) {
+      var response;
+      if (err)
+        response = { status: "error", message: err};
+      else
+        response = { status: "ok"};
+      res.json(response);
+    });
+  }
+
   // TODO: add clone form api
 };

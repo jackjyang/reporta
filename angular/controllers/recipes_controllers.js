@@ -102,7 +102,15 @@ reportaApp.controller('recipesDeleteModalController', function($scope, $modalIns
       data: recipe
     }).success(function(data, status, headers, config) {
       // TODO: Display any errors to the user before closing modal.
-      $modalInstance.close(recipe);
+      $http({
+        method: 'POST',
+        url: '/api/deleteForms',
+        data: {
+          recipe_name: recipe.name
+        }
+      }).success (function(data, status, headers, config) {
+        $modalInstance.close(recipe);
+      });
     });
   };
   $scope.cancel = function() {
@@ -146,10 +154,10 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   function saveCurrentForm(editor, callback) {
     if (last != null) {
 
-      var key = last.getAttribute('data-name');
+      var key_id = last.getAttribute('data-id');
       var value = $("#formDiv").html();
       if (value.trim()) {
-        forms[key] = value;
+        forms[key_id] = value;
       }
 
       // save all form input as json
@@ -180,7 +188,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
         }
       }
       var choices_to_string = JSON.stringify(choices);
-      selections[key] = choices_to_string;
+      selections[key_id] = choices_to_string;
     }
 
     // find next element after we finish saving
@@ -346,13 +354,12 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
             }
           }).success(function(data, status, headers, config) {
             // try to find existing form in memory, then in db, finally from acerta
-            var key = event.editor.getSelection().getStartElement().getAttribute('data-name');
             var key_id = event.editor.getSelection().getStartElement().getAttribute('data-id');
             // load from mem
-            if (forms[key] != null)
+            if (forms[key_id] != null)
             {
-                $("#formDiv").html(forms[key]);
-                loadCurrentSelection(selections[key]);
+                $("#formDiv").html(forms[key_id]);
+                loadCurrentSelection(selections[key_id]);
             }
             else {
               $http({
@@ -362,7 +369,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                   recipe_name: $(document.getElementById('recipeTitle')).text(),
                   template_name: $(document.getElementById('templateSelect')).val(),
                   userId: $scope.user.id,
-                  name: key
+                  name: key_id
                 }
               }).success(function(data_db,status,headers,config) {
                 if (data_db != null) {
@@ -371,15 +378,12 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                 }
                 else if (event.data == 'dynamicText') {
                   // if dynamic text
-                  //
-                  var form = "<form name=\"" + key + "\" >\n  Endpoint:<br>\n  <input id=\"endpoint\" type=\"text\" name=\"endpoint\">\n  <br>\n  Property Name:<br>\n  <input id=\"propertyName\" type=\"text\" name=\"propertyName\">\n</form>";
-                  // form.setAttribute("name", key);
+                  var form = "<form name=\"" + key_id + "\" >\n  Endpoint:<br>\n  <input id=\"endpoint\" type=\"text\" name=\"endpoint\">\n  <br>\n  Property Name:<br>\n  <input id=\"propertyName\" type=\"text\" name=\"propertyName\">\n</form>";
                   $("#formDiv").html(form);
                 }
                 else {
                   // no record in memory or db, pull from acerta
                   // TODO: if failed to read, don't save last form
-
 
                   // if analytic construct arg list
                   var dataSource = data.message;
@@ -408,10 +412,9 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                         url: 'http://127.0.0.1:3000/api/mockForm',
                         params: { param: dataType }
                       }).success(function(data_mock, status, headers, config) {
-                        //console.log(data4.message);
                         $("#formDiv").html(data_mock.message);
                         console.log("using mock form");
-                        loadCurrentSelection(selections[key]);
+                        loadCurrentSelection(selections[key_id]);
                       });
                     }
                   });
