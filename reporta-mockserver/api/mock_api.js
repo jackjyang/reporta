@@ -41,11 +41,11 @@ module.exports = function(apiHandler) {
     var url;
 
     if(data.dataType == "Interrupts")
-      url = "https://www.nucleics.com/wp-content/uploads/2014/04/noisy-raw.gif";
+      url = "http://localhost:3000/files/chart1.PNG";
     else if (data.dataType == "DensityMaps")
-      url = "http://cloud.originlab.com/www/products/images2/XYZTraceInterpolation.png";
+      url = "http://localhost:3000/files/chart2.PNG";
     else if (data.dataType == "IffCooccurInvar")
-      url = "https://www.nucleics.com/wp-content/uploads/2014/04/noisy-processed.gif";
+      url = "http://localhost:3000/files/chart3.PNG";
     else if (data.dataType == "EventRuntimeJitter")
       url = "http://scedc.caltech.edu/Module/Pics/s3iS_off.gif";
 
