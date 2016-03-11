@@ -104,6 +104,7 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
     url: '/api/getCounter'
   }).success(function(data, status, headers, config) {
     counter = Number(data);
+    CKEDITOR.config.customConfig.valueOf['headerValue'] = "";
   });
 
   CKEDITOR.replace('templateEditor', {
