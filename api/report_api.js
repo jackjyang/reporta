@@ -92,9 +92,9 @@ module.exports = function(apiHandler) {
 			    	var elementToGenerate = elementsToGenerate[i];
 
 			    	// image
-			    	if(elementsToGenerate[i].getAttribute("data-type") == "Interrupts" || 
-			    		elementsToGenerate[i].getAttribute("data-type") == "DensityMaps" || 
-			    		elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" || 
+			    	if(elementsToGenerate[i].getAttribute("data-type") == "Interrupts" ||
+			    		elementsToGenerate[i].getAttribute("data-type") == "DensityMaps" ||
+			    		elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" ||
 			    		elementsToGenerate[i].getAttribute("data-type") == "EventRuntimeJitter") {
 
 			    		(function(index) {
@@ -130,9 +130,23 @@ module.exports = function(apiHandler) {
 								response.on('end', function() {
 									var parsed = JSON.parse(body);
 
-									var text = window.document.createTextNode(parsed.message["min"]);
-									elementsToGenerate[index].parentNode.replaceChild(text, elementsToGenerate[index]);
-									// elementsToGenerate[index].removeChild(elementsToGenerate[index]);
+                                    var data = parsed.message["data"];
+                                    var lastElem;
+                                    if (data instanceof Array) {
+                                        var list = window.document.createElement("UL");
+                                        elementsToGenerate[index].parentNode.replaceChild(list, elementsToGenerate[index]);
+                                        for (c = 0; c < data.length; c++) {
+                                            var li = window.document.createElement("LI");
+                                            var text = window.document.createTextNode(data[c]);
+                                            li.appendChild(text);
+                                            list.appendChild(li);
+                                        }
+                                    } else {
+                                        var text = window.document.createTextNode(data);
+                                        elementsToGenerate[index].parentNode.replaceChild(text, elementsToGenerate[index]);
+                                    }
+
+
 									generatedElementCount ++;
 			                	});
 			              	});
@@ -155,7 +169,7 @@ module.exports = function(apiHandler) {
 			      		template.header = "";
 					var createHeader = new Function('pageNum', 'numPages', 'return \'<br><h5>' + template.header + '</h5>\';');
 					var createFooter = new Function('pageNum', 'numPages', 'if(' + template.page_numbers + ') { return \'<h6>\' + pageNum + "/" + numPages + \'</h6>\';} return "";');
-					
+
 
 			        page.set('paperSize', {
 			          	format: 'A4',
