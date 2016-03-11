@@ -159,6 +159,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       if (value.trim()) {
         forms[key_id] = value;
       }
+      forms.data_name = last.getAttribute('data-name');
 
       // save all form input as json
       var choices = {};

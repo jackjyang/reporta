@@ -87,7 +87,7 @@ module.exports = function(apiHandler) {
 
 							var form;
 
-							var data_name = elementsToGenerate[i].getAttribute("data-name");
+							var data_name = elementsToGenerate[i].getAttribute("data-id");
 							for(var form_index = 0; form_index < forms.length; form_index++) {
 								if(forms[form_index].name == data_name) {
 									form = forms[form_index];
@@ -104,8 +104,8 @@ module.exports = function(apiHandler) {
 								var requestPath = '/api/mockDataImage?dataType=' + elementsToGenerate[i].getAttribute("data-type");
 
 								var selections = JSON.parse(form.selections);
-								var params = Object.keys(selections).map(function(key){ 
-									return encodeURIComponent(key) + '=' + encodeURIComponent(selections[key]); 
+								var params = Object.keys(selections).map(function(key){
+									return encodeURIComponent(key) + '=' + encodeURIComponent(selections[key]);
 								}).join('&');
 
 								if(params.length != 0) {
@@ -144,8 +144,9 @@ module.exports = function(apiHandler) {
 										});
 										response.on('end', function() {
 											var parsed = JSON.parse(body);
+											var selections = JSON.parse(form.selections);
 
-						                    var data = parsed.message["data"];
+						                    var data = parsed.message[selections.propertyName];
 						                    var lastElem;
 						                    if (data instanceof Array) {
 						                        var list = window.document.createElement("UL");
