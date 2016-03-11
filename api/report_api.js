@@ -130,7 +130,9 @@ module.exports = function(apiHandler) {
 								    });
 								})(i)
 							} else if (elementsToGenerate[i].getAttribute("data-type") == "dynamicText") {
-						        (function(index) {
+								var selections = JSON.parse(form.selections);
+								var propertyName = selections.propertyName;
+						        (function(index, property) {
 						          	http.get({
 						             	host : 'localhost',
 						              	port : 3000,
@@ -143,9 +145,7 @@ module.exports = function(apiHandler) {
 										});
 										response.on('end', function() {
 											var parsed = JSON.parse(body);
-											var selections = JSON.parse(form.selections);
-
-						                    var data = parsed.message[selections.propertyName];
+						                    var data = parsed.message[property];
 						                    var lastElem;
 						                    if (data instanceof Array) {
 						                        var list = window.document.createElement("UL");
@@ -165,7 +165,7 @@ module.exports = function(apiHandler) {
 											generatedElementCount ++;
 						            	});
 						          	});
-						        })(i);
+						        })(i, propertyName);
 					    	}
 						}
 

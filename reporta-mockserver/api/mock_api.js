@@ -58,6 +58,12 @@ module.exports = function(apiHandler) {
     var data = req.method == 'GET' ? req.query : req.body;
 
     var data = {
+      "10p": 10,
+      "25p": 17,
+      "50p": 22,
+      "75p": 26,
+      "90p": 30,
+      "100p": 36,
       "mean": 22,
       "min": 9,
       "max": 36,
