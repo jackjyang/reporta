@@ -29,6 +29,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use('/files', express.static('reporta-mockserver/files'));
 app.get('/api/:request', api.handler);
 
 app.listen (3000);
