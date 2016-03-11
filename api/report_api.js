@@ -132,11 +132,12 @@ module.exports = function(apiHandler) {
 							} else if (elementsToGenerate[i].getAttribute("data-type") == "dynamicText") {
 								var selections = JSON.parse(form.selections);
 								var propertyName = selections.propertyName;
-						        (function(index, property) {
+								console.log(selections.endpoint);
+						        (function(index, property, endpoint) {
 						          	http.get({
 						             	host : 'localhost',
 						              	port : 3000,
-						              	path: '/api/mockDataJSON'
+						              	path: '/' + endpoint
 						          	}, function(response) {
 						              	// Continuously update stream with data
 						              	var body = '';
@@ -165,7 +166,7 @@ module.exports = function(apiHandler) {
 											generatedElementCount ++;
 						            	});
 						          	});
-						        })(i, propertyName);
+						        })(i, propertyName, selections.endpoint);
 					    	}
 						}
 
