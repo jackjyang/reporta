@@ -29,7 +29,7 @@ module.exports = function(apiHandler) {
 	});
 
 	var mailOptions = {
-		from: 'demo.reporta@gmail.com',
+		from: 'demo2.reporta@gmail.com',
 		to: address,
 		subject: 'Generated Reporta Document',
 		attachments: [
