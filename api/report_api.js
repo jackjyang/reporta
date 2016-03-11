@@ -187,6 +187,7 @@ module.exports = function(apiHandler) {
 
 							    page.set('paperSize', {
 							      	format: 'A4',
+							      	margin: '1cm',
 							      	header: {
 							            height: "1cm",
 							            contents: ph.callback(createHeader)
