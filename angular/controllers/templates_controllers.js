@@ -124,6 +124,10 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
             document.getElementById('title').innerHTML = data.name;
             event.editor.setData(data.content);
             CKEDITOR.config.customConfig.valueOf['headerValue'] = data.header;
+            if (data.page_numbers) {
+              $('.cke_button__pagenumber').removeClass('cke_button_off');
+              $('.cke_button__pagenumber').addClass('cke_button_on');
+            }
           });
         }
       },
@@ -155,7 +159,7 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
             name: document.getElementById('title').innerHTML,
             content: $scope.content,
             updated_on: new Date(),
-            pageNumber: pageNumber,
+            page_numbers: pageNumber,
             header: CKEDITOR.config.customConfig.valueOf['headerValue']
           },
           oldTitle: oldTitle
@@ -172,7 +176,7 @@ reportaApp.controller('templateEditorController', function($scope, $http, $route
           userId: $scope.user.id,
           name: document.getElementById('title').innerHTML,
           content: $scope.content,
-          pageNumber: pageNumber,
+          page_numbers: pageNumber,
           header: CKEDITOR.config.customConfig.valueOf['headerValue']
         }
       }).success(function(data, status, headers, config) {

@@ -12,7 +12,7 @@ module.exports = function(apiHandler) {
       content: data.content,
       updated_on: new Date,
       created_on: new Date,
-      page_numbers: data.pageNumber,
+      page_numbers: data.page_numbers,
       header: data.header
     });
     newTemplate.save(function(err) {
