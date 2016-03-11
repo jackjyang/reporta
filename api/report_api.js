@@ -3,6 +3,7 @@ module.exports = function(apiHandler) {
   var mongoose = require('mongoose');
   var recipeModel = mongoose.model('recipe');
   var templateModel = mongoose.model('template');
+  var formModel = mongoose.model('form');
   var phantom = require('phantom');
   var PhantomPDF = require('phantom-pdf');
   var formatType = 'pdf';
@@ -65,124 +66,142 @@ module.exports = function(apiHandler) {
 
   	recipeModel.findOne({ owner_id: data.userId, name: data.recipeName }, function(err, recipe) {
   		templateModel.findOne({ owner_id: data.userId, name: recipe.template_name }, function(err, template) {
+	  		formModel.find({ owner_id: data.userId}, function(err, forms) {
 
-  			console.log("TEMPLATE")
-  			console.log(template);
+		  		jsdom.env(
+				  recipe.content,
+				  ["http://code.jquery.com/jquery.js"],
+				  function (err, window) {
+				    var elementsToGenerate = [];
+					var allElements = window.document.getElementsByTagName('*');
+					for (var i = 0, n = allElements.length; i < n; i++)
+					{
+					  if (allElements[i].getAttribute("data-type") !== null)
+					  {
+					    // Element exists with attribute. Add to array.
+					    elementsToGenerate.push(allElements[i]);
+					  }
+					}
 
-	  		jsdom.env(
-			  recipe.content,
-			  ["http://code.jquery.com/jquery.js"],
-			  function (err, window) {
-			    var elementsToGenerate = [];
-				var allElements = window.document.getElementsByTagName('*');
-				for (var i = 0, n = allElements.length; i < n; i++)
-				{
-				  if (allElements[i].getAttribute("data-type") !== null)
-				  {
-				    // Element exists with attribute. Add to array.
-				    elementsToGenerate.push(allElements[i]);
+					var generatedElementCount = 0;
+					var startTimestamp = new Date().getTime();
+
+				    for(var i = 0; i < elementsToGenerate.length; i++) {
+
+						var form;
+
+				    	var data_name = elementsToGenerate[i].getAttribute("data-name");
+			    		for(var form_index = 0; form_index < forms.length; form_index++) {
+			    			if(forms[form_index].name == data_name) {
+			    				form = forms[form_index];
+			    				break;
+			    			}
+			    		}
+
+				    	// image
+				    	if(elementsToGenerate[i].getAttribute("data-type") == "Interrupts" || 
+				    		elementsToGenerate[i].getAttribute("data-type") == "DensityMaps" || 
+				    		elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" || 
+				    		elementsToGenerate[i].getAttribute("data-type") == "EventRuntimeJitter") {
+
+				    		var requestPath = '/api/mockDataImage?dataType=' + elementsToGenerate[i].getAttribute("data-type");
+
+				    		var selections = JSON.parse(form.selections);
+				    		var params = Object.keys(selections).map(function(key){ 
+								return encodeURIComponent(key) + '=' + encodeURIComponent(selections[key]); 
+							}).join('&');
+
+				    		if(params.length != 0) {
+				    			requestPath += "&" + params;
+				    		}
+
+				    		(function(index) {
+								http.get({
+							        host : 'localhost',
+								    port : 3000,
+							        path: requestPath
+							    }, function(response) {
+							        // Continuously update stream with data
+							        var body = '';
+							        response.on('data', function(d) {
+							            body += d;
+							        });
+							        response.on('end', function() {
+										var parsed = JSON.parse(body);
+							            elementsToGenerate[index].src = parsed.message;
+							            generatedElementCount ++;
+							        });
+							    });
+							})(i)
+				    	} else if (elementsToGenerate[i].getAttribute("data-type") == "dynamicText") {
+				            (function(index) {
+				              	http.get({
+				                 	host : 'localhost',
+				                  	port : 3000,
+				                  	path: '/api/mockDataJSON'
+				              	}, function(response) {
+				                  	// Continuously update stream with data
+				                  	var body = '';
+									response.on('data', function(d) {
+									  	body += d;
+									});
+									response.on('end', function() {
+										var parsed = JSON.parse(body);
+
+										var text = window.document.createTextNode(parsed.message["min"]);
+										elementsToGenerate[index].parentNode.replaceChild(text, elementsToGenerate[index]);
+										// elementsToGenerate[index].removeChild(elementsToGenerate[index]);
+										generatedElementCount ++;
+				                	});
+				              	});
+				            })(i);
+				        }
+				    }
+
+				    while(generatedElementCount < elementsToGenerate) {
+				    	if(new Date().getTime() - startTimestamp > elementsToGenerate * 1000) {
+				    		console.log("Generate Elements Timeout");
+				    		return;
+				    	}
+				    }
+
+				    phantom.create(function (ph) {
+				      ph.createPage(function (page) {
+				      	page.set('content', window.document.getElementsByTagName('body')[0].innerHTML);
+
+				      	if(template.header == undefined)
+				      		template.header = "";
+						var createHeader = new Function('pageNum', 'numPages', 'return \'<br><h5>' + template.header + '</h5>\';');
+						var createFooter = new Function('pageNum', 'numPages', 'if(' + template.page_numbers + ') { return \'<h6>\' + pageNum + "/" + numPages + \'</h6>\';} return "";');
+						
+
+				        page.set('paperSize', {
+				          	format: 'A4',
+				          	header: {
+	                            height: "2cm",
+	                            contents: ph.callback(createHeader)
+	                        },
+	                        footer: {
+	                            height: "1cm",
+	                            contents: ph.callback(createFooter)
+	                        }
+				        }, function() {
+							setTimeout(function() {
+								console.log("RENDER");
+								page.render("generated_reports/" + generateFileName(date, recipe.name), {format: formatType, quality: '100'}, function() {
+					          		res.download(generateFileName(date, recipe.name), function(err) {
+					          			sendEmail(data.email, generateFileName(date, recipe.name));
+					          		});
+						            ph.exit();
+						        });
+							}, 5000);
+				        });
+				      });
+				    });
+				   	res.json({ status: "ok"});
 				  }
-				}
-
-				var generatedElementCount = 0;
-				var startTimestamp = new Date().getTime();
-
-			    for(var i = 0; i < elementsToGenerate.length; i++) {
-
-			    	var elementToGenerate = elementsToGenerate[i];
-
-			    	// image
-			    	if(elementsToGenerate[i].getAttribute("data-type") == "Interrupts" || 
-			    		elementsToGenerate[i].getAttribute("data-type") == "DensityMaps" || 
-			    		elementsToGenerate[i].getAttribute("data-type") == "IffCooccurInvar" || 
-			    		elementsToGenerate[i].getAttribute("data-type") == "EventRuntimeJitter") {
-
-			    		(function(index) {
-							http.get({
-						        host : 'localhost',
-							    port : 3000,
-						        path: '/api/mockDataImage'
-						    }, function(response) {
-						        // Continuously update stream with data
-						        var body = '';
-						        response.on('data', function(d) {
-						            body += d;
-						        });
-						        response.on('end', function() {
-									var parsed = JSON.parse(body);
-						            elementsToGenerate[index].src = parsed.message;
-						            generatedElementCount ++;
-						        });
-						    });
-						})(i)
-			    	} else if (elementsToGenerate[i].getAttribute("data-type") == "dynamicText") {
-			            (function(index) {
-			              	http.get({
-			                 	host : 'localhost',
-			                  	port : 3000,
-			                  	path: '/api/mockDataJSON'
-			              	}, function(response) {
-			                  	// Continuously update stream with data
-			                  	var body = '';
-								response.on('data', function(d) {
-								  	body += d;
-								});
-								response.on('end', function() {
-									var parsed = JSON.parse(body);
-
-									var text = window.document.createTextNode(parsed.message["min"]);
-									elementsToGenerate[index].parentNode.replaceChild(text, elementsToGenerate[index]);
-									// elementsToGenerate[index].removeChild(elementsToGenerate[index]);
-									generatedElementCount ++;
-			                	});
-			              	});
-			            })(i);
-			        }
-			    }
-
-			    while(generatedElementCount < elementsToGenerate) {
-			    	if(new Date().getTime() - startTimestamp > elementsToGenerate * 1000) {
-			    		console.log("Generate Elements Timeout");
-			    		return;
-			    	}
-			    }
-
-			    phantom.create(function (ph) {
-			      ph.createPage(function (page) {
-			      	page.set('content', window.document.getElementsByTagName('body')[0].innerHTML);
-
-			      	if(template.header == undefined)
-			      		template.header = "";
-					var createHeader = new Function('pageNum', 'numPages', 'return \'<br><h5>' + template.header + '</h5>\';');
-					var createFooter = new Function('pageNum', 'numPages', 'if(' + template.page_numbers + ') { return \'<h6>\' + pageNum + "/" + numPages + \'</h6>\';} return "";');
-					
-
-			        page.set('paperSize', {
-			          	format: 'A4',
-			          	header: {
-                            height: "2cm",
-                            contents: ph.callback(createHeader)
-                        },
-                        footer: {
-                            height: "1cm",
-                            contents: ph.callback(createFooter)
-                        }
-			        }, function() {
-						setTimeout(function() {
-							console.log("RENDER");
-							page.render("generated_reports/" + generateFileName(date, recipe.name), {format: formatType, quality: '100'}, function() {
-				          		res.download(generateFileName(date, recipe.name), function(err) {
-				          			sendEmail(data.email, generateFileName(date, recipe.name));
-				          		});
-					            ph.exit();
-					        });
-						}, 5000);
-			        });
-			      });
-			    });
-			   	res.json({ status: "ok"});
-			  }
-			);
+				);
+			});
     	});
 	});
   };

@@ -15,8 +15,6 @@ module.exports = function(apiHandler) {
 
   apiHandler.mockForm = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    var dataType = data.param;
-    console.log(dataType);
 
     var forms = {};
     forms["Interrupts"] = "<form name=\"intrForm\" class=\"form-horizontal ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-parse\" ng-submit=\"tab.model.triggerRender()\" style=\"\">   <div class=\"form-group\" ng-show=\"selection.trace\">     <label class=\"col-sm-12\">Select an Interrupt:</label>     <label class=\"col-sm-2 control-label\" for=\"intNumbers\" t-required=\"\"><span class=\"text-info\">* </span>Interrupt number:</label>     <div class=\"col-sm-6\">       <select id=\"intNumbers\" class=\"form-control ng-pristine ng-invalid ng-invalid-required ng-touched\" ng-disabled=\"!options.intr\" ng-options=\"i for i in options.intr\" required=\"\" ng-model=\"selection.interruptId\" style=\"\"><option value=\"?\" selected=\"selected\"></option><option value=\"string:0x00000029\" label=\"0x00000029\">0x00000029</option><option value=\"string:0x0000002d\" label=\"0x0000002d\">0x0000002d</option><option value=\"string:0x0000002e\" label=\"0x0000002e\">0x0000002e</option><option value=\"string:0x00000044\" label=\"0x00000044\">0x00000044</option><option value=\"string:0x00000049\" label=\"0x00000049\">0x00000049</option></select>       <span class=\"text-error ng-hide\" ng-show=\"options.intrWarn\">         No interrupts found.</span>     </div>   </div> </form>";
@@ -36,18 +34,26 @@ module.exports = function(apiHandler) {
 
   apiHandler.mockDataImage = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    var dataType = data.param;
-    console.log(dataType);
+    console.log(data);
 
-    var response = {status:"ok", message: "http://scedc.caltech.edu/Module/Pics/s3iS_off.gif"};
+    var url;
+
+    if(data.dataType == "Interrupts")
+      url = "https://www.nucleics.com/wp-content/uploads/2014/04/noisy-raw.gif";
+    else if (data.dataType == "DensityMaps")
+      url = "http://cloud.originlab.com/www/products/images2/XYZTraceInterpolation.png";
+    else if (data.dataType == "IffCooccurInvar")
+      url = "https://www.nucleics.com/wp-content/uploads/2014/04/noisy-processed.gif";
+    else if (data.dataType == "EventRuntimeJitter")
+      url = "http://scedc.caltech.edu/Module/Pics/s3iS_off.gif";
+
+    var response = {status:"ok", message: url};
 
     res.json(response);
   }
 
   apiHandler.mockDataJSON = function(res, req) {
     var data = req.method == 'GET' ? req.query : req.body;
-    var dataType = data.param;
-    console.log(dataType);
 
     var data = {
       "mean": 22,
