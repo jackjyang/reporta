@@ -58,7 +58,8 @@ module.exports = function(apiHandler) {
     var data = {
       "mean": 22,
       "min": 9,
-      "max": 36
+      "max": 36,
+      "data": ["fdsa", "fdsa2", "fdsa3", "fdsa4", "fdsa5"]
     };
 
     var response = {status:"ok", message: data};
