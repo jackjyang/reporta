@@ -100,7 +100,7 @@ module.exports = function(apiHandler) {
 							// image
 							if(datatype == "Interrupts" || datatype == "DensityMaps" || datatype == "IffCooccurInvar" || datatype == "EventRuntimeJitter") {
 
-								var requestPath = '/api/mockDataImage?dataType=' + elementsToGenerate[i].getAttribute("data-type");
+								var requestPath = '/api/mockDataImage?dataType=' + datatype;
 
 								var selections = JSON.parse(form.selections);
 								var params = Object.keys(selections).map(function(key){
@@ -188,7 +188,7 @@ module.exports = function(apiHandler) {
 							    page.set('paperSize', {
 							      	format: 'A4',
 							      	header: {
-							            height: "2cm",
+							            height: "1cm",
 							            contents: ph.callback(createHeader)
 							        },
 							        footer: {
