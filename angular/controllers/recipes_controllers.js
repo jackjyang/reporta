@@ -379,7 +379,7 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
                 }
                 else if (event.data == 'dynamicText') {
                   // if dynamic text
-                  var form = "<form name=\"" + key_id + "\" >\n  Endpoint:<br>\n  <input id=\"endpoint\" type=\"text\" name=\"endpoint\">\n  <br>\n  Property Name:<br>\n  <input id=\"propertyName\" type=\"text\" name=\"propertyName\">\n</form>";
+                  var form = "<form name=\"" + key_id + "\" >\n  Endpoint:<br>\n  <input id=\"endpoint\" type=\"text\" name=\"endpoint\" value=\"api/mockDataJSON\">\n  <br>\n  Property Name:<br>\n  <input id=\"propertyName\" type=\"text\" name=\"propertyName\">\n</form>";
                   $("#formDiv").html(form);
                 }
                 else {
