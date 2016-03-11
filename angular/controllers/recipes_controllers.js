@@ -143,46 +143,83 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
   var forms = new Array();
   var selections = new Array();
 
-  function saveCurrentForm(editor) {
-    if (last == null)
-      return;
+  function saveCurrentForm(editor, callback) {
+    if (last != null) {
 
-    var key = last.getAttribute('data-name');
-    var value = $("#formDiv").html();
-    if (value.trim()) {
-      forms[key] = value;
-    }
-
-    // save all form input as json
-    var choices = {};
-    var form_fields = document.getElementsByClassName("form-control");
-    for (i = 0; i < form_fields.length; i++) {
-      var id = form_fields[i].id;
-      if (id) {
-        var multiselects = [];
-        for (j = 0; j < form_fields[i].selectedOptions.length; j++) {
-          multiselects.push(form_fields[i].selectedOptions[j].label);
-        }
-        choices[form_fields[i].id] = multiselects;
+      var key = last.getAttribute('data-name');
+      var value = $("#formDiv").html();
+      if (value.trim()) {
+        forms[key] = value;
       }
+
+      // save all form input as json
+      var choices = {};
+
+      // TODO: this might fail if acerta has other types of forms
+      var inputs = document.getElementById ("formDiv").getElementsByTagName("input");
+      for (i = 0; i < inputs.length; i++) {
+        // dynamic text fields
+        if (inputs[i].id) {
+          choices[inputs[i].id] = inputs[i].value;
+        }
+        // acerta fields
+        else if (inputs[i].getAttribute("ng-model")) {
+          choices[inputs[i].getAttribute("ng-model")] = inputs[i].value;
+        }
+      }
+
+      var selects = document.getElementById("formDiv").getElementsByTagName("select");
+      for (i = 0; i < selects.length; i++) {
+        // hidden fields don't have ids
+        if(selects[i].id) {
+          var multiselects = [];
+          for (j = 0; j < selects[i].selectedOptions.length; j++) {
+            multiselects.push(selects[i].selectedOptions[j].label);
+          }
+          choices[selects[i].id] = multiselects;
+        }
+      }
+      var choices_to_string = JSON.stringify(choices);
+      selections[key] = choices_to_string;
     }
-    var choices_to_string = JSON.stringify(choices);
-    selections[key] = choices_to_string;
+
+    // find next element after we finish saving
+    if (callback != null)
+      callback();
   };
 
   function loadCurrentSelection(selections) {
+    if (selections == null)
+      return;
+
     var selection_list = JSON.parse(selections);
-    var form_fields = document.getElementsByClassName("form-control");
-    for (i = 0; i < form_fields.length; i++) {
-      var id = form_fields[i].id;
-      if (id) {
-        for (j = 0; j < form_fields[id].options.length; j++) {
-          if (selection_list[id].indexOf (form_fields[id].options[j].label) >= 0) {
-            form_fields[id].options[j].selected = true;
+
+    var inputs = document.getElementById ("formDiv").getElementsByTagName("input");
+    for (i = 0; i < inputs.length; i++) {
+      // hidden fields don't have ids
+      if (inputs[i].id) {
+        inputs[i].value = selection_list[inputs[i].id];
+      }
+      // acerta fields
+      else {
+        inputs[i].value = selection_list[inputs[i].getAttribute("ng-model")];
+      }
+    }
+
+    var selects = document.getElementById("formDiv").getElementsByTagName("select");
+    for (i = 0; i < selects.length; i++) {
+      // hidden fields don't have ids
+      var key = selects[i].id
+      if(key) {
+        for (j = 0; j < selects[i].options.length; j++) {
+          // for each option in a multi-select, check if it was previously recorded in selection_list[key]
+          if (selection_list[key].indexOf (selects[i].options[j].label) >= 0) {
+            selects[i].options[j].selected = true;
           }
         }
       }
     }
+
   };
 
   document.getElementById('templateSelect').onchange = function() {
@@ -297,82 +334,91 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
       },
 
       findElementEvent: function(event) {
-        saveCurrentForm(event.editor);
-        last = event.editor.getSelection().getStartElement();
+        saveCurrentForm(event.editor, function () {
+          last = event.editor.getSelection().getStartElement();
 
-        $http({
-          method: 'POST',
-          url: '/api/findDataSource',
-          data: {
-            userId: $scope.user.id,
-            name: $('#dataSourceSelect').val()
-          }
-        }).success(function(data, status, headers, config) {
-          // try to find existing form in memory, then in db, finally from acerta
-          var key = event.editor.getSelection().getStartElement().getAttribute('data-name');
-
-          // load from mem
-          if (forms[key] != null)
-          {
-              $("#formDiv").html(forms[key]);
-              loadCurrentSelection(selections[key]);
-          }
-          else {
-            $http({
-              method: 'POST',
-              url: 'api/findForm',
-              data: {
-                recipe_name: $(document.getElementById('recipeTitle')).text(),
-                template_name: $(document.getElementById('templateSelect')).val(),
-                userId: $scope.user.id,
-                name: key
-              }
-            }).success(function(data_db,status,headers,config) {
-              if (data_db != null) {
-                $("#formDiv").html(data_db.form);
-                loadCurrentSelection(data_db.selections);
-              }
-              else {
-                // no record in memory or db, pull from acerta
-                // TODO: if failed to read, don't save last form
-
-                // construct arg list
-                var dataSource = data.message;
-                var dataType = event.data;
-                var system = dataSource.system.name;
-                var params = dataType + ' ' + system
-                for (i = 0; i < dataSource.trace.length; i++) {
-                  params += ' ' + dataSource.trace[i].name;
-                }
-                console.log(params)
-
-                $http({
+          $http({
+            method: 'POST',
+            url: '/api/findDataSource',
+            data: {
+              userId: $scope.user.id,
+              name: $('#dataSourceSelect').val()
+            }
+          }).success(function(data, status, headers, config) {
+            // try to find existing form in memory, then in db, finally from acerta
+            var key = event.editor.getSelection().getStartElement().getAttribute('data-name');
+            var key_id = event.editor.getSelection().getStartElement().getAttribute('data-id');
+            // load from mem
+            if (forms[key] != null)
+            {
+                $("#formDiv").html(forms[key]);
+                loadCurrentSelection(selections[key]);
+            }
+            else {
+              $http({
                 method: 'POST',
-                url: 'api/acertaGetHTML',
+                url: 'api/findForm',
                 data: {
-                  func: 'get_report_form',
-                  param: params
+                  recipe_name: $(document.getElementById('recipeTitle')).text(),
+                  template_name: $(document.getElementById('templateSelect')).val(),
+                  userId: $scope.user.id,
+                  name: key
                 }
-                }).success(function(data_acerta,status,headers,config) {
-                  if (data_acerta != "error") {
-                    $("#formDiv").html(data_acerta);
+              }).success(function(data_db,status,headers,config) {
+                if (data_db != null) {
+                  $("#formDiv").html(data_db.form);
+                  loadCurrentSelection(data_db.selections);
+                }
+                else if (event.data == 'dynamicText') {
+                  // if dynamic text
+                  //
+                  var form = "<form name=\"" + key + "\" >\n  Endpoint:<br>\n  <input id=\"endpoint\" type=\"text\" name=\"endpoint\">\n  <br>\n  Property Name:<br>\n  <input id=\"propertyName\" type=\"text\" name=\"propertyName\">\n</form>";
+                  // form.setAttribute("name", key);
+                  $("#formDiv").html(form);
+                }
+                else {
+                  // no record in memory or db, pull from acerta
+                  // TODO: if failed to read, don't save last form
+
+
+                  // if analytic construct arg list
+                  var dataSource = data.message;
+                  var dataType = event.data;
+                  var system = dataSource.system.name;
+                  var params = dataType + ' ' + system
+                  for (i = 0; i < dataSource.trace.length; i++) {
+                    params += ' ' + dataSource.trace[i].name;
                   }
-                  else {
-                    $http({
-                      method: 'get',
-                      url: 'http://127.0.0.1:3000/api/mockForm',
-                      params: { param: dataType }
-                    }).success(function(data_mock, status, headers, config) {
-                      //console.log(data4.message);
-                      $("#formDiv").html(data_mock.message);
-                      console.log("using mock form");
-                      loadCurrentSelection(selections[key]);
-                    });
+                  console.log(params)
+
+                  $http({
+                  method: 'POST',
+                  url: 'api/acertaGetHTML',
+                  data: {
+                    func: 'get_report_form',
+                    param: params
                   }
-                });
-              }
-            });
-          }
+                  }).success(function(data_acerta,status,headers,config) {
+                    if (data_acerta != "error") {
+                      $("#formDiv").html(data_acerta);
+                    }
+                    else {
+                      $http({
+                        method: 'get',
+                        url: 'http://127.0.0.1:3000/api/mockForm',
+                        params: { param: dataType }
+                      }).success(function(data_mock, status, headers, config) {
+                        //console.log(data4.message);
+                        $("#formDiv").html(data_mock.message);
+                        console.log("using mock form");
+                        loadCurrentSelection(selections[key]);
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
         });
       }
     }
