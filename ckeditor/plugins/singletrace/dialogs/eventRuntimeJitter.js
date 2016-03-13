@@ -22,6 +22,24 @@ CKEDITOR.dialog.add('eventRuntimeJitterDialog', function(editor) {
         setup: function(element) {
           this.setValue(element.getAttribute("data-desc"));
         }
+      },
+      {
+        type: 'text',
+        id: 'data-height',
+        label: 'Height of Chart (in px)',
+        setup: function(element) {
+          var height = element.getStyle('height');
+          this.setValue(height.substring(0, height.length - 2));
+        }
+      },
+      {
+        type: 'text',
+        id: 'data-width',
+        label: 'Width of Chart (in px)',
+        setup: function(element) {
+          var width = element.getStyle('width');
+          this.setValue(width.substring(0, width.length - 2));
+        }
       }]
     }],
     onShow: function() {
@@ -39,9 +57,27 @@ CKEDITOR.dialog.add('eventRuntimeJitterDialog', function(editor) {
       var dialog = this;
       var chart = editor.document.createElement('img');
       var id;
+      var height = dialog.getValueOf('tab-basic', 'data-height');
+      var width = dialog.getValueOf('tab-basic', 'data-width');
+
+      if (height == '' || (isNaN(height) && isNaN(height.substring(height.length - 2, 2)))) {
+        height  = '150px';
+      } else {
+        if (height.length < 2 || height.substring(height.length - 2, 2) != 'px') {
+          height = height + 'px';
+        }
+      }
+      if (width == '' || (isNaN(width) && isNaN(width.substring(width.length - 2, 2)))) {
+        width  = '150px';
+      } else {
+        if (width.length < 2 || width.substring(width.length - 2, 2) != 'px') {
+          width = width + 'px';
+        }
+      }
 
       chart.setAttribute('src', '/ckeditor/genericplaceholder/placeholder.png');
-      chart.setAttribute('style', 'width: 150px; height: 150px;');
+      chart.setStyle('height', height);
+      chart.setStyle('width', width);
       if (this.insertMode) {
         id = counter++;
       } else {
