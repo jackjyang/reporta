@@ -279,6 +279,14 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
         }
       },
 
+      drop: function(event) {
+        event.cancel();
+      },
+
+      dragstart: function(event) {
+        event.cancel();
+      },
+
       contentDom: function (event) {
         if (!event.editor.document)
           return;
@@ -328,9 +336,6 @@ reportaApp.controller('recipeEditorController', function($scope, $http, $routePa
 
             $('#templateSelect').val(data.template_name).change();
             $('#templateSelect').selectpicker('render');
-
-            event.editor.setData(data.content);
-
           });
         }
         else {
