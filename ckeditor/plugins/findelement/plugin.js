@@ -12,6 +12,25 @@
           return;
       };
 
+      function compareTo (address1, address2, isLessThan) {
+        var i = 0;
+        while (i < address1.length && i < address2.length) {
+          if (address1[i] == address2[i]) {
+            i++;
+            continue;
+          }
+
+          if ((address1[i] > address2[i]) == isLessThan)
+            return true;
+          else
+            return false;
+        }
+        if (address1.length == address2.length)
+          return false;
+
+        return ((address1.length > address2.length) == isLessThan);
+      }
+
       var prevcommand = editor.addCommand( 'findprev',
       {
         exec : function( editor )
@@ -26,12 +45,9 @@
 
           var selected = nodeList.getItem(nodeList.count() -1);
 
-          for (i = nodeList.count() - 1; i >= 0; i--){
-            if ((a.getParent().getIndex() == nodeList.getItem(i).getParent().getIndex()  &&
-                a.getIndex() > nodeList.getItem(i).getIndex()) ||
-               (a.getParent().getIndex() > nodeList.getItem(i).getParent().getIndex()))
-            {
-              selected = nodeList.getItem(i);
+          for (i = nodeList.count() - 1; i >= 0; i--) {
+            if (compareTo(a.getAddress(), nodeList.getItem(i).getAddress(), true)) {
+              selected = nodeList.getItem(i)
               break;
             }
           }
@@ -56,10 +72,7 @@
           var selected = nodeList.getItem(0);
 
           for (i = 0; i < nodeList.count(); i++){
-            if ((a.getParent().getIndex() == nodeList.getItem(i).getParent().getIndex()  &&
-                a.getIndex() < nodeList.getItem(i).getIndex()) ||
-               (a.getParent().getIndex() < nodeList.getItem(i).getParent().getIndex())) {
-
+            if (compareTo(a.getAddress(), nodeList.getItem(i).getAddress(), false)) {
               selected = nodeList.getItem(i);
               break;
             }
