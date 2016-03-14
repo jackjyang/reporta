@@ -73,8 +73,7 @@ module.exports = function(apiHandler) {
 					function (err, window) {
 						var elementsToGenerate = [];
 						var allElements = window.document.getElementsByTagName('*');
-						for (var i = 0, n = allElements.length; i < n; i++)
-						{
+						for (var i = 0, n = allElements.length; i < n; i++) {
 							if (allElements[i].getAttribute("data-type") !== null) {
 						    	elementsToGenerate.push(allElements[i]);
 						  	}
@@ -132,7 +131,6 @@ module.exports = function(apiHandler) {
 							} else if (elementsToGenerate[i].getAttribute("data-type") == "dynamicText") {
 								var selections = JSON.parse(form.selections);
 								var propertyName = selections.propertyName;
-								console.log(selections.endpoint);
 						        (function(index, property, endpoint) {
 						          	http.get({
 						             	host : 'localhost',
@@ -179,16 +177,19 @@ module.exports = function(apiHandler) {
 
 						phantom.create(function (ph) {
 					  		ph.createPage(function (page) {
-					  			page.set('content', window.document.getElementsByTagName('body')[0].innerHTML);
+					  			page.set('content', "<br>" + window.document.getElementsByTagName('body')[0].innerHTML);
 
 					  			if(template.header == undefined)
 					  				template.header = "";
-								var createHeader = new Function('pageNum', 'numPages', 'return \'<br><h5>' + template.header + '</h5>\';');
-								var createFooter = new Function('pageNum', 'numPages', 'if(' + template.page_numbers + ') { return \'<h6>\' + pageNum + "/" + numPages + \'</h6>\';} return "";');
+								var createHeader = new Function('pageNum', 'numPages', 'return \'<h5 style=padding-top:20px>' + template.header + '</h5>\';');
+								var createFooter = new Function('pageNum', 'numPages', 'if(' + template.page_numbers + ') { return \'<h6 style=text-align:right;margin-right:40px;postion:absolute;margin-bottom:-20px>Page \' + pageNum + " of " + numPages + \'</h6>\';} return "";');
 
 							    page.set('paperSize', {
 							      	format: 'A4',
-							      	margin: '1cm',
+							      	margin: {
+							      		left: '1cm',
+							      		right: '1cm'
+							      	},
 							      	header: {
 							            height: "1cm",
 							            contents: ph.callback(createHeader)
@@ -200,6 +201,7 @@ module.exports = function(apiHandler) {
 							    }, function() {
 									setTimeout(function() {
 										console.log("RENDER");
+										res.json({ status: "ok"});
 										page.render("generated_reports/" + generateFileName(date, recipe.name), {format: formatType, quality: '100'}, function() {
 							          		res.download(generateFileName(date, recipe.name), function(err) {
 							          			sendEmail(data.email, generateFileName(date, recipe.name));
@@ -210,7 +212,6 @@ module.exports = function(apiHandler) {
 							    });
 					  		});
 						});
-						res.json({ status: "ok"});
 					}
 				);
 			});

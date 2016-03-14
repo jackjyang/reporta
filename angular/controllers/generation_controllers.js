@@ -5,6 +5,7 @@ reportaApp.controller('generationController', function($scope, $http) {
 
   $scope.recipe = {};
   $scope.email = "";
+  $scope.disable = false;
 
   $scope.validateEmail = function(email) {
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -38,6 +39,8 @@ reportaApp.controller('generationController', function($scope, $http) {
       url: '/api/generateReport',
       params: { userId: $scope.user.id, recipeName:$scope.recipe.name, email:$scope.email }
     }).success(function(data, status, headers, config) {
+      alert("Report has been generated. Please check your email for the attachment.");
+      $scope.disable = false;
       console.log("generate report succeeded")
     }).error(function() {
       console.log("generate report failed");
@@ -48,11 +51,16 @@ reportaApp.controller('generationController', function($scope, $http) {
     $scope.getRecipes();
   }
 
+  $scope.isDisabled = function() {
+    return $scope.disable;
+  }
+
   $scope.generate = function() {
     if($(".ng-invalid").size() > 0 || !$scope.validateEmail($scope.email) || _.isEmpty($scope.recipe)) {
       alert("failed initial validation");
       return;
     }
+    $scope.disable = true;
     $scope.generateReport();
   }
 
